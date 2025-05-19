@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>GeoVisionAI</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="shortcut icon" href="./assets/GeoVisionAI-2.png" type="image/x-icon" />
+  <meta name="description" content="A Liquid Galaxy immersive Google Earth web application." />
+  <meta property="og:title" content="LG Web App by liquid galaxy" />
+  <meta property="og:description" content="A Liquid Galaxy immersive Google Earth web application" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/yashrajbharti/lg-web/refs/heads/main/assets/Cover.png" />
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+  <script src="./js/script.js" type="module"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js").then((registration) => {
+        console.log("Service Worker registered with scope:", registration.scope);
+      }).catch((error) => {
+        console.error("Service Worker registration failed:", error);
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <md-tabs>
+        <md-primary-tab data-tab="home"><md-icon slot="icon">home</md-icon>Home</md-primary-tab>
+        <md-primary-tab data-tab="voice"><md-icon slot="icon">mic</md-icon>Ask</md-primary-tab>
+        <md-primary-tab data-tab="maps"><md-icon slot="icon">map</md-icon>Maps</md-primary-tab>
+        <md-primary-tab data-tab="tools"><md-icon slot="icon">tune</md-icon>Tools</md-primary-tab>
+        <md-primary-tab data-tab="settings"><md-icon slot="icon">settings</md-icon>Settings</md-primary-tab>
+      </md-tabs>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrapper" dir="ltr">
+      <section id="home">
+        <div id="tagline">Get Answers To All Your Geospatial Questions With...</div>
+        <home-page></home-page>
+      </section>
+
+      <section id="voice">
+        <google-voice>
+          <div slot="voice" class="googleVoice">
+            <div class="rect blur"></div>
+            <div class="rect"></div>
+          </div>
+        </google-voice>
+      </section>
+
+      <section id="maps">
+        <interactive-map></interactive-map>
+      </section>
+
+      <section id="tools">
+        <lg-tools></lg-tools>
+      </section>
+
+      <section id="settings">
+        <lg-settings></lg-settings>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('md-primary-tab');
+    const sections = document.querySelectorAll('main section');
+
+    function showSection(tabName) {
+      sections.forEach((section) => {
+        section.style.display = section.id === tabName ? 'block' : 'none';
+      });
+    }
+
+    // Initial display setup
+    showSection('home');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        showSection(tabName);
+      });
+    });
+  </script>
+</body>
+
+</html>
