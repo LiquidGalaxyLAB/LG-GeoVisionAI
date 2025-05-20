@@ -1,0 +1,347 @@
+:root,
+:host {
+    --md-sys-color-background: #15181b;
+    --md-sys-color-on-background: #e0e2e8;
+    --md-sys-color-surface: #101418;
+    --md-sys-color-surface-dim: #101418;
+    --md-sys-color-surface-bright: #363a3e;
+    --md-sys-color-surface-container-lowest: #0b0f12;
+    --md-sys-color-surface-container-low: #181c20;
+    --md-sys-color-surface-container: #1c2024;
+    --md-sys-color-surface-container-high: #272a2e;
+    --md-sys-color-surface-container-highest: #313539;
+    --md-sys-color-on-surface: #e0e2e8;
+    --md-sys-color-surface-variant: #404850;
+    --md-sys-color-on-surface-variant: #bfc7d1;
+    --md-sys-color-inverse-surface: #e0e2e8;
+    --md-sys-color-inverse-on-surface: #2d3135;
+    --md-sys-color-outline: #8a919b;
+    --md-sys-color-outline-variant: #404850;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-surface-tint: #92ccff;
+    --md-sys-color-primary: #bbdeff;
+    --md-sys-color-on-primary: #003351;
+    --md-sys-color-primary-container: #64b8f8;
+    --md-sys-color-on-primary-container: #002840;
+    --md-sys-color-inverse-primary: #006397;
+    --md-sys-color-secondary: #adcae6;
+    --md-sys-color-on-secondary: #143349;
+    --md-sys-color-secondary-container: #233f57;
+    --md-sys-color-on-secondary-container: #b7d4f0;
+    --md-sys-color-tertiary: #f6ceff;
+    --md-sys-color-on-tertiary: #4c1662;
+    --md-sys-color-tertiary-container: #d99bee;
+    --md-sys-color-on-tertiary-container: #410757;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffdad6;
+    --md-sys-color-google-blue: #4285f4;
+    --md-sys-color-google-red: #ea4335;
+    --md-sys-color-google-yellow: #fbbc05;
+    --md-sys-color-google-green: #34a853;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--md-sys-color-background);
+    font-family: "Roboto", sans-serif;
+}
+
+main {
+    position: relative;
+    display: block;
+    max-inline-size: 1280px;
+    margin-inline: auto;
+}
+
+header {
+    z-index: 999;
+    position: fixed;
+    inset-block-end: 0;
+    inline-size: 100%;
+}
+
+.wrapper {
+    display: flex;
+    max-inline-size: 1280px;
+    scroll-snap-type: x mandatory;
+    flex-flow: row nowrap;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+.wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+section {
+    inline-size: 100%;
+    scroll-snap-align: center;
+    flex: none;
+}
+
+@property --gradBlueRed {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 25%;
+}
+
+@property --gradRedBlue {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 25%;
+}
+
+@property --gradRedYellow {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+@property --gradYellowRed {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+
+@property --gradYellowGreen {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 75%;
+}
+
+@property --gradGreenYellow {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 75%;
+}
+
+
+.googleVoice {
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-end: 60px;
+    translate: -50% 0;
+}
+
+.googleVoice .rect {
+    max-inline-size: 880px;
+    inline-size: 80dvw;
+    block-size: 5px;
+    background: linear-gradient(to right,
+            var(--md-sys-color-google-blue) 0 var(--gradBlueRed),
+            var(--md-sys-color-google-red) var(--gradRedBlue) var(--gradRedYellow),
+            var(--md-sys-color-google-yellow) var(--gradYellowRed) var(--gradYellowGreen),
+            var(--md-sys-color-google-green) var(--gradGreenYellow) 100%);
+    transform-origin: center;
+    display: inline-block;
+    position: relative;
+    transition: inline-size 0.3s ease, --gradBlueRed 0.5s, --gradRedBlue 0.5s,
+        --gradRedYellow 0.5s, --gradYellowRed 0.5s, --gradYellowGreen 0.5s, --gradGreenYellow 0.5s, filter 0.5s;
+}
+
+.googleVoice .rect.blur {
+    filter: blur(20px);
+}
+
+.googleVoice.animate .rect {
+    inline-size: 90dvw;
+    animation: voice 2s ease infinite alternate;
+}
+
+.googleVoice.animate.ending .rect {
+    inline-size: 90dvw;
+    animation: voiceEnding 0.6s ease infinite alternate;
+}
+
+@keyframes voice {
+    0% {
+        --gradBlueRed: 80%;
+        --gradRedBlue: 84%;
+        --gradRedYellow: 88%;
+        --gradYellowRed: 92%;
+        --gradYellowGreen: 96%;
+        --gradGreenYellow: 100%;
+    }
+
+    15% {
+        --gradBlueRed: 10%;
+        --gradRedBlue: 14%;
+        --gradRedYellow: 70%;
+        --gradYellowRed: 74%;
+        --gradYellowGreen: 96%;
+        --gradGreenYellow: 100%;
+    }
+
+    30% {
+        --gradBlueRed: 10%;
+        --gradRedBlue: 14%;
+        --gradRedYellow: 80%;
+        --gradYellowRed: 84%;
+        --gradYellowGreen: 90%;
+        --gradGreenYellow: 100%;
+    }
+
+    45% {
+        --gradBlueRed: 10%;
+        --gradRedBlue: 14%;
+        --gradRedYellow: 60%;
+        --gradYellowRed: 66%;
+        --gradYellowGreen: 76%;
+        --gradGreenYellow: 80%;
+    }
+
+    60% {
+        --gradBlueRed: 0%;
+        --gradRedBlue: 5%;
+        --gradRedYellow: 10%;
+        --gradYellowRed: 15%;
+        --gradYellowGreen: 90%;
+        --gradGreenYellow: 100%;
+    }
+
+    75% {
+        --gradBlueRed: 0%;
+        --gradRedBlue: 5%;
+        --gradRedYellow: 10%;
+        --gradYellowRed: 15%;
+        --gradYellowGreen: 20%;
+        --gradGreenYellow: 40%;
+    }
+
+    100% {
+        --gradBlueRed: 80%;
+        --gradRedBlue: 84%;
+        --gradRedYellow: 88%;
+        --gradYellowRed: 92%;
+        --gradYellowGreen: 96%;
+        --gradGreenYellow: 100%;
+    }
+}
+
+@keyframes voiceEnding {
+    0% {
+        --gradBlueRed: 50%;
+        --gradRedBlue: 50%;
+        --gradRedYellow: 100%;
+        --gradYellowRed: 100%;
+        --gradYellowGreen: 100%;
+        --gradGreenYellow: 100%;
+    }
+
+    100% {
+        --gradBlueRed: 0%;
+        --gradRedBlue: 0%;
+        --gradRedYellow: 0%;
+        --gradYellowRed: 0%;
+        --gradYellowGreen: 50%;
+        --gradGreenYellow: 50%;
+    }
+}
+
+main section {
+    display: none;
+  }
+
+  main section#home {
+display: block;
+}
+
+#home #tagline {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 1024px;
+  padding: 1rem 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #bbdeff;
+  text-align: center;
+  letter-spacing: 0.1em;
+  user-select: none;
+  z-index: 1000;
+
+  background: rgba(24, 28, 32, 0.85);
+  backdrop-filter: blur(14px) saturate(160%);
+  border-radius: 1rem;
+
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(146, 204, 255, 0.25);
+
+  transition: all 0.4s ease-in-out;
+
+  /* Gradient border using pseudo element */
+  position: relative;
+  overflow: hidden;
+}
+
+#home #tagline::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    background: linear-gradient(90deg,
+        var(--md-sys-color-google-blue),
+        var(--md-sys-color-google-red),
+        var(--md-sys-color-google-yellow),
+        var(--md-sys-color-google-green),
+        var(--md-sys-color-google-blue));
+    background-size: 400% 400%;
+    animation: glowBorder 8s ease infinite;
+    border-radius: inherit;
+  }
+  
+
+  @keyframes glowBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+
+#home #tagline:hover {
+  background: rgba(36, 44, 54, 0.95);
+  color: #ffffff;
+  box-shadow:
+    0 12px 42px rgba(146, 204, 255, 0.4),
+    0 0 18px 3px var(--md-sys-color-primary-container);
+  letter-spacing: 0.12em;
+  cursor: default;
+  transform: translateX(-50%) scale(1.02);
+}
+
+@keyframes fadeInSlide {
+from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
+}
+  
