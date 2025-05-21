@@ -1,6 +1,6 @@
 :root,
 :host {
-    --md-sys-color-background: #15181b;
+    --md-sys-color-background: #1a1e22;
     --md-sys-color-on-background: #e0e2e8;
     --md-sys-color-surface: #101418;
     --md-sys-color-surface-dim: #101418;
@@ -325,7 +325,7 @@ display: block;
 
 #home #tagline:hover {
   background: rgba(36, 44, 54, 0.95);
-  color: #ffffff;
+  color: #1c0202;
   box-shadow:
     0 12px 42px rgba(146, 204, 255, 0.4),
     0 0 18px 3px var(--md-sys-color-primary-container);
