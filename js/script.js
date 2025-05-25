@@ -10,7 +10,9 @@ customElements.define("interactive-map", InteractiveMap);
 customElements.define("lg-tools", LGtools);
 customElements.define("home-page", Home);
 customElements.define("lg-settings", Settings);
-customElements.define("google-voice", LGVoice);
-
+if (!customElements.get("lg-voice")) {
+    customElements.define("lg-voice", LGVoice);
+}
+  
 changeTabs();
 pageObserver();

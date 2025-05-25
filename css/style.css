@@ -47,15 +47,18 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 html {
     scroll-behavior: smooth;
+    
 }
 
 body {
     background-color: var(--md-sys-color-background);
     font-family: "Roboto", sans-serif;
+    scroll-behavior: auto;
 }
 
 main {
@@ -78,7 +81,7 @@ header {
     scroll-snap-type: x mandatory;
     flex-flow: row nowrap;
     overflow-y: hidden;
-    scrollbar-width: none;
+    scrollbar-width: auto;
 }
 
 .wrapper::-webkit-scrollbar {
