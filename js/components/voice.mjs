@@ -75,7 +75,7 @@ export class LGVoice extends HTMLElement {
           font-size: 1rem;
           border-radius: 8px;
           border: 1px solid var(--md-sys-color-outline, #ccc);
-          background-color: var(--md-sys-color-surface-container-high); 
+          background-color: var(--md-sys-color-surface-container-high); /* Using theme colors */
           color: var(--md-sys-color-on-surface);
         }
         .manual-input input::placeholder {
@@ -101,7 +101,7 @@ export class LGVoice extends HTMLElement {
             transform: translateY(-1px);
         }
 
-        /* API Key Inputs */
+        /* API Key Inputs (re-added as per previous discussion, but hidden by default in template below) */
         .api-key-inputs {
           margin-top: 30px;
           display: flex;
@@ -296,7 +296,7 @@ export class LGVoice extends HTMLElement {
     submitButton.addEventListener("click", () => {
       const typed = questionInput.value.trim();
       if (typed !== "") {
-        // Now calling process Query for typed input
+        // Now calling processQuery for typed input
         processQuery(typed);
         questionInput.value = "";
       }
@@ -304,7 +304,7 @@ export class LGVoice extends HTMLElement {
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.trim();
-      // Now calling process Query for voice input
+      // Now calling processQuery for voice input
       processQuery(transcript);
       isRecognizing = false;
       removeAnimations();
@@ -313,7 +313,7 @@ export class LGVoice extends HTMLElement {
     recognition.onspeechend = () => {
       recognition.stop();
       isRecognizing = false;
-      // Animations will be removed by process Query completion or onerror
+      // Animations will be removed by processQuery completion or onerror
     };
 
     recognition.onerror = (event) => {
@@ -324,7 +324,7 @@ export class LGVoice extends HTMLElement {
     };
 
     function removeAnimations() {
-      // Add 'ending' class for the end of ripple animation
+      // Add 'ending' class for the end ripple animation
       micButton.classList.add("ending");
       voiceAnimation?.classList?.add("ending");
       setTimeout(() => {
@@ -332,5 +332,88 @@ export class LGVoice extends HTMLElement {
         voiceAnimation?.classList?.remove("animate", "ending");
       }, 1200); // Match this timeout to your animation duration
     }
+
+    // --- API Integration Logic ---
+    async function processQuery(query) {
+      messageEl.textContent = "Processing your question...";
+      soundPlayer.hidden = true; // Hide player while processing
+      try {
+        const gemmaApiKey = localStorage.getItem("gemmaApiKey");
+        const openCageApiKey = localStorage.getItem("openCageApiKey");
+        const freesoundApiKey = localStorage.getItem("freesoundApiKey");
+
+        if (!gemmaApiKey || !openCageApiKey || !freesoundApiKey) {
+          messageEl.textContent = "Please enter and save all API keys to proceed.";
+          apiKeyInputsDiv.classList.add("show"); // Ensure API inputs are visible if keys are missing
+          removeAnimations(); // Stop animations if API keys are needed
+          return;
+        } else {
+            apiKeyInputsDiv.classList.remove("show"); // Hide inputs if keys are present
+        }
+
+        // 1. Hugging Face text generation API (using google/flan-t5-base as a public alternative)
+      messageEl.textContent = "Asking Gemma...";
+
+      try {
+        const gemmaRes = await fetch("https://api-inference.huggingface.co/models/google/flan-t5-base", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${gemmaApiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inputs: query }),
+        });
+
+        if (!gemmaRes.ok) {
+          const errorText = await gemmaRes.text();
+          throw new Error(`Gemma API failed: ${gemmaRes.status} - ${errorText}`);
+        }
+
+        const gemmaData = await gemmaRes.json();
+
+        // Flan-T5 returns an array of completions with a 'generated_text' property
+        const story = Array.isArray(gemmaData) 
+          ? gemmaData[0]?.generated_text 
+          : gemmaData.generated_text || "No response from Gemma.";
+
+        if (!story || story.trim() === "") {
+          messageEl.textContent = "Gemma did not return a valid response. Please try again.";
+          removeAnimations();
+          return;
+        }
+
+          messageEl.textContent = story;
+          console.log("Gemma response:", story);
+
+        } catch (error) {
+          console.error(error);
+          messageEl.textContent = `Error: ${error.message}`;
+          removeAnimations();
+        }
+
+
+        // 4. Speak the story
+        messageEl.textContent = "Speaking response...";
+        await speech(story); // Await speech to ensure it completes before setting "Ready"
+        messageEl.textContent = "Ready.";
+
+      } catch (err) {
+        console.error("Error in processQuery:", err);
+        messageEl.textContent = "Error: " + err.message;
+      } finally {
+          removeAnimations(); // Always remove animations after processing
+      }
+    }
+
+    function extractKeywords(text) {
+      const keywords = ["ocean", "sea", "river", "lake", "wave", "storm", "tsunami", "coast", "island", "flood", "beach",
+                        "forest", "mountain", "city", "jungle", "desert", "rain", "wind", "thunder", "bird", "animal", "music", "ambience", "nature", "urban", "waterfall", "desert", "crowd", "street"];
+      for (const keyword of keywords) {
+          if (text.toLowerCase().includes(keyword)) {
+              return keyword;
+          }
+      }
+      return null;
+    }
   }
-}
+} 
