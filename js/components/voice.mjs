@@ -233,7 +233,35 @@ export class LGVoice extends HTMLElement {
     const submitButton = this.shadowRoot.getElementById("submitButton");
     const voiceAnimation = document.querySelector(".googleVoice"); // This selects the slot content from light DOM
 
+    // Re-added API key elements
+    const saveApiKeysBtn = this.shadowRoot.getElementById("saveApiKeys");
+    const gemmaInput = this.shadowRoot.getElementById("gemmaApiKey");
+    const openCageInput = this.shadowRoot.getElementById("openCageApiKey");
+    const freesoundInput = this.shadowRoot.getElementById("freesoundApiKey");
+    const soundPlayer = this.shadowRoot.getElementById("soundPlayer");
+    const apiKeyInputsDiv = this.shadowRoot.querySelector(".api-key-inputs"); // Reference to the API inputs container
+
+    // Load saved API keys on component load
+    gemmaInput.value = localStorage.getItem("gemmaApiKey") || "";
+    openCageInput.value = localStorage.getItem("openCageApiKey") || "";
+    freesoundInput.value = localStorage.getItem("freesoundApiKey") || "";
+
+    // Show API key inputs only if any key is missing
+    if (!gemmaInput.key || !openCageInput.key || !freesoundInput.key) {
+        apiKeyInputsDiv.classList.add("show");
+    }
+
+    // Save API keys on button click
+    saveApiKeysBtn.addEventListener("click", () => {
       localStorage.setItem("gemmaApiKey", gemmaInput.key.trim());
+      localStorage.setItem("openCageApiKey", openCageInput.key.trim());
+      localStorage.setItem("freesoundApiKey", freesoundInput.key.trim());
+      alert("API Keys saved!");
+      // Optionally hide inputs after saving if all are present
+      if (gemmaInput.key && openCageInput.key && freesoundInput.key) {
+          apiKeyInputsDiv.classList.remove("show");
+      }
+    });
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
