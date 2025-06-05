@@ -233,6 +233,7 @@ export class LGVoice extends HTMLElement {
     const submitButton = this.shadowRoot.getElementById("submitButton");
     const voiceAnimation = document.querySelector(".googleVoice"); // This selects the slot content from light DOM
 
+      localStorage.setItem("gemmaApiKey", gemmaInput.key.trim());
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
