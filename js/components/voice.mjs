@@ -247,18 +247,18 @@ export class LGVoice extends HTMLElement {
     freesoundInput.value = localStorage.getItem("freesoundApiKey") || "";
 
     // Show API key inputs only if any key is missing
-    if (!gemmaInput.key || !openCageInput.key || !freesoundInput.key) {
+    if (!gemmaInput.value || !openCageInput.value || !freesoundInput.value) {
         apiKeyInputsDiv.classList.add("show");
     }
 
     // Save API keys on button click
     saveApiKeysBtn.addEventListener("click", () => {
-      localStorage.setItem("gemmaApiKey", gemmaInput.key.trim());
-      localStorage.setItem("openCageApiKey", openCageInput.key.trim());
-      localStorage.setItem("freesoundApiKey", freesoundInput.key.trim());
+      localStorage.setItem("gemmaApiKey", gemmaInput.value.trim());
+      localStorage.setItem("openCageApiKey", openCageInput.value.trim());
+      localStorage.setItem("freesoundApiKey", freesoundInput.value.trim());
       alert("API Keys saved!");
       // Optionally hide inputs after saving if all are present
-      if (gemmaInput.key && openCageInput.key && freesoundInput.key) {
+      if (gemmaInput.value && openCageInput.value && freesoundInput.value) {
           apiKeyInputsDiv.classList.remove("show");
       }
     });
@@ -313,7 +313,6 @@ export class LGVoice extends HTMLElement {
     recognition.onspeechend = () => {
       recognition.stop();
       isRecognizing = false;
-      // Animations will be removed by processQuery completion or onerror
     };
 
     recognition.onerror = (event) => {
@@ -330,7 +329,7 @@ export class LGVoice extends HTMLElement {
       setTimeout(() => {
         micButton.classList.remove("ripple", "ending");
         voiceAnimation?.classList?.remove("animate", "ending");
-      }, 1200); // Match this timeout to your animation duration
+      }, 1200); 
     }
 
     // --- API Integration Logic ---
@@ -351,7 +350,7 @@ export class LGVoice extends HTMLElement {
             apiKeyInputsDiv.classList.remove("show"); // Hide inputs if keys are present
         }
 
-        // 1. Hugging Face text generation API (using google/flan-t5-base as a public alternative)
+        // 1. Hugging Face text generation API (using google/flan-t5-base as a public alternative as of now)
       messageEl.textContent = "Asking Gemma...";
 
       try {
@@ -401,7 +400,7 @@ export class LGVoice extends HTMLElement {
         console.error("Error in processQuery:", err);
         messageEl.textContent = "Error: " + err.message;
       } finally {
-          removeAnimations(); // Always remove animations after processing
+          removeAnimations(); 
       }
     }
 
