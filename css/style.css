@@ -265,7 +265,7 @@ display: block;
 #home #tagline {
   position: fixed;
   top: 100px;
-  left: 50%;
+  left: 20%;
   transform: translateX(-50%);
   width: calc(100% - 2rem);
   max-width: 1024px;
@@ -277,75 +277,11 @@ display: block;
   text-align: center;
   letter-spacing: 0.1em;
   user-select: none;
-  z-index: 1000;
-
-  background: rgba(24, 28, 32, 0.85);
-  backdrop-filter: blur(14px) saturate(160%);
-  border-radius: 1rem;
-
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.4),
-    0 0 12px rgba(146, 204, 255, 0.25);
-
-  transition: all 0.4s ease-in-out;
-
-  /* Gradient border using pseudo element */
   position: relative;
   overflow: hidden;
 }
 
-#home #tagline::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    z-index: -1;
-    background: linear-gradient(90deg,
-        var(--md-sys-color-google-blue),
-        var(--md-sys-color-google-red),
-        var(--md-sys-color-google-yellow),
-        var(--md-sys-color-google-green),
-        var(--md-sys-color-google-blue));
-    background-size: 400% 400%;
-    animation: glowBorder 8s ease infinite;
-    border-radius: inherit;
-  }
-  
 
-  @keyframes glowBorder {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
 
-#home #tagline:hover {
-  background: rgba(36, 44, 54, 0.95);
-  color: #1c0202;
-  box-shadow:
-    0 12px 42px rgba(146, 204, 255, 0.4),
-    0 0 18px 3px var(--md-sys-color-primary-container);
-  letter-spacing: 0.12em;
-  cursor: default;
-  transform: translateX(-50%) scale(1.02);
-}
-
-@keyframes fadeInSlide {
-from {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-}
 
 
