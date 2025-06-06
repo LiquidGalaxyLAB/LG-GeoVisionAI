@@ -101,75 +101,6 @@ export class LGVoice extends HTMLElement {
             transform: translateY(-1px);
         }
 
-        /* API Key Inputs  */
-        .api-key-inputs {
-          margin-top: 30px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          max-width: 500px;
-          width: 100%;
-          padding: 20px;
-          background-color: var(--md-sys-color-surface-container);
-          border-radius: 12px;
-          border: 1px solid var(--md-sys-color-outline-variant);
-          box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-          /* Add a subtle animation to appear/disappear */
-          opacity: 0;
-          height: 0;
-          overflow: hidden;
-          transition: opacity 0.5s ease-out, height 0.5s ease-out;
-          scroll -behavior: smooth;
-        }
-
-        .api-key-inputs.show {
-            opacity: 1;
-            height: auto; /* Or a fixed height if elements inside are fixed size */
-            padding-top: 20px; /* Adjust padding if height changes */
-            padding-bottom: 20px;
-            scroll-behavior: smooth;
-        }
-
-        .api-key-inputs input {
-          padding: 10px 15px;
-          font-size: 0.95rem;
-          border-radius: 8px;
-          border: 1px solid var(--md-sys-color-outline);
-          background-color: var(--md-sys-color-surface-container-low);
-          color: var(--md-sys-color-on-surface);
-          outline: none;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-          scroll-behavior: smooth;
-        }
-        .api-key-inputs input:focus {
-          border-color: var(--md-sys-color-primary);
-          box-shadow: 0 0 0 2px rgba(179, 213, 255, 0.2);
-          background-color: var(--md-sys-color-surface-container-high);
-          scroll-behavior: smooth;
-        }
-        .api-key-inputs button{
-          padding: 12px 20px;
-          font-size: 1.05rem;
-          border-radius: 8px;
-          background-color: var(--md-sys-color-primary);
-          color: var(--md-sys-color-on-primary);
-          border: none;
-          cursor: pointer;
-          transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-          scroll-behavior: smooth;
-          background-color: blue !important;
-          color: white !important;
-        }
-        .api-key-inputs button:hover {
-          background-color: var(--md-sys-color-inverse-primary);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        .api-key-inputs button:active {
-          transform: translateY(0);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-        }
 
         audio {
             margin-top: 20px;
@@ -205,21 +136,15 @@ export class LGVoice extends HTMLElement {
         <p>Tap on Mic to Speak</p>
         <p class="message"></p>
 
+        <p id="story" class="story"></p>
+
+
         <slot name="voice"></slot>
 
         <div class="manual-input">
           <input type="text" id="questionInput" placeholder="Or type your question here..." />
           <md-filled-button id="submitButton">Submit</md-filled-button>
         </div>
-
-        <div class="api-key-inputs show">
-          <input type="text" id="gemmaApiKey" placeholder="Enter Gemma API Key" />
-          <input type="text" id="openCageApiKey" placeholder="Enter OpenCage API Key" />
-          <input type="text" id="freesoundApiKey" placeholder="Enter Freesound API Key" />
-          <button id="saveApiKeys">Save API Keys</button>
-          <button id="savApiKeys">Save API Keys</button>
-        </div>
-
         <audio id="soundPlayer" controls hidden></audio>
       </div>
     `;
@@ -231,6 +156,7 @@ export class LGVoice extends HTMLElement {
     const messageEl = this.shadowRoot.querySelector(".message");
     const questionInput = this.shadowRoot.getElementById("questionInput");
     const submitButton = this.shadowRoot.getElementById("submitButton");
+
     const voiceAnimation = document.querySelector(".googleVoice"); 
 
     // Added API key elements
@@ -251,17 +177,6 @@ export class LGVoice extends HTMLElement {
         apiKeyInputsDiv.classList.add("show");
     }
 
-    // Save API keys on button click
-    saveApiKeysBtn.addEventListener("click", () => {
-      localStorage.setItem("gemmaApiKey", gemmaInput.value.trim());
-      localStorage.setItem("openCageApiKey", openCageInput.value.trim());
-      localStorage.setItem("freesoundApiKey", freesoundInput.value.trim());
-      alert("API Keys saved!");
-      // Optionally hide inputs after saving if all are present
-      if (gemmaInput.value && openCageInput.value && freesoundInput.value) {
-          apiKeyInputsDiv.classList.remove("show");
-      }
-    });
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -333,7 +248,7 @@ export class LGVoice extends HTMLElement {
     }
 
     // --- API Integration Logic ---
-    async function processQuery(query) {
+    const processQuery = async (query) => {
       messageEl.textContent = "Processing your question...";
       soundPlayer.hidden = true; // Hide player while processing
       try {
@@ -350,9 +265,10 @@ export class LGVoice extends HTMLElement {
             apiKeyInputsDiv.classList.remove("show"); // Hide inputs if keys are present
         }
 
+
         // 1. Hugging Face text generation API I'm using google/flan-t5-base as a public alternative as of now)
       messageEl.textContent = "Asking Gemma...";
-
+      let story = "";
       try {
         const gemmaRes = await fetch("https://api-inference.huggingface.co/models/google/flan-t5-base", {
           method: "POST",
@@ -370,8 +286,10 @@ export class LGVoice extends HTMLElement {
 
         const gemmaData = await gemmaRes.json();
 
-        // Flan-T5 returns an array of completions
-        const story = Array.isArray(gemmaData) 
+
+        // Flan-T5 returns an array of completions with a 'generated_text' property
+        story = Array.isArray(gemmaData) 
+
           ? gemmaData[0]?.generated_text 
           : gemmaData.generated_text || "No response from Gemma.";
 
@@ -380,8 +298,9 @@ export class LGVoice extends HTMLElement {
           removeAnimations();
           return;
         }
+        console.log("Story content before setting:", story);
 
-          messageEl.textContent = story;
+          storyEl.textContent = story;
           console.log("Gemma response:", story);
 
         } catch (error) {
@@ -392,15 +311,19 @@ export class LGVoice extends HTMLElement {
 
 
         // 4. Speak the story
+        storyEl.textContent = story;              
+        console.log("Gemma response:", story);
         messageEl.textContent = "Speaking response...";
+        
         await speech(story);
         messageEl.textContent = "Ready.";
+
 
       } catch (err) {
         console.error("Error in processQuery:", err);
         messageEl.textContent = "Error: " + err.message;
       } finally {
-          removeAnimations(); 
+          removeAnimations();
       }
     }
 

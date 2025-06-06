@@ -17,6 +17,28 @@ export class Settings extends HTMLElement {
         <md-filled-tonal-button id="scan-qr"><md-icon slot="icon">qr_code_scanner</md-icon>Scan QR to Connect</md-filled-tonal-button>
         <p class="divider"><span>OR<span><p>
         <form>
+            <md-outlined-text-field id="gemmaApiKey" required label="Gemma API Key" value="" type="password">
+            <md-icon-button id="toggle-gemma" aria-label="toggle gemma visibility" toggle slot="trailing-icon" type="button">
+              <md-icon>visibility</md-icon>
+              <md-icon slot="selected">visibility_off</md-icon>
+            </md-icon-button>
+          </md-outlined-text-field>
+
+          <md-outlined-text-field id="openCageApiKey" required label="OpenCage API Key" value="" type="password">
+            <md-icon-button id="toggle-opencage" aria-label="toggle openCage visibility" toggle slot="trailing-icon" type="button">
+              <md-icon>visibility</md-icon>
+              <md-icon slot="selected">visibility_off</md-icon>
+            </md-icon-button>
+          </md-outlined-text-field>
+
+          <md-outlined-text-field id="freesoundApiKey" required label="Freesound API Key" value="" type="password">
+            <md-icon-button id="toggle-freesound" aria-label="toggle freesound visibility" toggle slot="trailing-icon" type="button">
+              <md-icon>visibility</md-icon>
+              <md-icon slot="selected">visibility_off</md-icon>
+            </md-icon-button>
+          </md-outlined-text-field>
+
+
             <md-outlined-text-field id="server" required label="Server Address" value=""></md-outlined-text-field>
             <md-outlined-text-field id="username" required label="Username" value=""></md-outlined-text-field>
             <md-outlined-text-field id="ip" required label="IP Address" value=""></md-outlined-text-field>
@@ -166,6 +188,16 @@ export class Settings extends HTMLElement {
           passwordField.setAttribute("type", "password");
         else passwordField.setAttribute("type", "text");
       });
+      ["toggle-gemma", "toggle-opencage", "toggle-freesound"].forEach((btnId) => {
+        const btn = this.shadowRoot.getElementById(btnId);
+        if (btn) {
+          btn.addEventListener("click", () => {
+            const field = btn.closest("md-outlined-text-field");
+            const input = field.shadowRoot.querySelector("input");
+            input.type = input.type === "text" ? "password" : "text";
+          });
+        }
+      });
 
     this.shadowRoot
       .getElementById("scan-qr")
@@ -207,6 +239,13 @@ export class Settings extends HTMLElement {
     const port = this.shadowRoot.getElementById("port").value;
     const password = this.shadowRoot.getElementById("password").value;
     const screens = this.shadowRoot.getElementById("screens").value;
+    const gemmaKey = this.shadowRoot.getElementById("gemmaApiKey").value;
+    const openCageKey = this.shadowRoot.getElementById("openCageApiKey").value;
+    const freesoundKey = this.shadowRoot.getElementById("freesoundApiKey").value;
+
+    localStorage.setItem("gemmaApiKey", gemmaKey);
+    localStorage.setItem("openCageApiKey", openCageKey);
+    localStorage.setItem("freesoundApiKey", freesoundKey);
 
     const config = {
       server,
@@ -215,6 +254,9 @@ export class Settings extends HTMLElement {
       port,
       password,
       screens,
+      gemmaKey,
+      openCageKey,
+      freesoundKey
     };
 
     localStorage.setItem("lgconfigs", JSON.stringify(config));
@@ -241,6 +283,13 @@ export class Settings extends HTMLElement {
       this.shadowRoot.getElementById("password").value = config.password || "";
       this.shadowRoot.getElementById("screens").value = config.screens || "";
       this.shadowRoot.getElementById("server").value = config?.server || "";
+
+      this.shadowRoot.getElementById("gemmaApiKey").value =
+        localStorage.getItem("gemmaApiKey") || "";
+      this.shadowRoot.getElementById("openCageApiKey").value =
+        localStorage.getItem("openCageApiKey") || "";
+      this.shadowRoot.getElementById("freesoundApiKey").value =
+        localStorage.getItem("freesoundApiKey") || "";
     }
   }
 
