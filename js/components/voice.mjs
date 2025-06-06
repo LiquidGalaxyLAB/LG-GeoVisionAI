@@ -101,6 +101,7 @@ export class LGVoice extends HTMLElement {
             transform: translateY(-1px);
         }
 
+
         audio {
             margin-top: 20px;
             width: 100%;
@@ -155,18 +156,33 @@ export class LGVoice extends HTMLElement {
     const messageEl = this.shadowRoot.querySelector(".message");
     const questionInput = this.shadowRoot.getElementById("questionInput");
     const submitButton = this.shadowRoot.getElementById("submitButton");
-    const voiceAnimation = document.querySelector(".googleVoice");
 
-    const gemmaApiKey = localStorage.getItem("gemmaApiKey");
-    const openCageApiKey = localStorage.getItem("openCageApiKey");
-    const freesoundApiKey = localStorage.getItem("freesoundApiKey");
+    const voiceAnimation = document.querySelector(".googleVoice"); 
+
+    // Added API key elements
+    const saveApiKeysBtn = this.shadowRoot.getElementById("saveApiKeys");
+    const gemmaInput = this.shadowRoot.getElementById("gemmaApiKey");
+    const openCageInput = this.shadowRoot.getElementById("openCageApiKey");
+    const freesoundInput = this.shadowRoot.getElementById("freesoundApiKey");
+    const soundPlayer = this.shadowRoot.getElementById("soundPlayer");
+    const apiKeyInputsDiv = this.shadowRoot.querySelector(".api-key-inputs");
+
+    // Load saved API keys on component load
+    gemmaInput.value = localStorage.getItem("gemmaApiKey") || "";
+    openCageInput.value = localStorage.getItem("openCageApiKey") || "";
+    freesoundInput.value = localStorage.getItem("freesoundApiKey") || "";
+
+    // Show API key inputs only if any key is missing
+    if (!gemmaInput.value || !openCageInput.value || !freesoundInput.value) {
+        apiKeyInputsDiv.classList.add("show");
+    }
 
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       console.error("Web Speech API is not supported in this browser.");
       messageEl.textContent = "Your browser does not support voice recognition.";
-      // Disable mic button if no support
+      // Disable mic button if no support is there
       micButton.disabled = true;
       return;
     }
@@ -249,9 +265,8 @@ export class LGVoice extends HTMLElement {
             apiKeyInputsDiv.classList.remove("show"); // Hide inputs if keys are present
         }
 
-        const storyEl = this.shadowRoot.querySelector("#story");
 
-        // 1. Hugging Face text generation API (using google/flan-t5-base as a public alternative as of now)
+        // 1. Hugging Face text generation API I'm using google/flan-t5-base as a public alternative as of now)
       messageEl.textContent = "Asking Gemma...";
       let story = "";
       try {
@@ -271,8 +286,10 @@ export class LGVoice extends HTMLElement {
 
         const gemmaData = await gemmaRes.json();
 
+
         // Flan-T5 returns an array of completions with a 'generated_text' property
         story = Array.isArray(gemmaData) 
+
           ? gemmaData[0]?.generated_text 
           : gemmaData.generated_text || "No response from Gemma.";
 
@@ -297,8 +314,10 @@ export class LGVoice extends HTMLElement {
         storyEl.textContent = story;              
         console.log("Gemma response:", story);
         messageEl.textContent = "Speaking response...";
-        await speech(story); // Await speech to ensure it completes before setting "Ready"
-        //messageEl.textContent = "Ready.";
+        
+        await speech(story);
+        messageEl.textContent = "Ready.";
+
 
       } catch (err) {
         console.error("Error in processQuery:", err);
