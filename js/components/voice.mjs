@@ -7,141 +7,136 @@ export class LGVoice extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = `
       <style>
-        .wrapper {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          min-block-size: 100vh;
-          height: auto;
-          padding-inline: 30px;
-          scroll-behavior: smooth;
-        }
-        p {
-          color: var(--md-sys-color-on-background);
-          font-size: 1.2rem;
-        }
-        md-icon-button {
-          scale: 5;
-          margin-block: 80px;
-          background-color: color-mix(in srgb, 95% transparent, 5% var(--md-sys-color-on-surface-variant));
-          border-radius: 50%;
-          cursor: pointer;
-        }
-        .message {
-          text-align: center;
-          block-size: 120px;
-          inline-size: 100%;
-          overflow-y: scroll;
-          word-break: break-word;
-          scrollbar-width: none;
-          color: var(--md-sys-color-tertiary-container);
-        }
-        .ripple::after {
-          position: absolute;
-          inset-inline-start: 50%;
-          inset-block-start: 50%;
-          translate: -50% -50%;
-          content: "";
-          background-color: color-mix(in srgb, 95% transparent, 5% var(--md-sys-color-on-surface-variant));
-          border-radius: 50%;
-          z-index: -1;
-          animation: ripple 0.8s ease-in-out alternate infinite;
-        }
-        @keyframes ripple {
-          0% { inline-size: 50px; block-size: 50px; }
-          25% { inline-size: 45px; block-size: 45px; }
-          50% { inline-size: 40px; block-size: 40px; }
-          75% { inline-size: 55px; block-size: 55px; }
-          100% { inline-size: 50px; block-size: 50px; }
-        }
-        .ending.ripple::after {
-          animation: endRipple 0.5s ease;
-        }
-        @keyframes endRipple {
-          to { inline-size: 40px; block-size: 40px; }
-        }
-        .manual-input {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          margin-top: 20px;
-          width: 100%;
-          max-width: 500px;
-        }
-        .manual-input input {
-          padding: 10px;
-          font-size: 1rem;
-          border-radius: 8px;
-          border: 1px solid var(--md-sys-color-outline, #ccc);
-          background-color: var(--md-sys-color-surface-container-high); /* Using theme colors */
-          color: var(--md-sys-color-on-surface);
-        }
-        .manual-input input::placeholder {
-            color: var(--md-sys-color-on-surface-variant);
-        }
-        .manual-input input:focus {
-            border-color: var(--md-sys-color-primary);
-            box-shadow: 0 0 0 3px rgba(179, 213, 255, 0.3);
-            outline: none;
-        }
-        /* Style for the button inside manual-input */
-        .manual-input md-filled-button {
-            --md-sys-color-primary: var(--md-sys-color-primary);
-            --md-sys-color-on-primary: var(--md-sys-color-on-primary);
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-        }
-        .manual-input md-filled-button:hover {
-            background-color: var(--md-sys-color-inverse-primary);
-            transform: translateY(-1px);
-        }
+              .wrapper{
+                  position: relative;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  block-size: 100dvh;
+                  padding-inline: 30px;
+              }
+              p {
+                  color: var(--md-sys-color-on-background);
+                  font-size: 1.2rem;
+              }
+              md-icon-button {
+                 scale: 5;
+                 margin-block: 80px;
+                 background-color: color-mix(in srgb, 95% transparent, 5% var(--md-sys-color-on-surface-variant));
+                 border-radius: 50%;
+                 cursor: pointer;
+              }
+  
+              .message {
+                 text-align: center;
+                 block-size: 75px;
+                 inline-size: 100%;
+                 overflow-y: scroll;
+                 word-break: break-word;
+                 scrollbar-width: none;
+                 color: var(--md-sys-color-tertiary-container);
+              }
+              .headline-small {
+                font-size: 1.5rem;
+                font-weight: 500;
+                color: var(--md-sys-color-on-background);
+              }
+              .body-medium {
+                font-size: 1 rem;
+                color: var(--md-sys-color-on-background);
+              }
+              .manual-input {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+                width: 100%;
+                max-width: 500px;
+              }
+              
+              audio {
+                margin-top: 20px;
+                width: 100%;
+                outline: none;
+                border-radius: 8px;
+                background-color: var(--md-sys-color-surface-container-high);
+                box-shadow: var(--md-elevation-level1);
+              }
 
-        audio {
-            margin-top: 20px;
-            width: 100%;
-            outline: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            background-color: var(--md-sys-color-surface-container-high);
-            filter: invert(0.9) hue-rotate(180deg); /* Adjust for dark theme if needed */
-        }
+              .ripple::after {
+                 position: absolute;
+                 inset-inline-start: 50%;
+                 inset-block-start: 50%;
+                 translate: -50% -50%;
+                 content: "";
+                 background-color: color-mix(in srgb, 95% transparent, 5% var(--md-sys-color-on-surface-variant));
+                 border-radius: 50%;
+                 z-index: -1;
+                 animation: ripple 0.8s ease-in-out alternate infinite;
+              }
+            
+              @keyframes ripple {
+                0% {
+                 inline-size: 50px;
+                 block-size: 50px;
+                }
+                25% {
+                 inline-size: 45px;
+                 block-size: 45px;
+                }
+                50% {
+                 inline-size: 40px;
+                 block-size: 40px;
+                }
+                75% {
+                 inline-size: 55px;
+                 block-size: 55px;
+                }
+                100% {
+                 inline-size: 50px;
+                 block-size: 50px;
+                }
+              }
+             .ending.ripple::after{
+                animation: endRipple 0.5s ease;
+             }
+              @keyframes endRipple {
+               to{
+                 inline-size: 40px;
+                 block-size: 40px;
+                }
+            }
 
-        /* Material Design Web Components specific styling */
-        md-icon-button, md-filled-button {
-          --md-sys-color-primary: var(--md-sys-color-primary);
-          --md-sys-color-on-primary: var(--md-sys-color-on-primary);
-          --md-sys-color-surface: var(--md-sys-color-surface-container-low);
-          --md-sys-color-on-surface: var(--md-sys-color-on-surface);
-          --md-sys-color-outline: var(--md-sys-color-outline);
-          --md-sys-color-surface-variant: var(--md-sys-color-surface-container-low);
-          --md-sys-color-on-surface-variant: var(--md-sys-color-on-surface-variant);
-        }
-      </style>
-
+          </style>
       <div class="wrapper">
         <md-icon-button id="micButton" aria-label="Microphone">
-          <svg class="mic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#4285f4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"/>
-            <path fill="#34a853" d="m11 18.08h2v3.92h-2z"/>
-            <path fill="#fbbc04" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"/>
-            <path fill="#ea4335" d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"/>
-          </svg>
-        </md-icon-button>
-        <p>Tap on Mic to Speak</p>
-        <p class="message"></p>
+                  <svg class="mic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="#4285f4"
+                          d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+                      <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
+                      <path fill="#fbbc04"
+                          d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+                      <path fill="#ea4335"
+                          d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
+                  </svg>
+              </md-icon-button>
+        <p class="headline-small">Tap on the Mic to Speak</p>
+        <p class="body-medium message"></p>
+        <p class="body-medium story" id="story"></p>
 
-        <p id="story" class="story"></p>
 
 
         <slot name="voice"></slot>
 
         <div class="manual-input">
-          <input type="text" id="questionInput" placeholder="Or type your question here..." />
+          <md-filled-text-field
+            id="questionInput"
+            label="Or type your question here..."
+            value=""
+            style="width: 100%;">
+          </md-filled-text-field>
+
           <md-filled-button id="submitButton">Submit</md-filled-button>
         </div>
         <audio id="soundPlayer" controls hidden></audio>
