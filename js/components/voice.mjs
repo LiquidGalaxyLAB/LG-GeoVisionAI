@@ -101,7 +101,7 @@ export class LGVoice extends HTMLElement {
             transform: translateY(-1px);
         }
 
-        /* API Key Inputs (re-added as per previous discussion, but hidden by default in template below) */
+        /* API Key Inputs  */
         .api-key-inputs {
           margin-top: 30px;
           display: flex;
@@ -231,15 +231,15 @@ export class LGVoice extends HTMLElement {
     const messageEl = this.shadowRoot.querySelector(".message");
     const questionInput = this.shadowRoot.getElementById("questionInput");
     const submitButton = this.shadowRoot.getElementById("submitButton");
-    const voiceAnimation = document.querySelector(".googleVoice"); // This selects the slot content from light DOM
+    const voiceAnimation = document.querySelector(".googleVoice"); 
 
-    // Re-added API key elements
+    // Added API key elements
     const saveApiKeysBtn = this.shadowRoot.getElementById("saveApiKeys");
     const gemmaInput = this.shadowRoot.getElementById("gemmaApiKey");
     const openCageInput = this.shadowRoot.getElementById("openCageApiKey");
     const freesoundInput = this.shadowRoot.getElementById("freesoundApiKey");
     const soundPlayer = this.shadowRoot.getElementById("soundPlayer");
-    const apiKeyInputsDiv = this.shadowRoot.querySelector(".api-key-inputs"); // Reference to the API inputs container
+    const apiKeyInputsDiv = this.shadowRoot.querySelector(".api-key-inputs");
 
     // Load saved API keys on component load
     gemmaInput.value = localStorage.getItem("gemmaApiKey") || "";
@@ -267,7 +267,7 @@ export class LGVoice extends HTMLElement {
     if (!SpeechRecognition) {
       console.error("Web Speech API is not supported in this browser.");
       messageEl.textContent = "Your browser does not support voice recognition.";
-      // Disable mic button if no support
+      // Disable mic button if no support is there
       micButton.disabled = true;
       return;
     }
@@ -350,7 +350,7 @@ export class LGVoice extends HTMLElement {
             apiKeyInputsDiv.classList.remove("show"); // Hide inputs if keys are present
         }
 
-        // 1. Hugging Face text generation API (using google/flan-t5-base as a public alternative as of now)
+        // 1. Hugging Face text generation API I'm using google/flan-t5-base as a public alternative as of now)
       messageEl.textContent = "Asking Gemma...";
 
       try {
@@ -370,7 +370,7 @@ export class LGVoice extends HTMLElement {
 
         const gemmaData = await gemmaRes.json();
 
-        // Flan-T5 returns an array of completions with a 'generated_text' property
+        // Flan-T5 returns an array of completions
         const story = Array.isArray(gemmaData) 
           ? gemmaData[0]?.generated_text 
           : gemmaData.generated_text || "No response from Gemma.";
@@ -393,7 +393,7 @@ export class LGVoice extends HTMLElement {
 
         // 4. Speak the story
         messageEl.textContent = "Speaking response...";
-        await speech(story); // Await speech to ensure it completes before setting "Ready"
+        await speech(story);
         messageEl.textContent = "Ready.";
 
       } catch (err) {
