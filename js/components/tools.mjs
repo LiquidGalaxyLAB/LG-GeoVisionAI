@@ -15,11 +15,11 @@ export class LGtools extends HTMLElement {
 
     container.innerHTML = `
       <div class="button-wrapper">
-          <md-filled-tonal-button data-action="clean-logo"> Clean Logo </md-filled-tonal-button>
-          <md-filled-tonal-button data-action="clean-kml"> Clean KML </md-filled-tonal-button>
-          <md-filled-tonal-button data-action="relaunch-lg"> Relaunch LG </md-filled-tonal-button>
-          <md-filled-tonal-button data-action="reboot-lg"> Reboot LG </md-filled-tonal-button>
-          <md-filled-tonal-button data-action="shutdown-lg"> Shutdown LG </md-filled-tonal-button>
+          <md-filled-button data-action="clean-logo"> Clean Logo </md-filled-button>
+          <md-filled-button data-action="clean-kml"> Clean KML </md-filled-button>
+          <md-filled-button data-action="relaunch-lg"> Relaunch LG </md-filled-button>
+          <md-filled-button data-action="reboot-lg"> Reboot LG </md-filled-button>
+          <md-filled-button data-action="shutdown-lg"> Shutdown LG </md-filled-button>
       </div>
       <md-dialog>
           <form slot="content" id="form-id" method="dialog">Are you sure you want to perform this action?</form>
@@ -41,31 +41,25 @@ export class LGtools extends HTMLElement {
           .button-wrapper {
               block-size: max-content;
               display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
               gap: 15px;
               justify-content: center;
               align-items: center;
               padding: 30px;
           }
-          md-filled-tonal-button {
+          md-filled-button {
               padding: 40px;
               font-size: 20px;
+              max-inline-size: 500px;
+              min-inline-size: 200px;
+              --md-filled-button-container-color: var(--md-sys-color-primary); /* For the button's background */
+              --md-filled-button-label-text-color: var(--md-sys-color-on-primary); /* For the text color */
+
+              /* It's also good practice to include other themed states for completeness */
+              --md-filled-button-container-shape: 20px; /* Consistent rounding */
+              --md-filled-button-label-text-font: "Roboto", sans-serif;
+              --md-filled-button-label-text-weight: 500;
           }
-          md-filled-tonal-button:nth-of-type(1) {
-              filter: hue-rotate(80deg) contrast(1.2);
-          }
-          md-filled-tonal-button:nth-of-type(2) {
-              filter: hue-rotate(-40deg) contrast(1.2);
-          }
-          md-filled-tonal-button:nth-of-type(3) {
-              filter: hue-rotate(-60deg) contrast(1.2);
-          }
-          md-filled-tonal-button:nth-of-type(4) {
-              filter: hue-rotate(195deg) contrast(1.2);
-          }
-          md-filled-tonal-button:nth-of-type(5) {
-              filter: hue-rotate(135deg) contrast(1.2);
-          }
+          
         `;
 
     this.shadowRoot.appendChild(style);
@@ -73,7 +67,7 @@ export class LGtools extends HTMLElement {
   }
 
   connectedCallback() {
-    const buttons = this.shadowRoot.querySelectorAll("md-filled-tonal-button");
+    const buttons = this.shadowRoot.querySelectorAll("md-filled-button");
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GeoVisionAI</title>
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -13,8 +13,6 @@
   <meta name="description" content="A Liquid Galaxy immersive Google Earth web application." />
   <meta property="og:title" content="GeoVisionAI Web App by liquid galaxy" />
   <meta property="og:description" content="A Liquid Galaxy immersive Google Earth web application" />
-  <meta property="og:image"
-    content="https://raw.githubusercontent.com/yashrajbharti/lg-web/refs/heads/main/assets/Cover.png" />
   <script type="importmap">
     {
       "imports": {
@@ -45,9 +43,9 @@
       <md-tabs>
         <md-primary-tab data-tab="home"><md-icon slot="icon">home</md-icon>Home</md-primary-tab>
         <md-primary-tab data-tab="voice"><md-icon slot="icon">mic</md-icon>Ask</md-primary-tab>
-        <md-primary-tab data-tab="maps"><md-icon slot="icon">map</md-icon>Maps</md-primary-tab>
         <md-primary-tab data-tab="tools"><md-icon slot="icon">tune</md-icon>Tools</md-primary-tab>
         <md-primary-tab data-tab="settings"><md-icon slot="icon">settings</md-icon>Settings</md-primary-tab>
+        <md-primary-tab data-tab="about"><md-icon slot="icon">info</md-icon>About</md-primary-tab>
       </md-tabs>
     </nav>
   </header>
@@ -55,13 +53,10 @@
   <main>
     <div class="wrapper" dir="ltr">
       <section id="home">
-        <md-typography variant="headline-small" id="tagline">
-          Get Answers To All Your Geospatial Questions With...
-        </md-typography>
         
         <home-page></home-page>
       </section>
-
+      
       <section id="voice">
         <lg-voice> <div slot="voice" class="googleVoice">
             <div class="rect blur"></div>

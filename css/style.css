@@ -1,287 +1,343 @@
+/* Defines custom properties (variables) for the entire document or host element */
 :root,
 :host {
-    --md-sys-color-background: #1a1e22;
-    --md-sys-color-on-background: #e0e2e8;
-    --md-sys-color-surface: #101418;
-    --md-sys-color-surface-dim: #101418;
-    --md-sys-color-surface-bright: #363a3e;
-    --md-sys-color-surface-container-lowest: #0b0f12;
-    --md-sys-color-surface-container-low: #181c20;
-    --md-sys-color-surface-container: #1c2024;
-    --md-sys-color-surface-container-high: #272a2e;
-    --md-sys-color-surface-container-highest: #313539;
-    --md-sys-color-on-surface: #e0e2e8;
-    --md-sys-color-surface-variant: #404850;
-    --md-sys-color-on-surface-variant: #bfc7d1;
-    --md-sys-color-inverse-surface: #e0e2e8;
-    --md-sys-color-inverse-on-surface: #2d3135;
-    --md-sys-color-outline: #8a919b;
-    --md-sys-color-outline-variant: #404850;
-    --md-sys-color-shadow: #000000;
-    --md-sys-color-scrim: #000000;
-    --md-sys-color-surface-tint: #92ccff;
-    --md-sys-color-primary: #bbdeff;
-    --md-sys-color-on-primary: #003351;
-    --md-sys-color-primary-container: #64b8f8;
-    --md-sys-color-on-primary-container: #002840;
-    --md-sys-color-inverse-primary: #006397;
-    --md-sys-color-secondary: #adcae6;
-    --md-sys-color-on-secondary: #143349;
-    --md-sys-color-secondary-container: #233f57;
-    --md-sys-color-on-secondary-container: #b7d4f0;
-    --md-sys-color-tertiary: #f6ceff;
-    --md-sys-color-on-tertiary: #4c1662;
-    --md-sys-color-tertiary-container: #d99bee;
-    --md-sys-color-on-tertiary-container: #410757;
-    --md-sys-color-error: #ffb4ab;
-    --md-sys-color-on-error: #690005;
-    --md-sys-color-error-container: #93000a;
-    --md-sys-color-on-error-container: #ffdad6;
-    --md-sys-color-google-blue: #4285f4;
-    --md-sys-color-google-red: #ea4335;
-    --md-sys-color-google-yellow: #fbbc05;
-    --md-sys-color-google-green: #34a853;
+    /* --- Material Design System Colors (Dark Theme) --- */
+    --md-sys-color-background: #1d0529; /* Defines the main background color of the application */
+    --md-sys-color-on-background: #ffffff; /* Defines the color for content placed on the background */
+    --md-sys-color-surface: #1d0529; /* Defines the color for container elements that hold content */
+    --md-sys-color-surface-dim: #1d0529; /* Defines a dim variant of the surface color */
+    --md-sys-color-surface-bright: #42637a; /* Defines a bright variant of the surface color */
+    --md-sys-color-surface-container-lowest: #a754d1; /* Defines the lowest-level surface container color */
+    --md-sys-color-surface-container-low: #1d0529; /* Defines a low-level surface container color */
+    --md-sys-color-surface-container: #1c2024; /* Defines the default surface container color */
+    --md-sys-color-surface-container-high: #272a2e; /* Defines a high-level surface container color */
+    --md-sys-color-surface-container-highest: #313539; /* Defines the highest-level surface container color */
+    --md-sys-color-on-surface: #e0e2e8; /* Defines the color for content placed on a surface */
+    --md-sys-color-surface-variant: #404850; /* Defines a variant of the surface color, often used for borders or less prominent elements */
+    --md-sys-color-on-surface-variant: #dcadf6; /* Defines the color for content placed on the surface variant */
+    --md-sys-color-inverse-surface: #e0e2e8; /* Defines a contrasting surface color, for inverse themes */
+    --md-sys-color-inverse-on-surface: #2d3135; /* Defines the color for content placed on the inverse surface */
+    --md-sys-color-outline: #8a919b; /* Defines the color for outline elements, such as text field borders */
+    --md-sys-color-outline-variant: #dcadf6; /* Defines a variant of the outline color */
+    --md-sys-color-shadow: #000000; /* Defines the color for shadows */
+    --md-sys-color-scrim: #000000; /* Defines the color for scrims (overlay that dims content) */
+    --md-sys-color-surface-tint: #92ccff; /* Defines a tint color applied to surfaces for depth */
+    --md-sys-color-primary: #ffffff; /* Defines the primary brand color */
+    --md-sys-color-on-primary: #2f085c; /* Defines the color for content placed on the primary color */
+    --md-sys-color-primary-container: #ffffff; /* Defines a container color for the primary color */
+    --md-sys-color-on-primary-container: #ce93f7; /* Defines the color for content placed on the primary container */
+    --md-sys-color-inverse-primary: #006397; /* Defines a contrasting primary color for inverse themes */
+    --md-sys-color-secondary: #adcae6; /* Defines the secondary brand color */
+    --md-sys-color-on-secondary: #143349; /* Defines the color for content placed on the secondary color */
+    --md-sys-color-secondary-container: #c850e9; /* Defines a container color for the secondary color */
+    --md-sys-color-on-secondary-container: #b7d4f0; /* Defines the color for content placed on the secondary container */
+    --md-sys-color-tertiary: #f6ceff; /* Defines the tertiary brand color */
+    --md-sys-color-on-tertiary: #4c1662; /* Defines the color for content placed on the tertiary color */
+    --md-sys-color-tertiary-container: #d99bee; /* Defines a container color for the tertiary color */
+    --md-sys-color-on-tertiary-container: #410757; /* Defines the color for content placed on the tertiary container */
+    --md-sys-color-error: #ffb4ab; /* Defines the color for error states */
+    --md-sys-color-on-error: #690005; /* Defines the color for content placed on an error color */
+    --md-sys-color-error-container: #93000a; /* Defines a container color for error states */
+    --md-sys-color-on-error-container: #ffdad6; /* Defines the color for content placed on the error container */
+    --md-sys-color-google-blue: #4285f4; /* Defines Google's blue color */
+    --md-sys-color-google-red: #ea4335; /* Defines Google's red color */
+    --md-sys-color-google-yellow: #fbbc05; /* Defines Google's yellow color */
+    --md-sys-color-google-green: #34a853; /* Defines Google's green color */
 }
 
+/* Universal box-sizing reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+    margin: 0; /* Resets the outer spacing (margin) for all elements to 0 */
+    padding: 0; /* Resets the inner spacing (padding) for all elements to 0 */
+    box-sizing: border-box; /* Sets the box model to include padding and border within the element's total width and height */
+    scroll-behavior: smooth; /* Enables smooth scrolling behavior for scrollable containers */
 }
 
+/* HTML element styles */
 html {
-    scroll-behavior: smooth;
-    
+    scroll-behavior: smooth; /* Ensures smooth scrolling when navigating to anchors within the page */
 }
 
+/* Body element styles */
 body {
-    background-color: var(--md-sys-color-background);
-    font-family: "Roboto", sans-serif;
-    scroll-behavior: auto;
+    background-color: var(--md-sys-color-background); /* Sets the background color of the page using a defined variable */
+    font-family: "Roboto", sans-serif; /* Sets the primary font to Roboto, with a generic sans-serif fallback */
+    scroll-behavior: auto; /* Sets the scrolling behavior to instant (not smooth) for the body itself (can be overridden by child elements) */
 }
 
+/* Main content area styles */
 main {
-    position: relative;
-    display: block;
-    max-inline-size: 1280px;
-    margin-inline: auto;
+    position: relative; /* Sets positioning context for absolutely positioned children */
+    display: block; /* Ensures the main element behaves as a block-level element */
+    max-inline-size: 1280px; /* Limits the maximum width of the main content area */
+    margin-inline: auto; /* Centers the main content area horizontally within its parent */
 }
 
+/* Header element styles (used as fixed bottom navigation) */
+/* Header element styles (used as fixed bottom navigation) */
 header {
-    z-index: 999;
-    position: fixed;
-    inset-block-end: 0;
-    inline-size: 100%;
+    z-index: 999; /* Ensures the header stays on top of other content */
+    position: fixed; /* Fixes the header's position relative to the viewport */
+    inset-block-end: 0; /* Positions the header at the bottom of the viewport */
+    inline-size: 100%; /* Sets the header's width to 100% of its parent */
+    align-items: center;
+    height: 80px; /* Standard height for Material Design bottom navigation */
 }
 
+/* Styles specifically for the md-tabs component within your header */
+md-tabs {
+    width: 100%; /* Ensure md-tabs takes full width within header */
+    height: 100%; /* Take full height of header */
+
+    /* --- THESE ARE THE PROPERTIES THAT CONTROL ICON AND TEXT COLORS --- */
+
+    /* Color for icons of INACTIVE (unselected) tabs */
+    --md-tabs-primary-tab-icon-color: var(--md-sys-color-on-surface-variant);
+    /* In your current palette, this resolves to #bfc7d1 */
+
+    /* Color for text labels of INACTIVE (unselected) tabs */
+    --md-tabs-primary-tab-label-text-color: var(--md-sys-color-on-surface-variant);
+    /* In your current palette, this resolves to #bfc7d1 */
+
+    /* Color for icons of ACTIVE (selected) tab */
+    --md-tabs-primary-tab-icon-color-active: var(--md-sys-color-primary);
+    /* In your current palette, this resolves to #bbdeff (your light primary color) */
+
+    /* Color for text labels of ACTIVE (selected) tab */
+    --md-tabs-primary-tab-label-text-color-active: var(--md-sys-color-primary);
+    /* In your current palette, this resolves to #bbdeff */
+
+    /* Color for the active indicator (the pill shape behind the active tab) */
+    --md-tabs-primary-tab-active-indicator-color: var(--md-sys-color-primary-container);
+    /* In your current palette, this resolves to #64b8f8 (a brighter blue) */
+
+    /* Background color of the tabs container itself (set to transparent so header's background shows) */
+    --md-tabs-container-color: transparent;
+}
+
+/* Further fine-tuning if needed for individual tab items */
+md-primary-tab {
+    flex-grow: 1; /* Allows tabs to distribute space evenly */
+    min-width: unset; /* Override default min-width for better responsiveness */
+    /* Add padding to ensure a good touch target */
+    padding-block: 10px; /* Example vertical padding */
+}
+/* Wrapper for horizontal scrolling sections */
 .wrapper {
-    display: flex;
-    max-inline-size: 1280px;
-    scroll-snap-type: x mandatory;
-    flex-flow: row nowrap;
-    overflow-y: hidden;
-    scrollbar-width: auto;
+    display: flex; /* Uses flexbox for layout of its children (sections) */
+    max-inline-size: 1280px; /* Limits the maximum width of the wrapper */
+    scroll-snap-type: x mandatory; /* Enables mandatory horizontal scroll snapping for its children */
+    flex-flow: row nowrap; /* Arranges children in a single row without wrapping */
+    overflow-y: hidden; /* Hides vertical scrollbar if content overflows vertically */
+    scrollbar-width: auto; /* Allows the browser to determine the width of the scrollbar (Firefox) */
 }
 
+/* Hides the scrollbar specifically for Webkit browsers (Chrome, Safari) */
 .wrapper::-webkit-scrollbar {
-    display: none;
+    display: none; /* Prevents the Webkit scrollbar from being displayed */
 }
 
+/* Styles for each section within the wrapper */
 section {
-    inline-size: 100%;
-    scroll-snap-align: center;
-    flex: none;
+    inline-size: 100%; /* Each section takes 100% of the wrapper's visible width */
+    scroll-snap-align: center; /* Aligns the section to the center of the scroll container when snapped */
+    flex: none; /* Prevents sections from growing or shrinking, maintaining their defined width */
 }
 
+/* Custom properties for gradient animation (CSS Houdini @property) */
 @property --gradBlueRed {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 25%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 25%; /* Sets the initial value of the property */
 }
 
 @property --gradRedBlue {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 25%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 25%; /* Sets the initial value of the property */
 }
 
 @property --gradRedYellow {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 50%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 50%; /* Sets the initial value of the property */
 }
 
 @property --gradYellowRed {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 50%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 50%; /* Sets the initial value of the property */
 }
 
-
 @property --gradYellowGreen {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 75%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 75%; /* Sets the initial value of the property */
 }
 
 @property --gradGreenYellow {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 75%;
+    syntax: "<percentage>"; /* Defines the property as a percentage */
+    inherits: false; /* Specifies that the property does not inherit its value from its parent */
+    initial-value: 75%; /* Sets the initial value of the property */
 }
 
-
+/* Styles for the Google Voice visualizer container */
 .googleVoice {
-    position: absolute;
-    inset-inline-start: 50%;
-    inset-block-end: 60px;
-    translate: -50% 0;
+    position: absolute; /* Positions the element relative to its nearest positioned ancestor */
+    inset-inline-start: 50%; /* Positions the left edge 50% from the start (left) */
+    inset-block-end: 60px; /* Positions the bottom edge 60px from the end (bottom) */
+    translate: -50% 0; /* Moves the element back by 50% of its own width to center it horizontally */
 }
 
+/* Styles for the rectangular bars within the Google Voice visualizer */
 .googleVoice .rect {
-    max-inline-size: 880px;
-    inline-size: 80dvw;
-    block-size: 5px;
-    background: linear-gradient(to right,
-            var(--md-sys-color-google-blue) 0 var(--gradBlueRed),
-            var(--md-sys-color-google-red) var(--gradRedBlue) var(--gradRedYellow),
-            var(--md-sys-color-google-yellow) var(--gradYellowRed) var(--gradYellowGreen),
-            var(--md-sys-color-google-green) var(--gradGreenYellow) 100%);
-    transform-origin: center;
-    display: inline-block;
-    position: relative;
-    transition: inline-size 0.3s ease, --gradBlueRed 0.5s, --gradRedBlue 0.5s,
-        --gradRedYellow 0.5s, --gradYellowRed 0.5s, --gradYellowGreen 0.5s, --gradGreenYellow 0.5s, filter 0.5s;
+    max-inline-size: 880px; /* Sets the maximum width of the rectangle */
+    inline-size: 80dvw; /* Sets the width of the rectangle to 80% of the dynamic viewport width */
+    block-size: 5px; /* Sets the height of the rectangle */
+    background: linear-gradient(to right, /* Creates a linear gradient background from left to right */
+            var(--md-sys-color-google-blue) 0 var(--gradBlueRed), /* Blue color from 0% to --gradBlueRed */
+            var(--md-sys-color-google-red) var(--gradRedBlue) var(--gradRedYellow), /* Red color from --gradRedBlue to --gradRedYellow */
+            var(--md-sys-color-google-yellow) var(--gradYellowRed) var(--gradYellowGreen), /* Yellow color from --gradYellowRed to --gradYellowGreen */
+            var(--md-sys-color-google-green) var(--gradGreenYellow) 100%); /* Green color from --gradGreenYellow to 100% */
+    transform-origin: center; /* Sets the origin point for transformations to the center */
+    display: inline-block; /* Displays the element as an inline-level block container */
+    position: relative; /* Sets positioning context for its children */
+    transition: inline-size 0.3s ease, --gradBlueRed 0.5s, --gradRedBlue 0.5s, /* Smooth transition for width and gradient properties */
+        --gradRedYellow 0.5s, --gradYellowRed 0.5s, --gradYellowGreen 0.5s, --gradGreenYellow 0.5s, filter 0.5s; /* Continued transitions */
 }
 
+/* Styles for the blurred version of the rectangle */
 .googleVoice .rect.blur {
-    filter: blur(20px);
+    filter: blur(20px); /* Applies a 20-pixel blur effect */
 }
 
+/* Styles for the animated state of the Google Voice visualizer */
 .googleVoice.animate .rect {
-    inline-size: 90dvw;
-    animation: voice 2s ease infinite alternate;
+    inline-size: 90dvw; /* Sets the width to 90% of the dynamic viewport width when animating */
+    animation: voice 2s ease infinite alternate; /* Applies the 'voice' animation: 2s duration, ease timing, infinite loop, alternates direction */
 }
 
+/* Styles for the ending animation state of the Google Voice visualizer */
 .googleVoice.animate.ending .rect {
-    inline-size: 90dvw;
-    animation: voiceEnding 0.6s ease infinite alternate;
+    inline-size: 90dvw; /* Sets the width to 90% of the dynamic viewport width when ending animation */
+    animation: voiceEnding 0.6s ease infinite alternate; /* Applies the 'voiceEnding' animation: 0.6s duration, ease timing, infinite loop, alternates direction */
 }
 
+/* Keyframes for the 'voice' animation */
 @keyframes voice {
-    0% {
-        --gradBlueRed: 80%;
-        --gradRedBlue: 84%;
-        --gradRedYellow: 88%;
-        --gradYellowRed: 92%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
+    0% { /* At the start of the animation */
+        --gradBlueRed: 80%; /* Sets gradient stop */
+        --gradRedBlue: 84%; /* Sets gradient stop */
+        --gradRedYellow: 88%; /* Sets gradient stop */
+        --gradYellowRed: 92%; /* Sets gradient stop */
+        --gradYellowGreen: 96%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 
-    15% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 70%;
-        --gradYellowRed: 74%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
+    15% { /* At 15% of the animation duration */
+        --gradBlueRed: 10%; /* Sets gradient stop */
+        --gradRedBlue: 14%; /* Sets gradient stop */
+        --gradRedYellow: 70%; /* Sets gradient stop */
+        --gradYellowRed: 74%; /* Sets gradient stop */
+        --gradYellowGreen: 96%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 
-    30% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 80%;
-        --gradYellowRed: 84%;
-        --gradYellowGreen: 90%;
-        --gradGreenYellow: 100%;
+    30% { /* At 30% of the animation duration */
+        --gradBlueRed: 10%; /* Sets gradient stop */
+        --gradRedBlue: 14%; /* Sets gradient stop */
+        --gradRedYellow: 80%; /* Sets gradient stop */
+        --gradYellowRed: 84%; /* Sets gradient stop */
+        --gradYellowGreen: 90%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 
-    45% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 60%;
-        --gradYellowRed: 66%;
-        --gradYellowGreen: 76%;
-        --gradGreenYellow: 80%;
+    45% { /* At 45% of the animation duration */
+        --gradBlueRed: 10%; /* Sets gradient stop */
+        --gradRedBlue: 14%; /* Sets gradient stop */
+        --gradRedYellow: 60%; /* Sets gradient stop */
+        --gradYellowRed: 66%; /* Sets gradient stop */
+        --gradYellowGreen: 76%; /* Sets gradient stop */
+        --gradGreenYellow: 80%; /* Sets gradient stop */
     }
 
-    60% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 5%;
-        --gradRedYellow: 10%;
-        --gradYellowRed: 15%;
-        --gradYellowGreen: 90%;
-        --gradGreenYellow: 100%;
+    60% { /* At 60% of the animation duration */
+        --gradBlueRed: 0%; /* Sets gradient stop */
+        --gradRedBlue: 5%; /* Sets gradient stop */
+        --gradRedYellow: 10%; /* Sets gradient stop */
+        --gradYellowRed: 15%; /* Sets gradient stop */
+        --gradYellowGreen: 90%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 
-    75% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 5%;
-        --gradRedYellow: 10%;
-        --gradYellowRed: 15%;
-        --gradYellowGreen: 20%;
-        --gradGreenYellow: 40%;
+    75% { /* At 75% of the animation duration */
+        --gradBlueRed: 0%; /* Sets gradient stop */
+        --gradRedBlue: 5%; /* Sets gradient stop */
+        --gradRedYellow: 10%; /* Sets gradient stop */
+        --gradYellowRed: 15%; /* Sets gradient stop */
+        --gradYellowGreen: 20%; /* Sets gradient stop */
+        --gradGreenYellow: 40%; /* Sets gradient stop */
     }
 
-    100% {
-        --gradBlueRed: 80%;
-        --gradRedBlue: 84%;
-        --gradRedYellow: 88%;
-        --gradYellowRed: 92%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
+    100% { /* At the end of the animation */
+        --gradBlueRed: 80%; /* Sets gradient stop */
+        --gradRedBlue: 84%; /* Sets gradient stop */
+        --gradRedYellow: 88%; /* Sets gradient stop */
+        --gradYellowRed: 92%; /* Sets gradient stop */
+        --gradYellowGreen: 96%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 }
 
+/* Keyframes for the 'voiceEnding' animation */
 @keyframes voiceEnding {
-    0% {
-        --gradBlueRed: 50%;
-        --gradRedBlue: 50%;
-        --gradRedYellow: 100%;
-        --gradYellowRed: 100%;
-        --gradYellowGreen: 100%;
-        --gradGreenYellow: 100%;
+    0% { /* At the start of the animation */
+        --gradBlueRed: 50%; /* Sets gradient stop */
+        --gradRedBlue: 50%; /* Sets gradient stop */
+        --gradRedYellow: 100%; /* Sets gradient stop */
+        --gradYellowRed: 100%; /* Sets gradient stop */
+        --gradYellowGreen: 100%; /* Sets gradient stop */
+        --gradGreenYellow: 100%; /* Sets gradient stop */
     }
 
-    100% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 0%;
-        --gradRedYellow: 0%;
-        --gradYellowRed: 0%;
-        --gradYellowGreen: 50%;
-        --gradGreenYellow: 50%;
+    100% { /* At the end of the animation */
+        --gradBlueRed: 0%; /* Sets gradient stop */
+        --gradRedBlue: 0%; /* Sets gradient stop */
+        --gradRedYellow: 0%; /* Sets gradient stop */
+        --gradYellowRed: 0%; /* Sets gradient stop */
+        --gradYellowGreen: 50%; /* Sets gradient stop */
+        --gradGreenYellow: 50%; /* Sets gradient stop */
     }
 }
 
+/* Styles to control section visibility via JavaScript */
 main section {
-    display: none;
-  }
-
-  main section#home {
-display: block;
+    display: none; /* Hides all sections by default. (This is controlled by your HTML's JavaScript). */
 }
 
+/* Makes the 'home' section visible initially */
+main section#home {
+    display: block; /* Overrides the default `display: none` for the home section, making it visible */
+}
+
+/* Styles for the tagline on the home page */
 #home #tagline {
-  position: fixed;
-  top: 100px;
-  left: 20%;
-  transform: translateX(-50%);
-  width: calc(100% - 2rem);
-  max-width: 1024px;
-  padding: 1rem 2rem;
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-size: 1.75rem;
-  color: #bbdeff;
-  text-align: center;
-  letter-spacing: 0.1em;
-  user-select: none;
-  position: relative;
-  overflow: hidden;
+    position: fixed; /* Positions the element relative to the viewport (not affected by scrolling) */
+    top: 505px; /* Positions the top edge 100px from the top of the viewport */
+    inset-inline-start: 20%; /* Positions the left (start) edge 20% from the start of the viewport */
+    transform: translateX(-50%); /* Moves the element horizontally back by 50% of its own width to center it relative to its `left` position */
+    width: calc(100% - 2rem); /* Sets the width to 100% minus 2rem (for padding) */
+    max-width: 1024px; /* Limits the maximum width of the tagline */
+    padding: 1rem 2rem; /* Adds 1rem vertical padding and 2rem horizontal padding */
+    font-family: "Roboto", sans-serif; /* Sets the font to Roboto */
+    font-weight: 700; /* Sets the font weight to bold */
+    font-size: 1.75rem; /* Sets the font size */
+    color: #bbdeff; /* Sets the text color */
+    text-align: center; /* Centers the text horizontally */
+    letter-spacing: 0.1em; /* Adds spacing between letters */
+    user-select: none; /* Prevents users from selecting the text */
+    position: relative; /* Overrides the previous `position: fixed` to `relative` (this will cause it to be static in flow) */
+    overflow: hidden; /* Hides any content that overflows the element's box */
 }
-
-
-
 
 
