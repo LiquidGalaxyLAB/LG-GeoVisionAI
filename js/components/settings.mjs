@@ -14,8 +14,7 @@ export class Settings extends HTMLElement {
 
     container.innerHTML = `
         <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
-        <md-filled-tonal-button id="scan-qr"><md-icon slot="icon">qr_code_scanner</md-icon>Scan QR to Connect</md-filled-tonal-button>
-        <p class="divider"><span>OR<span><p>
+        
         <form>
             <md-outlined-text-field id="gemmaApiKey" required label="Gemma API Key" value="" type="password">
             <md-icon-button id="toggle-gemma" aria-label="toggle gemma visibility" toggle slot="trailing-icon" type="button">
@@ -37,8 +36,13 @@ export class Settings extends HTMLElement {
               <md-icon slot="selected">visibility_off</md-icon>
             </md-icon-button>
           </md-outlined-text-field>
-
-
+            <md-filled-button id="saveApiKeysButton">Save API Keys</md-filled-button>
+        </form>  
+        <form>
+            <md-filled-button id="scan-qr">Scan QR to Connect to LG</md-filled-button>
+            <p class="divider"><span>OR<span><p>
+        </form>
+        <form>
             <md-outlined-text-field id="server" required label="Server Address" value=""></md-outlined-text-field>
             <md-outlined-text-field id="username" required label="Username" value=""></md-outlined-text-field>
             <md-outlined-text-field id="ip" required label="IP Address" value=""></md-outlined-text-field>
@@ -92,7 +96,7 @@ export class Settings extends HTMLElement {
                 margin-block-end: 55px;
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+                gap: 10px;
             }
             .divider {
                 position: relative;
@@ -106,14 +110,14 @@ export class Settings extends HTMLElement {
                 background-color: var(--md-sys-color-outline);
                 inset-inline-start: 0;
                 inset-block-start: 1ch;
-                 z-index: -1;
+                z-index: -1;
             }
             .divider span {
                 display: inline-block;
                 background-color: var(--md-sys-color-background);
-                padding-inline-start: 5px;
+                
             }
-            md-filled-tonal-button {
+            md-filled-button {
                 inline-size: 100%;
                 margin-block: 10px;
             }
@@ -199,6 +203,13 @@ export class Settings extends HTMLElement {
         }
       });
 
+      this.shadowRoot
+      .getElementById("saveApiKeysButton") 
+      .addEventListener("click", () => {
+        this.saveApiKeys(); 
+      });
+
+
     this.shadowRoot
       .getElementById("scan-qr")
       .addEventListener("click", () => this.startQrScanner());
@@ -232,20 +243,34 @@ export class Settings extends HTMLElement {
     }
   }
 
+  saveApiKeys() {
+    const gemmaKey = this.shadowRoot.getElementById("gemmaApiKey").value;
+    const openCageKey = this.shadowRoot.getElementById("openCageApiKey").value;
+    const freesoundKey = this.shadowRoot.getElementById("freesoundApiKey").value;
+
+    if (gemmaKey.trim() === "" || openCageKey.trim() === "" || freesoundKey.trim() === "") {
+      this.showToast("Please fill in all API key fields!");
+      return; 
+    }
+
+    localStorage.setItem("gemmaApiKey", gemmaKey);
+    localStorage.setItem("openCageApiKey", openCageKey);
+    localStorage.setItem("freesoundApiKey", freesoundKey);
+    
+    this.showToast("API Keys saved successfully!");
+  }
+
   async saveConfig() {
+    this.saveApiKeys(); 
     const server = this.shadowRoot.getElementById("server").value;
     const username = this.shadowRoot.getElementById("username").value;
     const ip = this.shadowRoot.getElementById("ip").value;
     const port = this.shadowRoot.getElementById("port").value;
     const password = this.shadowRoot.getElementById("password").value;
     const screens = this.shadowRoot.getElementById("screens").value;
-    const gemmaKey = this.shadowRoot.getElementById("gemmaApiKey").value;
-    const openCageKey = this.shadowRoot.getElementById("openCageApiKey").value;
-    const freesoundKey = this.shadowRoot.getElementById("freesoundApiKey").value;
-
-    localStorage.setItem("gemmaApiKey", gemmaKey);
-    localStorage.setItem("openCageApiKey", openCageKey);
-    localStorage.setItem("freesoundApiKey", freesoundKey);
+    const gemmaKey = localStorage.getItem("gemmaApiKey") || "";
+    const openCageKey = localStorage.getItem("openCageApiKey") || "";
+    const freesoundKey = localStorage.getItem("freesoundApiKey") || "";
 
     const config = {
       server,

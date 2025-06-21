@@ -69,9 +69,9 @@ export class Home extends HTMLElement {
             }
         </style>
         <div>
-            <img class="animate" src="/assets/GeoVisionAI-2.png" alt="My Logo" width="350" height="350">
+            <img class="animate" src="/assets/Logo.svg" alt="My Logo" width="350" height="350">
             <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
-            <md-elevated-button>Send KML</md-elevated-button>
+            <md-filled-button>Send KML</md-filled-button>
         </div>
         `;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -89,10 +89,10 @@ export class Home extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "active") {
       if (newValue === "true") {
-        this.shadowRoot.querySelector("svg").classList.add("animate");
+        this.shadowRoot.querySelector("img").classList.add("animate");
         this.checkConnectionStatus();
       } else {
-        this.shadowRoot.querySelector("svg").classList.remove("animate");
+        this.shadowRoot.querySelector("img").classList.remove("animate");
       }
     }
   }
