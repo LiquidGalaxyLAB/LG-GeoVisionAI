@@ -17,10 +17,11 @@ const urlsToCache = [
   "./js/utils/speech.mjs",
   "./js/utils/tabs.mjs",
   "./js/components/home.mjs",
-  "./js/components/maps.mjs",
   "./js/components/settings.mjs",
   "./js/components/tools.mjs",
   "./js/components/voice.mjs",
+  "./js/components/about.mjs",
+  "./js/utils/speech.mjs"
 ];
 
 self.addEventListener("install", (event) => {

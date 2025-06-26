@@ -1,4 +1,5 @@
 import { speech } from "../utils/speech.mjs";
+import { flytoview } from "../api/flytoview.mjs";
 
 export class LGVoice extends HTMLElement {
   constructor() {
@@ -11,23 +12,22 @@ export class LGVoice extends HTMLElement {
           position: relative;
           display: flex;
           flex-direction: column;
-          justify-content: center; 
-          align-items: center;     
-          block-size: 100dvh;      
-          padding-inline: 30px;   
-           
+          justify-content: center;
+          align-items: center;
+          block-size: 100dvh;
+          padding-inline: 30px;
+          padding-block-end: 100px;
         }
 
         .scrollable-content {
           display: flex;
           flex-direction: column;
-          align-items: center; 
-          width: 100%; 
-          max-height: 100%; 
-          overflow-y: auto; 
+          align-items: center;
+          max-height: 100%;
+          overflow-y: auto;
           padding-block: 20px;
-          scrollbar-width: none; 
-          -ms-overflow-style: none; 
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
 
         .scrollable-content::-webkit-scrollbar {
@@ -50,13 +50,17 @@ export class LGVoice extends HTMLElement {
           color: var(--md-sys-color-on-background);
         }
 
-        md-icon-button {
+        md-icon-button { /* This style block for the mic button */
           scale: 5;
           margin-block: 80px;
           background-color: color-mix(in srgb, 95% transparent, 5% var(--md-sys-color-on-surface-variant));
           border-radius: 50%;
           z-index: 1;
           cursor: pointer;
+        }
+
+        .mic path {
+          fill: var(--md-sys-color-primary-container);
         }
 
         .message {
@@ -69,20 +73,20 @@ export class LGVoice extends HTMLElement {
           color: var(--md-sys-color-tertiary-container);
         }
 
-        .story { 
+        .story {
           inline-size: 100%;
-          block-size: 200px; 
-          overflow-y: auto; 
+          block-size: 200px;
+          overflow-y: auto;
           word-break: break-word;
-          scrollbar-width: none; 
-          -ms-overflow-style: none; 
-          text-align: center; 
-          color: var(--md-sys-color-on-background); 
-          margin-block-start: 10px; 
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          text-align: center;
+          color: var(--md-sys-color-on-background);
+          margin-block-start: 10px;
           padding: 5px;
           border: 1px solid var(--md-sys-color-outline-variant);
-          border-radius: 8px; 
-          background-color: var(--md-sys-color-surface-container-low); 
+          border-radius: 8px;
+          background-color: var(--md-sys-color-surface-container-low);
         }
 
         .story::-webkit-scrollbar {
@@ -91,12 +95,21 @@ export class LGVoice extends HTMLElement {
 
         .manual-input {
           display: flex;
-          flex-direction: column;
+          flex-direction: column; /* Keeps text field and button stacked */
           gap: 10px;
           margin-block-start: 10px;
           inline-size: 100%;
           max-inline-size: 500px;
-          color: var(--md-sys-color-tertiary-container); 
+          color: var(--md-sys-color-tertiary-container);
+        }
+
+
+        .manual-input md-filled-text-field {
+            flex-grow: 1;
+        }
+
+        .manual-input md-filled-button {
+            width: 100%; /* Make the Ask AI button full width */
         }
 
         audio {
@@ -143,14 +156,22 @@ export class LGVoice extends HTMLElement {
         }
         @media (max-width: 600px) {
           .wrapper { padding-inline: 16px; }
-          md-icon-button { scale: 3; margin-block: 40px; }
-          .manual-input { max-inline-size: 100%; }
+          md-icon-button { scale: 3; margin-block: 40px; } /* Applies to mic button */
+          .manual-input {
+              max-inline-size: 100%;
+              align-items: stretch; /* Stretch items to fill width on small screens */
+          }
           .headline-small { font-size: clamp(1rem, 1.5vw + 0.3rem, 1.3rem); }
+
+          /* Removed action-buttons media query as div is gone */
+          .manual-input md-filled-button {
+              width: 100%; /* Ensure button is full width on small screens too */
+          }
         }
 
         @media (min-width: 601px) and (max-width: 1024px) {
           .wrapper { padding-inline: 40px; }
-          md-icon-button { scale: 4; }
+          md-icon-button { scale: 4; } /* Applies to mic button */
         }
 
         @media (min-width: 1025px) {
@@ -163,14 +184,14 @@ export class LGVoice extends HTMLElement {
 
       <div class="wrapper">
         <md-icon-button id="micButton" aria-label="Microphone">
-                  <svg class="mic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path fill="#4285f4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
-                      <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
-                      <path fill="#fbbc04" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
-                      <path fill="#ea4335" d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
-                  </svg>
-              </md-icon-button>
-        <p class="headline-small">Tap on the Mic to Speak</p>
+            <svg class="mic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+                <path d="m11 18.08h2v3.92h-2z"></path>
+                <path d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+                <path d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
+            </svg>
+        </md-icon-button>
+        <p class="headline-small">Tap on the Mic to Speak/Stop AI Narration</p>
         <p class="body-medium message"></p>
         <p class="body-medium story" id="story"></p>
 
@@ -223,6 +244,7 @@ export class LGVoice extends HTMLElement {
         this.showToast("Start Speaking...");
         micButton.classList.add("ripple");
         voiceAnimation?.classList?.add("animate");
+        speech.stop(); // Stop any ongoing narration if mic is tapped
       }
     });
 
@@ -231,6 +253,7 @@ export class LGVoice extends HTMLElement {
       if (typed !== "") {
         this.processQuery(typed);
         questionInput.value = "";
+        speech.stop(); // Stop any ongoing narration when a new query is submitted
       }
     });
 
@@ -252,6 +275,8 @@ export class LGVoice extends HTMLElement {
       isRecognizing = false;
       this.removeAnimations();
     };
+
+    speech.initTTS();
   }
 
   removeAnimations() {
@@ -276,7 +301,8 @@ export class LGVoice extends HTMLElement {
     }
   }
 
-  // Function for OpenCage API
+  // Fetches coordinates from OpenCage API based on the provided location query
+  // Returns an object with latitude and longitude, or null if not found
   async getCoordinatesFromLocation(locationQuery, openCageApiKey) {
     if (!locationQuery || locationQuery.trim() === "") {
         return null;
@@ -293,6 +319,7 @@ export class LGVoice extends HTMLElement {
         }
 
         const data = await response.json();
+
         if (data.results && data.results.length > 0) {
             const firstResult = data.results[0].geometry;
             return { lat: firstResult.lat, lng: firstResult.lng };
@@ -305,7 +332,7 @@ export class LGVoice extends HTMLElement {
     }
   }
 
-  // Main query processing method
+  // Processes the user's query, interacts with Google Gemini API, and handles Liquid Galaxy mapping
   async processQuery(query) {
     const storyEl = this.shadowRoot.getElementById("story");
     const soundPlayer = this.shadowRoot.getElementById("soundPlayer");
@@ -324,11 +351,10 @@ export class LGVoice extends HTMLElement {
             this.removeAnimations();
             return;
         }
-
+//Gemini API endpoint and model integration
         const MODEL_NAME = "models/gemini-1.5-flash-latest";
         const GOOGLE_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/${MODEL_NAME}:generateContent?key=${googleGeminiApiKey}`;
 
-        // FIRST CALL TO GEMINI : To get the story response
         this.showToast("Getting response from Google Gemini...");
         let geminiTextResponse = "";
         try {
@@ -338,11 +364,11 @@ export class LGVoice extends HTMLElement {
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: query, 
+                            text: query,
                         }],
                     }],
                     generationConfig: {
-                        temperature: 0.7, 
+                        temperature: 0.7,
                         maxOutputTokens: 250,
                         topP: 0.9,
                         topK: 40,
@@ -364,8 +390,13 @@ export class LGVoice extends HTMLElement {
                 this.removeAnimations();
                 return;
             }
-            storyEl.textContent = geminiTextResponse; 
+            storyEl.textContent = geminiTextResponse;
             console.log("Google Gemini full response:", geminiTextResponse);
+
+            this.showToast("Narrating story...");
+            speech.speak(geminiTextResponse, () => {
+                this.showToast("Story narration finished.");
+            });
 
         } catch (error) {
             console.error("Error from Google Gemini Answer API call:", error);
@@ -374,8 +405,6 @@ export class LGVoice extends HTMLElement {
             return;
         }
 
-
-        //SECOND CALL TO GEMINI: For extracting the location 
         this.showToast("Extracting location for Liquid Galaxy...");
         let identifiedLocation = "";
         try {
@@ -385,12 +414,26 @@ export class LGVoice extends HTMLElement {
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `Identify the main geographical location mentioned in this query: "${query}". Respond with only the place name, and nothing else. If no clear location, respond with "N/A".`,
+                          text: `
+                                Based on the question and the AI's story, extract only the most specific and relevant 
+                                geographic location (like a city, coastline, island, landmark, or rainforest).
+
+                                Question: "${query}"
+
+                                AI's Answer: """${geminiTextResponse}"""
+
+                                Examples:
+                                - "How has Mumbai's coastline changed in 50 years?" → "Mumbai"
+                                - "Where is the Eiffel Tower?" → "Eiffel Tower, Paris"
+                                - If no valid location, return "N/A".
+
+                                Return just the location name — no extra words.
+                                `
                         }],
                     }],
                     generationConfig: {
-                        temperature: 0.1, 
-                        maxOutputTokens: 50, 
+                        temperature: 0.1,
+                        maxOutputTokens: 50,
                         topP: 0.9,
                         topK: 40,
                     },
@@ -413,74 +456,126 @@ export class LGVoice extends HTMLElement {
             } else {
                 console.log("Identified Location from Gemini for mapping:", identifiedLocation);
 
-                //OpenCage API Integration
                 this.showToast(`Getting coordinates for: ${identifiedLocation}...`);
                 const coordinates = await this.getCoordinatesFromLocation(identifiedLocation, openCageApiKey);
 
                 if (coordinates) {
-                    this.showToast(`Found coordinates: Lat ${coordinates.lat}, Lng ${coordinates.lng}. Got the Coordinates!`);
-                    console.log(`Found coordinates: Lat ${coordinates.lat}, Lng ${coordinates.lng}`);
+                  this.showToast(`Found coordinates: Lat ${coordinates.lat}, Lng ${coordinates.lng}. Got the Coordinates!`);
+                  console.log(`Found coordinates: Lat ${coordinates.lat}, Lng ${coordinates.lng}`);
 
-                    // --- Generate the KML content ---
-                    const kmlContent = this.generateKmlContent(coordinates.lat, coordinates.lng, identifiedLocation);
-                    console.log("Generated KML:", kmlContent);
+                  try {
+                      await flytoview(coordinates.lat, coordinates.lng, 10);
+                      this.showToast("Liquid Galaxy flying to the location!");
+                  } catch (flyError) {
+                      console.error("Error flying to view:", flyError);
+                      this.showToast(`Error flying to LG: ${flyError.message}.`);
+                  }
 
-                    //Sending KML to Liquid Galaxy
-                    //await this.sendKmlToLiquidGalaxy(kmlContent);
-                    //this.showToast("KML sent to Liquid Galaxy successfully!");
+                  const kmlContent = this.generateKmlContent(coordinates.lat, coordinates.lng, identifiedLocation);
+                  console.log("Generated KML for placemark:", kmlContent);
+
+                  await this.sendKmlToLiquidGalaxy(kmlContent);
 
                 } else {
                     this.showToast(`Could not find coordinates for "${identifiedLocation}". Displaying general response.`);
                 }
             }
-
-
         } catch (error) {
             console.error("Error from Google Gemini Location API call or mapping process:", error);
             this.showToast(`Error processing location for LG: ${error.message}.`);
         } finally {
-            this.removeAnimations(); 
+            this.removeAnimations();
         }
-
     } catch (error) {
         console.error("Error in main process (overall query handling):", error);
         this.showToast(`An unexpected error occurred: ${error.message}.`);
         this.removeAnimations();
     }
   }
+// Generates KML content for the identified location
+// Uses the provided latitude, longitude, and name for the placemark
 
-  //KML Generation
   generateKmlContent(latitude, longitude, name) {
     return `<?xml version="1.0" encoding="UTF-8"?>
-  <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
-  <Document>
-    <name>${name || 'Generated Location'}</name>
-    <LookAt>
+  <kml xmlns="http://www.opengis.net/kml/2.2">
+    <Document>
+      <name>${name || 'Identified Location'}</name>
+      <Camera>
         <longitude>${longitude}</longitude>
         <latitude>${latitude}</latitude>
-        <altitude>10000</altitude>
-        <range>15000</range>
-        <tilt>45</tilt>
+        <altitude>5000</altitude>
         <heading>0</heading>
-        <gx:altitudemode>relativeToGround</gx:altitudemode>
-    </LookAt>
-    <Placemark>
-      <name>${name || 'Identified Location'}</name>
-      <Point>
-        <coordinates>${longitude},${latitude},0</coordinates>
-      </Point>
-    </Placemark>
-  </Document>
+        <tilt>45</tilt>
+        <roll>0</roll>
+        <altitudeMode>relativeToGround</altitudeMode>
+      </Camera>
+      <Placemark>
+        <name>${name || 'Identified Location'}</name>
+        <Point>
+          <coordinates>${longitude},${latitude},0</coordinates>
+        </Point>
+        <Style>
+          <IconStyle>
+            <scale>1.5</scale>
+            <Icon>
+              <href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href>
+            </Icon>
+          </IconStyle>
+        </Style>
+      </Placemark>
+    </Document>
   </kml>`;
   }
 
-  //Sending KML to Liquid Galaxy
+// Sends the generated KML content to Liquid Galaxy for display
   async sendKmlToLiquidGalaxy(kmlContent) {
-    console.log("KML content prepared for LG. Please integrate your LG client code here.");
-    //rest of code to be written 
+    try {
+        const configs = JSON.parse(localStorage.getItem("lgconfigs"));
+
+        if (!configs || !configs.server || !configs.username || !configs.ip || !configs.port || !configs.password) {
+            this.showToast("Liquid Galaxy connection settings are incomplete. Please check settings.");
+            console.error("LG configuration missing for KML sending.");
+            return;
+        }
+
+        const { server, username, ip, port, password } = configs;
+
+        const ENDPOINT = "/api/lg-connection/send-kml";
+        const targetFilename = "slave_kml.kml";
+
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("ip", ip);
+        formData.append("port", port);
+        formData.append("password", password);
+        formData.append("filename", targetFilename);
+
+        const kmlFileBlob = new Blob([kmlContent], { type: "application/vnd.google-earth.kml+xml" });
+
+        formData.append("file", kmlFileBlob, targetFilename);
+
+        this.showToast("Sending KML Placemark to Liquid Galaxy...");
+
+        const response = await fetch(server + ENDPOINT, {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log("KML Placemark sent successfully:", result.message, result.data);
+            this.showToast("KML Placemark displayed on Liquid Galaxy!");
+        } else {
+            console.error("Error sending KML Placemark:", result.message, result.stack);
+            this.showToast(`Failed to display KML: ${result.message || 'Unknown error'}`);
+        }
+    } catch (error) {
+        console.error("Unexpected Error during KML Placemark sending:", error);
+        this.showToast(`An unexpected error occurred while sending KML: ${error.message}`);
+    }
   }
 
-  //Keyword Extraction Method
   extractKeywords(text) {
     const keywords = ["ocean", "sea", "river", "lake", "wave", "storm", "tsunami", "coast", "island", "flood", "beach",
                       "forest", "mountain", "city", "jungle", "desert", "rain", "wind", "thunder", "bird", "animal", "music", "ambience", "nature", "urban", "waterfall", "desert", "crowd", "street"];
@@ -492,3 +587,5 @@ export class LGVoice extends HTMLElement {
     return null;
   }
 }
+
+customElements.define("lg-voice", LGVoice); 
