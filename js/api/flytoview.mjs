@@ -1,17 +1,43 @@
 const ENDPOINT = "/api/lg-connection/flyto";
-
 export const flytoview = async (
   latitude,
   longitude,
-  zoom,
+  zoom = 4,
   tilt = 41.82725143432617,
   bearing = 61.403038024902344
 ) => {
   try {
     const configs = JSON.parse(localStorage.getItem("lgconfigs"));
-    const { server, username, ip, port, password, screens } = configs;
 
-    const elevation = 591657550.5 / Math.pow(2, zoom) / screens;
+    if (!configs || !configs.server || !configs.username || !configs.ip || !configs.port || !configs.password) {
+      console.error("Missing Liquid Galaxy configuration in localStorage.");
+      return;
+    }
+
+    const { server, username, ip, port, password, screens = 3 } = configs;
+
+    
+    const safeElevation = (zoom) => {
+      const levels = {
+        4: 3000000,
+        5: 1500000,
+        6: 800000,
+        7: 400000,
+        8: 200000,
+        9: 100000,
+        10: 50000,
+        11: 30000,
+        12: 15000,
+        13: 10000,
+        14: 5000,
+        15: 3000
+      };
+      return levels[zoom] || 100000;
+    };
+    
+    const elevation = safeElevation(zoom);
+    
+    console.log("[flytoview] Params:", { latitude, longitude, zoom, tilt, bearing, elevation });
 
     const response = await fetch(server + ENDPOINT, {
       method: "POST",
@@ -34,11 +60,13 @@ export const flytoview = async (
     const result = await response.json();
 
     if (response.ok) {
-      console.log("Success:", result.message, result.data);
+      console.log("FlyTo Success:", result.message, result.data);
     } else {
-      console.error("Error:", result.message, result.stack);
+      console.error("FlyTo Error:", result.message, result.stack);
     }
   } catch (error) {
-    console.error("Unexpected Error:", error);
+    console.error("FlyTo Unexpected Error:", error);
   }
 };
+
+window.flytoview = flytoview; 

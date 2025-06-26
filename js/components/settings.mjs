@@ -1,6 +1,7 @@
 import { checkConnection } from "../api/checkconnection.mjs";
 import { connecttolg } from "../api/connect.mjs";
 import { showlogo } from "../api/logo.mjs";
+import { ApiKeysForm } from "./saveapikeys.mjs";
 
 import QrScanner from "../utils/qrscanner.js";
 
@@ -14,48 +15,25 @@ export class Settings extends HTMLElement {
 
     container.innerHTML = `
         <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
-        
-        <form>
-            <md-outlined-text-field id="gemmaApiKey" required label="Gemma API Key" value="" type="password">
-            <md-icon-button id="toggle-gemma" aria-label="toggle gemma visibility" toggle slot="trailing-icon" type="button">
-              <md-icon>visibility</md-icon>
-              <md-icon slot="selected">visibility_off</md-icon>
-            </md-icon-button>
-          </md-outlined-text-field>
-
-          <md-outlined-text-field id="openCageApiKey" required label="OpenCage API Key" value="" type="password">
-            <md-icon-button id="toggle-opencage" aria-label="toggle openCage visibility" toggle slot="trailing-icon" type="button">
-              <md-icon>visibility</md-icon>
-              <md-icon slot="selected">visibility_off</md-icon>
-            </md-icon-button>
-          </md-outlined-text-field>
-
-          <md-outlined-text-field id="freesoundApiKey" required label="Freesound API Key" value="" type="password">
-            <md-icon-button id="toggle-freesound" aria-label="toggle freesound visibility" toggle slot="trailing-icon" type="button">
-              <md-icon>visibility</md-icon>
-              <md-icon slot="selected">visibility_off</md-icon>
-            </md-icon-button>
-          </md-outlined-text-field>
-            <md-filled-button id="saveApiKeysButton">Save API Keys</md-filled-button>
-        </form>  
-        <form>
-            <md-filled-button id="scan-qr">Scan QR to Connect to LG</md-filled-button>
+        <api-keys-form></api-keys-form>
+          
+            <md-filled-tonal-button id="scan-qr">Scan QR to Connect to LG</md-filled-tonal-button>
             <p class="divider"><span>OR<span><p>
-        </form>
-        <form>
-            <md-outlined-text-field id="server" required label="Server Address" value=""></md-outlined-text-field>
-            <md-outlined-text-field id="username" required label="Username" value=""></md-outlined-text-field>
-            <md-outlined-text-field id="ip" required label="IP Address" value=""></md-outlined-text-field>
-            <md-outlined-text-field id="port" required label="Port Number" value="" type="number" no-spinner></md-outlined-text-field>
-            <md-outlined-text-field id="password" required label="Password" value="" type="password">
-            <md-icon-button id="toggle" aria-label="toggle password" toggle slot="trailing-icon" type="button">
+        
+          <form class="connect">
+            <md-filled-text-field id="server" required label="Server Address" value=""></md-filled-text-field>
+            <md-filled-text-field id="username" required label="Username" value=""></md-filled-text-field>
+            <md-filled-text-field id="ip" required label="IP Address" value=""></md-filled-text-field>
+            <md-filled-text-field id="port" required label="Port Number" value="" type="number" no-spinner></md-filled-text-field>
+            <md-filled-text-field id="password" required label="Password" value="" type="password">
+            <md-icon-button id="toggle-password" aria-label="toggle password visibility" toggle slot="trailing-icon" type="button">
               <md-icon>visibility</md-icon>
               <md-icon slot="selected">visibility_off</md-icon>
             </md-icon-button>
-            </md-outlined-text-field>
-            <md-outlined-text-field id="screens" label="Number of Screens" value="" type="number" no-spinner></md-outlined-text-field>
-            <md-filled-button type="submit">Connect to LG</md-filled-button>
-        </form>
+            </md-filled-text-field>
+              <md-filled-text-field id="screens" label="Number of Screens" value="" type="number" no-spinner></md-filled-text-field>
+              <md-filled-button type="submit">Connect to LG</md-filled-button>
+          </form>
         <video hidden></video>
         <div class="icon-button">
             <md-filled-tonal-icon-button>
@@ -121,6 +99,11 @@ export class Settings extends HTMLElement {
                 inline-size: 100%;
                 margin-block: 10px;
             }
+            md-filled-tonal-button{
+            inline-size: 100%;
+            margin-block: 10px;
+            }
+            
             .icon-button {
                 position: fixed;
                 display: none;
@@ -176,10 +159,15 @@ export class Settings extends HTMLElement {
 
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(container);
+    const apiKeyComponent = this.shadowRoot.querySelector("api-keys-form");
+    apiKeyComponent.addEventListener("toast", (e) => {
+      this.showToast(e.detail);
+    });
+
 
     this.loadConfig();
 
-    this.shadowRoot.querySelector("form").addEventListener("submit", (e) => {
+    this.shadowRoot.querySelector("form.connect").addEventListener("submit", (e) => {
       e.preventDefault();
       this.saveConfig();
     });
@@ -196,19 +184,12 @@ export class Settings extends HTMLElement {
         const btn = this.shadowRoot.getElementById(btnId);
         if (btn) {
           btn.addEventListener("click", () => {
-            const field = btn.closest("md-outlined-text-field");
+            const field = btn.closest("md-filled-text-field");
             const input = field.shadowRoot.querySelector("input");
             input.type = input.type === "text" ? "password" : "text";
           });
         }
       });
-
-      this.shadowRoot
-      .getElementById("saveApiKeysButton") 
-      .addEventListener("click", () => {
-        this.saveApiKeys(); 
-      });
-
 
     this.shadowRoot
       .getElementById("scan-qr")
@@ -242,26 +223,7 @@ export class Settings extends HTMLElement {
       icon.textContent = "close";
     }
   }
-
-  saveApiKeys() {
-    const gemmaKey = this.shadowRoot.getElementById("gemmaApiKey").value;
-    const openCageKey = this.shadowRoot.getElementById("openCageApiKey").value;
-    const freesoundKey = this.shadowRoot.getElementById("freesoundApiKey").value;
-
-    if (gemmaKey.trim() === "" || openCageKey.trim() === "" || freesoundKey.trim() === "") {
-      this.showToast("Please fill in all API key fields!");
-      return; 
-    }
-
-    localStorage.setItem("gemmaApiKey", gemmaKey);
-    localStorage.setItem("openCageApiKey", openCageKey);
-    localStorage.setItem("freesoundApiKey", freesoundKey);
-    
-    this.showToast("API Keys saved successfully!");
-  }
-
-  async saveConfig() {
-    this.saveApiKeys(); 
+  async saveConfig() { 
     const server = this.shadowRoot.getElementById("server").value;
     const username = this.shadowRoot.getElementById("username").value;
     const ip = this.shadowRoot.getElementById("ip").value;
@@ -308,13 +270,6 @@ export class Settings extends HTMLElement {
       this.shadowRoot.getElementById("password").value = config.password || "";
       this.shadowRoot.getElementById("screens").value = config.screens || "";
       this.shadowRoot.getElementById("server").value = config?.server || "";
-
-      this.shadowRoot.getElementById("gemmaApiKey").value =
-        localStorage.getItem("gemmaApiKey") || "";
-      this.shadowRoot.getElementById("openCageApiKey").value =
-        localStorage.getItem("openCageApiKey") || "";
-      this.shadowRoot.getElementById("freesoundApiKey").value =
-        localStorage.getItem("freesoundApiKey") || "";
     }
   }
 

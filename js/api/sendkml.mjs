@@ -1,5 +1,5 @@
 const ENDPOINT = "/api/lg-connection/send-kml";
-const filename = "Fire";
+const filename = "slave_kml.kml"; 
 
 const getKML = async () => {
   const res = await fetch(
@@ -22,11 +22,10 @@ export const sendkml = async () => {
 
     const kml = await getKML();
 
-    const kmlContent = kml;
-    const kmlFileAsTxt = new File([kmlContent], "Fire.txt", {
-      type: "text/plain",
+    const kmlFile = new File([kml], filename, {
+      type: "application/vnd.google-earth.kml+xml",
     });
-    formData.append("file", kmlFileAsTxt);
+    formData.append("file", kmlFile);
 
     const response = await fetch(server + ENDPOINT, {
       method: "POST",
@@ -36,11 +35,11 @@ export const sendkml = async () => {
     const result = await response.json();
 
     if (response.ok) {
-      console.log("Success:", result.message, result.data);
+      console.log("KML sent successfully:", result.message, result.data);
     } else {
-      console.error("Error:", result.message, result.stack);
+      console.error("Error sending KML:", result.message, result.stack);
     }
   } catch (error) {
-    console.error("Unexpected Error:", error);
+    console.error("Unexpected Error in sendkml:", error);
   }
 };
