@@ -38,7 +38,9 @@ export const showballoon = async () => {
   try {
     const configs = JSON.parse(localStorage.getItem("lgconfigs"));
     const { server, username, ip, port, password, screens } = configs;
-    kml = await getBalloonKML();
+    
+    const kml = await getBalloonKML();  // Get the KML
+
     const response = await fetch(server + ENDPOINT_SHOW_BALLOON, {
       method: "POST",
       headers: {
