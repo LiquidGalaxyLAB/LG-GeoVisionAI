@@ -88,13 +88,19 @@
       });
     }
 
-    // Initial display setup
+    // Initial state
     showSection('home');
 
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
         const tabName = tab.dataset.tab;
-        showSection(tabName);
+        setTimeout(() => {
+          showSection(tabName);
+        }, 10);
       });
     });
   </script>
