@@ -4,6 +4,7 @@ import { cleanballoon } from "../api/balloon.mjs";
 import { reboot } from "../api/reboot.mjs";
 import { relaunch } from "../api/relaunch.mjs";
 import { shutdown } from "../api/shutdown.mjs";
+import { showLogoOnly } from "../api/showlogo.mjs";
 
 export class LGtools extends HTMLElement {
   constructor() {
@@ -16,6 +17,7 @@ export class LGtools extends HTMLElement {
     container.innerHTML = `
       <div class="button-wrapper">
           <md-filled-tonal-button data-action="clean-logo"> Clean Logo </md-filled-tonal-button>
+          <md-filled-tonal-button data-action="show-logo"> Show Logo </md-filled-tonal-button>
           <md-filled-tonal-button data-action="clean-kml"> Clean KML </md-filled-tonal-button>
           <md-filled-tonal-button data-action="relaunch-lg"> Relaunch LG </md-filled-tonal-button>
           <md-filled-tonal-button data-action="reboot-lg"> Reboot LG </md-filled-tonal-button>
@@ -67,6 +69,9 @@ export class LGtools extends HTMLElement {
           md-filled-tonal-button:nth-of-type(5) {
               filter: hue-rotate(135deg) contrast(1.2);
           }
+          md-filled-tonal-button:nth-of-type(6) {
+              filter: hue-rotate(100deg) contrast(1.2);
+          }
         `;
 
     this.shadowRoot.appendChild(style);
@@ -88,6 +93,9 @@ export class LGtools extends HTMLElement {
     switch (action) {
       case "clean-logo":
         cleanlogo();
+        break;
+      case "show-logo":
+        showLogoOnly();
         break;
       case "clean-kml":
         cleankml();
