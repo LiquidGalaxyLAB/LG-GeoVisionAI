@@ -562,7 +562,6 @@ export class LGVoice extends HTMLElement {
       .replace(/"/g, "&quot;");
   }
   
-  // Generates KML content for the identified location
   generateBalloonKml(coordinates, name, geminiTextResponse) {
     const fallbackImage = "https://anishka2006.github.io/lg-geovisionai/high-detail-political-map-of-the-world-blue-and-white-vector.jpg";
     const safeText = this.sanitizeForKML(geminiTextResponse); 
@@ -578,7 +577,6 @@ export class LGVoice extends HTMLElement {
             <Icon>
               <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
             </Icon>
-
           </IconStyle>
           <BalloonStyle>
             <text>$[description]</text>
@@ -589,12 +587,30 @@ export class LGVoice extends HTMLElement {
         <Placemark>
           <name>${name}</name>
           <description><![CDATA[
-            <div style="text-align:center; font-size:16px;">
-              <h2 style="font-size:20px;"><b>${name}</b></h2>
-              <img src="${fallbackImage}" alt="Map" width="300" height="200" />
-              <div style="max-height:200px; overflow:auto; text-align:left; margin-top:10px; padding:5px; font-size:16px; border-top:1px solid #ccc;">
+            <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
+              <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">${name}</h2>
+              <img src="${fallbackImage}" alt="Map" width="460" height="280" style="margin-bottom:15px;" />
+              
+              <div style="font-size:18px; color:#000; margin-bottom:10px;">
+                <b>Latitude:</b> ${coordinates.lat} &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> ${coordinates.lng}
+              </div>
+  
+              <div style="max-height:300px; overflow-y:scroll; text-align:left; margin-top:10px; padding:10px; font-size:22px; line-height:1.5; border-top:2px solid #333; color:#111; scrollbar-width:auto; scrollbar-color:#888 #f1f1f1;">
                 ${safeText}
               </div>
+  
+              <style>
+                ::-webkit-scrollbar {
+                  width: 10px;
+                }
+                ::-webkit-scrollbar-thumb {
+                  background-color: #888;
+                  border-radius: 5px;
+                }
+                ::-webkit-scrollbar-track {
+                  background-color: #f1f1f1;
+                }
+              </style>
             </div>
           ]]></description>
           <styleUrl>#custom_pin</styleUrl>
@@ -607,7 +623,8 @@ export class LGVoice extends HTMLElement {
     </kml>`;
   }
   
-
+  
+  
   // Sends the dynamically generated Balloon KML to Liquid Galaxy
   async sendBalloonToLG(kmlContent) {
     try {
