@@ -71,7 +71,7 @@ export class Home extends HTMLElement {
         <div>
             <img class="animate" src="/assets/2.webp" alt="My Logo" width="350" height="350">
             <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
-            <md-elevated-button>Send KML</md-elevated-button>
+            <md-elevated-button>Have a Question?</md-elevated-button>
         </div>
         `;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -99,12 +99,17 @@ export class Home extends HTMLElement {
 
   connectedCallback() {
     const button = this.shadowRoot.querySelector("md-elevated-button");
-    button.addEventListener("click", async () => {
-      await flytoview(34.07022, -118.54453, 10);
-      await sendkml();
-      await showballoon();
+  
+    button.addEventListener("click", () => {
+      const geminiTab = document.querySelector('md-primary-tab[data-tab="voice"]');
+      if (geminiTab) {
+        geminiTab.click(); 
+      } else {
+        console.error("Gemini tab not found");
+      }
     });
   }
+  
 
   async checkConnectionStatus() {
     const chip = this.shadowRoot.querySelector("md-assist-chip");

@@ -293,7 +293,7 @@ export class LGVoice extends HTMLElement {
       console.log("Starting orbit at:" ,lat,lng);
       try {
         await startOrbit(lat, lng, 10);
-        this.showToast("Orbit started!");
+        this.showToast(`Orbit started at ${lat}, ${lng}.`);
       } catch (error) {
         console.error("Start Orbit Error:", error);
         this.showToast("Failed to start orbit.");
@@ -516,13 +516,15 @@ export class LGVoice extends HTMLElement {
       }
   
       if (coordinates) {
+        this.lastCoordinates = coordinates; // Store the last coordinates for orbit functionality
+        this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
         await flytoview(coordinates.lat, coordinates.lng, 10);
         imageUrl = await this.generateImageUrlFromText(geminiTextResponse);
   
         const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse);
         await this.sendBalloonToLG(balloonKml);
-        this.lastCoordinates = coordinates;
+        
         await flytoview(coordinates.lat, coordinates.lng, 2); // forces the balloon to appear
       } else {
         this.showToast(`No coordinates found for "${identifiedLocation}".`);

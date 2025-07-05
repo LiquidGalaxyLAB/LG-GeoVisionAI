@@ -21,7 +21,7 @@ const kml = `<?xml version="1.0" encoding="UTF-8"?>
       <ScreenOverlay id="abc">
         <name>LG Web</name>
         <Icon>
-          <href>https://anishka2006.github.io/lg-geovisionai/logo_GeoVisionAI.jpg</href>
+          <href>https://anishka2006.github.io/lg-geovisionai/logo.jpg</href>
         </Icon>
         <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
         <screenXY x="0" y="0.98" xunits="fraction" yunits="fraction"/>
