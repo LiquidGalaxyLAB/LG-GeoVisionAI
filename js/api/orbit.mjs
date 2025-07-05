@@ -8,6 +8,7 @@ export const startOrbit = async (
   tilt = 0,
   bearing = 0
 ) => {
+  console.log(`Starting orbit at ${latitude}, ${longitude} with altitude ${zoom}`);
   try {
     const configs = JSON.parse(localStorage.getItem("lgconfigs"));
     const { server, username, ip, port, password, screens } = configs;
