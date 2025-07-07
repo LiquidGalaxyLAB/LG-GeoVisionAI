@@ -414,9 +414,11 @@ export class LGVoice extends HTMLElement {
       geminiTextResponse = `You're now viewing ${identifiedLocation}.`;
       storyEl.textContent = geminiTextResponse;
       this.showToast(`Detected direct location command: "${identifiedLocation}"`);
-      speech.speak(geminiTextResponse, () => {
-        this.showToast("Story narration finished.");
-      });
+      setTimeout(() => {
+        speech.speak(geminiTextResponse, () => {
+          this.showToast("Story narration finished.");
+        });
+      }, 150);
     } else {
       //Gemini API call
       const MODEL_NAME = "models/gemini-1.5-flash-latest";
@@ -449,9 +451,12 @@ export class LGVoice extends HTMLElement {
   
         storyEl.textContent = geminiTextResponse;
         this.showToast("Narrating story...");
-        speech.speak(geminiTextResponse, () => {
-          this.showToast("Story narration finished.");
-        });
+        setTimeout(() => {
+          speech.speak(geminiTextResponse, () => {
+            this.showToast("Story narration finished.");
+          });
+        }, 150);
+        
   
         //Function to ask Gemini to extract the location from the response
         const geminiLocationRes = await fetch(GOOGLE_API_ENDPOINT, {
@@ -516,13 +521,13 @@ export class LGVoice extends HTMLElement {
       }
   
       if (coordinates) {
-        this.lastCoordinates = coordinates; // Store the last coordinates for orbit functionality
+        this.lastCoordinates = coordinates; // store the last coordinates for orbit functionality
         this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
         await flytoview(coordinates.lat, coordinates.lng, 10);
-        imageUrl = await this.generateImageUrlFromText(geminiTextResponse);
+        imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
   
-        const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse);
+        const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
         await this.sendBalloonToLG(balloonKml);
         
         await flytoview(coordinates.lat, coordinates.lng, 2); // forces the balloon to appear
@@ -539,20 +544,37 @@ export class LGVoice extends HTMLElement {
   
 
   //function for generating image dynamically, kept on hold for now
-  async generateImageUrlFromText(text) {
-    const cleaned = text
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-      .split(" ")
-      .slice(0, 50)
-      .join(" ");
+  async generateImageUrlFromText(text, locationHint = "") {
+    const baseUrl = "https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/";
   
-    const config = {
-      type: "wordcloud",
-      data: { text: cleaned }
+    const keywordMap = {
+      "ocean": "ocean.jpg",
+      "mountain": "mountains.jpg",
+      "forest": "forest.jpeg",
+      "desert": "desert.jpg",
+      "volcano": "volcano.jpg",
+      "island": "island.jpg",
+      "tokyo": "tokyo.jpg",
+      "paris": "paris.jpg",
+      "new delhi": "delhi.jpg",
+      "usa": "usa.jpg",
+      "washington dc": "usa.jpg",
+      "washington d c": "usa.jpg",
+      "india": "delhi.jpg",
+      "mumbai": "mumbai.jpg",
     };
   
-    const encoded = encodeURIComponent(JSON.stringify(config));
-    return `https://quickchart.io/chart?c=${encoded}&encoding=base64`;
+    //normalizing input by removing punctuation and extra spaces
+    const lower = text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s+/g, " ");
+  
+    for (const key in keywordMap) {
+      if (lower.includes(key)) {
+        return `${baseUrl}${keywordMap[key]}`;
+      }
+    }
+  
+    // Fallback
+    return `${baseUrl}high-detail-political-map-of-the-world-blue-and-white-vector.jpg`;
   }
   
   // sanitize special characters that can/may break the KML rendering
@@ -564,9 +586,9 @@ export class LGVoice extends HTMLElement {
       .replace(/"/g, "&quot;");
   }
   
-  generateBalloonKml(coordinates, name, geminiTextResponse) {
-    const fallbackImage = "https://anishka2006.github.io/lg-geovisionai/high-detail-political-map-of-the-world-blue-and-white-vector.jpg";
-    const safeText = this.sanitizeForKML(geminiTextResponse); 
+  generateBalloonKml(coordinates, name, geminiTextResponse, imageUrl) {
+    const selectedImage = imageUrl;
+    const safeText = this.sanitizeForKML(geminiTextResponse);
   
     return `<?xml version="1.0" encoding="UTF-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2"
@@ -589,30 +611,17 @@ export class LGVoice extends HTMLElement {
         <Placemark>
           <name>${name}</name>
           <description><![CDATA[
-            <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
+            <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px; overflow-y:auto;">
               <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">${name}</h2>
-              <img src="${fallbackImage}" alt="Map" width="460" height="280" style="margin-bottom:15px;" />
-              
+              <img src="${selectedImage}" alt="Map" width="460" height="280" style="margin-bottom:15px;" />
+  
               <div style="font-size:18px; color:#000; margin-bottom:10px;">
                 <b>Latitude:</b> ${coordinates.lat} &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> ${coordinates.lng}
               </div>
   
-              <div style="max-height:300px; overflow-y:scroll; text-align:left; margin-top:10px; padding:10px; font-size:22px; line-height:1.5; border-top:2px solid #333; color:#111; scrollbar-width:auto; scrollbar-color:#888 #f1f1f1;">
+              <div style="text-align:left; margin-top:10px; padding:10px; font-size:22px; line-height:1.5; border-top:2px solid #333; color:#111;">
                 ${safeText}
               </div>
-  
-              <style>
-                ::-webkit-scrollbar {
-                  width: 10px;
-                }
-                ::-webkit-scrollbar-thumb {
-                  background-color: #888;
-                  border-radius: 5px;
-                }
-                ::-webkit-scrollbar-track {
-                  background-color: #f1f1f1;
-                }
-              </style>
             </div>
           ]]></description>
           <styleUrl>#custom_pin</styleUrl>
@@ -624,7 +633,6 @@ export class LGVoice extends HTMLElement {
       </Document>
     </kml>`;
   }
-  
   
   
   // Sends the dynamically generated Balloon KML to Liquid Galaxy

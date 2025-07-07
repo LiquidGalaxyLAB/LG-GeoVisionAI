@@ -10,10 +10,12 @@ import { startOrbit, stopOrbit } from "../api/orbit.mjs";
 export const speech = {
   _synth: null,
   _utterance: null,
+  lastCoordinates: null,
 
   initTTS() {
     if ('speechSynthesis' in window) {
       this._synth = window.speechSynthesis;
+      console.log("SpeechSynthesis initialized.");
     } else {
       console.warn("SpeechSynthesis API not supported in this browser. AI narration will not work.");
     }
@@ -26,28 +28,39 @@ export const speech = {
       return;
     }
 
-    this.stop();
-
-    this._utterance = new SpeechSynthesisUtterance(text);
-
-    this._utterance.lang = 'en-US';
-    this._utterance.pitch = 1;
-    this._utterance.rate = 1;
-
-    this._utterance.onend = () => {
+    if (!text || typeof text !== "string") {
+      console.error("No valid text provided to speak:", text);
       onEndCallback();
-    };
+      return;
+    }
 
-    this._utterance.onerror = (event) => {
-      console.error("SpeechSynthesisUtterance error:", event);
-      onEndCallback();
-    };
+    // Delay to ensure cancellation completes before new utterance
+    setTimeout(() => {
+      this.stop(); // cancel anything currently speaking
 
-    this._synth.speak(this._utterance);
+      this._utterance = new SpeechSynthesisUtterance(text);
+      this._utterance.lang = 'en-US';
+      this._utterance.pitch = 1;
+      this._utterance.rate = 1;
+
+      this._utterance.onend = () => {
+        console.log("Speech ended.");
+        onEndCallback();
+      };
+
+      this._utterance.onerror = (event) => {
+        console.error("SpeechSynthesisUtterance error:", event);
+        onEndCallback();
+      };
+
+      console.log("Speaking:", text);
+      this._synth.speak(this._utterance);
+    }, 50);
   },
 
   stop() {
     if (this._synth && this._synth.speaking) {
+      console.log("Stopping current speech...");
       this._synth.cancel();
     }
   },
@@ -97,7 +110,13 @@ export const speech = {
         await stopOrbit();
         break;
       case lowerCaseWords.includes("orbit") || lowerCaseWords.includes("spin"):
-        await startOrbit(34.07022, -118.54453, 10);
+        if (this.lastCoordinates) {
+          const { lat, lng } = this.lastCoordinates; 
+          console.log(`Starting orbit with coordinates: ${lat}, ${lng}`);
+          await startOrbit(lat, lng, 10);
+        } else {
+          console.error("No coordinates available for orbit.");
+        }
         break;
       default:
         break;
