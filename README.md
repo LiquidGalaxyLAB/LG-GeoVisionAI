@@ -49,6 +49,7 @@
 ## Project by
 
 * **Developer**: [Anishka](https://github.com/anishka2006)
+* **Mentors**: Andreu Ibanez, Claudia, Yash Raj, VictorSB, Rosemarie Garcia and Lopez
 * **Organization**: Liquid Galaxy Project, Google Summer of Code 2025
 
 ---
