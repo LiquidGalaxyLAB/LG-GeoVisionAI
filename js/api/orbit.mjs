@@ -1,3 +1,5 @@
+import { cleankml } from "./cleankml.mjs";
+import { sendkml } from "./sendkml.mjs";
 const ENDPOINT_START_ORBIT = "/api/lg-connection/execute-orbit";
 const ENDPOINT_STOP_ORBIT = "/api/lg-connection/stop-orbit";
 
@@ -14,6 +16,9 @@ export const startOrbit = async (
     const { server, username, ip, port, password, screens } = configs;
 
     const elevation = 591657550.5 / Math.pow(2, zoom) / screens;
+
+    await cleankml();
+    sendkml("playtour=Orbit");
 
     const response = await fetch(server + ENDPOINT_START_ORBIT, {
       method: "POST",
