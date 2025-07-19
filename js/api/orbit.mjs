@@ -14,6 +14,7 @@ export const startOrbit = async (
     const { server, username, ip, port, password, screens } = configs;
 
     const elevation = 591657550.5 / Math.pow(2, zoom) / screens;
+    
 
     const response = await fetch(server + ENDPOINT_START_ORBIT, {
       method: "POST",
