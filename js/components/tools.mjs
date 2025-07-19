@@ -15,6 +15,11 @@ export class LGtools extends HTMLElement {
     container.classList.add("container");
 
     container.innerHTML = `
+      <style>
+        .button-wrapper {
+          padding-bottom: 100px;
+        }
+      </style>
       <div class="button-wrapper">
           <md-filled-tonal-button data-action="clean-logo"> Clean Logo </md-filled-tonal-button>
           <md-filled-tonal-button data-action="show-logo"> Show Logo </md-filled-tonal-button>
