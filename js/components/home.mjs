@@ -54,11 +54,13 @@ export class Home extends HTMLElement {
             }
             div {
                 display: flex;
-                block-size: 100dvh;
+                block-size: 80dvh;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                gap: 25px;
+                gap: 0px;
+                padding-top: 5px;
+                padding-bottom: 0px;
             }
             md-elevated-button {
                 inline-size: 200px;
@@ -67,26 +69,16 @@ export class Home extends HTMLElement {
             md-icon.disconnect {
                 filter: hue-rotate(110deg);
             }
+
             .marquee-container {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              block-size: 50px; /* Adjust height */
-              inline-size: 100%; /* Full width */
-              overflow: hidden;
-              background-color: var(--md-sys-color-surface); /* Optional background for better visibility */
-              border-radius: 8px; /* Rounded corners for a modern look */
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+              margin-bottom: 10px; /* reduce or eliminate spacing below the marquee */
+              margin-top: 5px; /* reduce or eliminate spacing above the marquee */
             }
 
             .marquee {
-              display: inline-block;
-              white-space: nowrap;
-              padding-inline: 20px; 
-              font-size: 18px; 
-              font-weight: 500; 
-              color: var(--md-sys-color-primary);
-              animation: scroll 12s linear infinite; 
+              margin: 0;
+              padding-bottom: 0;
+              padding-top: 0;
             }
 
             @keyframes scroll {
@@ -98,21 +90,16 @@ export class Home extends HTMLElement {
               }
             }
 
-            @media (max-width: 600px) {
-              .marquee {
-                font-size: 16px; 
-                animation: scroll 15s linear infinite; 
-              }
-            }
         </style>
         <div>
             <div class="marquee-container">
-              <p class="marquee">Go to the About section to see more on the sample queries!</p>
+              <p>Go to the About section to see more on the sample queries!</p>
             </div>
             <img class="animate" src="/assets/2.webp" alt="My Logo" width="350" height="350">
             <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
             <md-elevated-button>Have a Question?</md-elevated-button>
         </div>
+
         `;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     const animateAttribute = this.getAttribute("animate");

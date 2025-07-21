@@ -2,6 +2,8 @@ import { speech } from "../utils/speech.mjs";
 import { flytoview } from "../api/flytoview.mjs";
 import { startOrbit } from "../api/orbit.mjs";
 import { stopOrbit } from "../api/orbit.mjs";
+import { showballoon } from "../api/balloon.mjs";
+import { cleanballoon } from "../api/balloon.mjs";
 
 export class LGVoice extends HTMLElement {
   constructor() {
@@ -76,7 +78,7 @@ export class LGVoice extends HTMLElement {
         }
 
         .story {
-          inline-size: 100%;
+          inline-size: 500px;
           block-size: 200px;
           overflow-y: auto;
           word-break: break-word;
@@ -97,7 +99,7 @@ export class LGVoice extends HTMLElement {
 
         .manual-input {
           display: flex;
-          flex-direction: column; /* Keeps text field and button stacked */
+          flex-direction: column; 
           gap: 10px;
           margin-block-start: 10px;
           inline-size: 100%;
@@ -111,7 +113,7 @@ export class LGVoice extends HTMLElement {
         }
 
         .manual-input md-filled-button {
-            width: 100%; /* Make the Ask AI button full width */
+            width: 100%; 
         }
 
         audio {
@@ -211,14 +213,13 @@ export class LGVoice extends HTMLElement {
         <p class="body-medium story" id="story"></p>
 
         <slot name="voice"></slot>
-        <md-filled-button id="toggleNarrationButton">Stop Narration</md-filled-button>
+        <md-filled-tonal-button id="toggleNarrationButton">Stop Narration</md-filled-tonal-button>
         <div class="manual-input">
           <md-filled-text-field
             id="questionInput"
             label="Or type your question here..."
             value="">
           </md-filled-text-field>
-          <md-filled-tonal-button id="toggleNarrationButton">Stop Narration</md-filled-tonal-button>
           <md-filled-button id="submitButton">Ask AI</md-filled-button>
 
           <div class="orbit-buttons">
@@ -295,7 +296,7 @@ export class LGVoice extends HTMLElement {
     
       let { lat, lng } = this.lastCoordinates;
     
-      // ✅ Ensure they are valid numbers
+      // Ensure they are valid numbers
       lat = parseFloat(lat);
       lng = parseFloat(lng);
     
@@ -312,7 +313,7 @@ export class LGVoice extends HTMLElement {
         await stopOrbit();
         await new Promise((resolve) => setTimeout(resolve, 1000));
       
-        console.log("🎯 Orbit command received with:", { lat, lng });
+        console.log("Orbit command received with:", { lat, lng });
       
         // Validate values
         if (
@@ -497,9 +498,9 @@ export class LGVoice extends HTMLElement {
     
         this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
-        console.log("Zoom level for flytoview:", 10);
+        console.log("Zoom level for flytoview:", 15);
     
-        await flytoview(coordinates.lat, coordinates.lng, 10);
+        await flytoview(coordinates.lat, coordinates.lng, 15);
         imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
     
         const balloonKml = this.generateBalloonKml(
@@ -516,7 +517,7 @@ export class LGVoice extends HTMLElement {
         console.log("Balloon KML sent to LG:", balloonKml);
     
         await showballoon(balloonKml);
-        await flytoview(coordinates.lat, coordinates.lng, 10); // forces the balloon to appear
+        await flytoview(coordinates.lat, coordinates.lng, 15); // forces the balloon to appear
     
         setTimeout(() => {
           speech.speak(geminiTextResponse, () => {
@@ -642,13 +643,13 @@ export class LGVoice extends HTMLElement {
         };
         this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
-        await flytoview(coordinates.lat, coordinates.lng, 10);
+        await flytoview(coordinates.lat, coordinates.lng, 15);
         imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
   
         const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
         await this.sendBalloonToLG(balloonKml);
         
-        await flytoview(coordinates.lat, coordinates.lng, 10); // forces the balloon to appear
+        await flytoview(coordinates.lat, coordinates.lng, 15); // forces the balloon to appear
       } else {
         this.showToast(`No coordinates found for "${identifiedLocation}".`);
       }

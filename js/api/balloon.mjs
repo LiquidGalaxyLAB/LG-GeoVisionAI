@@ -34,12 +34,12 @@ export const cleanballoon = async () => {
   }
 };
 
-export const showballoon = async () => {
+export const showballoon = async (customKML = null) => {
   try {
     const configs = JSON.parse(localStorage.getItem("lgconfigs"));
     const { server, username, ip, port, password, screens } = configs;
-    
-    const kml = await getBalloonKML();  // Get the KML
+
+    const kml = customKML || await getBalloonKML();  // Use custom KML if provided
 
     const response = await fetch(server + ENDPOINT_SHOW_BALLOON, {
       method: "POST",
@@ -48,6 +48,14 @@ export const showballoon = async () => {
       },
       body: JSON.stringify({ username, ip, port, password, screens, kml }),
     });
+
+    const contentType = response.headers.get("Content-Type");
+
+    if (!contentType || !contentType.includes("application/json")) {
+      const errorText = await response.text();  // Might be HTML error page
+      console.error("Server did not return JSON:", errorText);
+      return;
+    }
 
     const result = await response.json();
 
@@ -60,3 +68,5 @@ export const showballoon = async () => {
     console.error("Unexpected Error:", error);
   }
 };
+
+

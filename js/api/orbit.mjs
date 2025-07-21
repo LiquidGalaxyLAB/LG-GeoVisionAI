@@ -1,6 +1,7 @@
-import { cleankml } from "./cleankml.mjs";
+import { cleankml} from "./cleankml.mjs";
 import { sendkml } from "./sendkml.mjs";
-const ENDPOINT_START_ORBIT = "/api/lg-connection/execute-orbit";
+
+const ENDPOINT_START_ORBIT = "/api/lg-connection/start-orbit";
 const ENDPOINT_STOP_ORBIT = "/api/lg-connection/stop-orbit";
 
 export const startOrbit = async (
