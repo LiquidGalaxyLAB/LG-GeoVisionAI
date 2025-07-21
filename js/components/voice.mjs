@@ -131,7 +131,7 @@ export class LGVoice extends HTMLElement {
           width: 100%;
         }
 
-        .orbit-buttons md-filled-button {
+        .orbit-buttons md-filled-tonal-button {
           flex: 1;
         }
 
@@ -218,12 +218,12 @@ export class LGVoice extends HTMLElement {
             label="Or type your question here..."
             value="">
           </md-filled-text-field>
-
+          <md-filled-tonal-button id="toggleNarrationButton">Stop Narration</md-filled-tonal-button>
           <md-filled-button id="submitButton">Ask AI</md-filled-button>
 
           <div class="orbit-buttons">
-            <md-filled-button id="startOrbitButton">Start Orbit</md-filled-button>
-            <md-filled-button id="stopOrbitButton">Stop Orbit</md-filled-button>
+            <md-filled-tonal-button id="startOrbitButton">Start Orbit</md-filled-tonal-button>
+            <md-filled-tonal-button id="stopOrbitButton">Stop Orbit</md-filled-tonalbutton>
           </div>
 
         </div>
@@ -471,17 +471,69 @@ export class LGVoice extends HTMLElement {
     }
   
     if (isDirectLocation) {
-      identifiedLocation = query.replace(/^(take me to|show me)\s+/i, "").trim();
+      console.log("Processing direct location query...");
+      identifiedLocation = query.replace(/^(take me to|show me|send me to|fly to)\s+/i, "").trim();
+      console.log("Identified location:", identifiedLocation);
+    
       geminiTextResponse = `You're now viewing ${identifiedLocation}.`;
       storyEl.textContent = geminiTextResponse;
-      this.showToast(`Detected direct location command: "${identifiedLocation}"`);
-      setTimeout(() => {
-        speech.speak(geminiTextResponse, () => {
-          this.showToast("Story narration finished.");
-          const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
-          this.sendBalloonToLG(balloonKml);
-        });
-      }, 150);
+      this.showToast(`Detected direct location fly to command: "${identifiedLocation}"`);
+    
+      try {
+        console.log("Fetching coordinates for:", identifiedLocation);
+        const coordinates = await this.getCoordinatesFromLocation(identifiedLocation, openCageApiKey);
+        console.log("Coordinates fetched:", coordinates);
+    
+        if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
+          throw new Error(`Invalid coordinates for location: ${identifiedLocation}`);
+        }
+    
+        this.lastCoordinates = {
+          lat: parseFloat(coordinates.lat),
+          lng: parseFloat(coordinates.lng),
+        };
+    
+        console.log("Coordinates validated:", this.lastCoordinates);
+    
+        this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
+        this.showToast(`Flying to ${identifiedLocation}...`);
+        console.log("Zoom level for flytoview:", 10);
+    
+        await flytoview(coordinates.lat, coordinates.lng, 10);
+        imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
+    
+        const balloonKml = this.generateBalloonKml(
+          coordinates,
+          identifiedLocation,
+          geminiTextResponse,
+          imageUrl
+        );
+        console.log("Generated Balloon KML:", balloonKml);
+    
+        await cleanballoon();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await this.sendBalloonToLG(balloonKml);
+        console.log("Balloon KML sent to LG:", balloonKml);
+    
+        await showballoon(balloonKml);
+        await flytoview(coordinates.lat, coordinates.lng, 10); // forces the balloon to appear
+    
+        setTimeout(() => {
+          speech.speak(geminiTextResponse, () => {
+            this.showToast("Story narration finished.");
+          });
+        }, 300);
+      } catch (err) {
+        console.error("Error in direct location flow:", err);
+        this.showToast("An error occurred while processing the location.");
+      } finally {
+        const toggleNarrationButton = this.shadowRoot.getElementById("toggleNarrationButton");
+        toggleNarrationButton.textContent = "Stop Narration";
+        narrationPaused = false;
+    
+        this.removeAnimations();
+      }
+
     } else {
       //Gemini API call
       const MODEL_NAME = "models/gemini-1.5-flash-latest";
@@ -596,7 +648,7 @@ export class LGVoice extends HTMLElement {
         const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
         await this.sendBalloonToLG(balloonKml);
         
-        await flytoview(coordinates.lat, coordinates.lng, 2); // forces the balloon to appear
+        await flytoview(coordinates.lat, coordinates.lng, 10); // forces the balloon to appear
       } else {
         this.showToast(`No coordinates found for "${identifiedLocation}".`);
       }
