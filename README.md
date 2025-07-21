@@ -49,7 +49,13 @@
 ## Project by
 
 * **Developer**: [Anishka](https://github.com/anishka2006)
-* **Mentors**: Andreu Ibanez, Claudia, Yash Raj, VictorSB, Rosemarie Garcia and Lopez
+* **Thanks to my main Mentor**:Claudia
+* **and Secondary Mentor**:Yash Raj, VictorSB, Rosemarie Garcia and Lopez
+* And thanks to the team of the Liquid Galaxy LAB Lleida, Headquarters of the Liquid Galaxy project: 
+Alba, Paula, Josep, Jordi, Oriol, Sharon, Alejandro, Marc, and admin Andreu, 
+for their continuous support on my project.  
+* More info at [www.liquidgalaxy.eu](http://www.liquidgalaxy.eu)
+
 * **Organization**: Liquid Galaxy Project, Google Summer of Code 2025
 
 ---
