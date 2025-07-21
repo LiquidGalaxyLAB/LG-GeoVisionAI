@@ -44,6 +44,7 @@ export class LGtools extends HTMLElement {
               margin: auto;
               display: grid;
               align-items: center;
+              padding-block-end: 50px;
           }
           .button-wrapper {
               block-size: max-content;
