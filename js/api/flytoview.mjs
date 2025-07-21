@@ -2,7 +2,7 @@ const ENDPOINT = "/api/lg-connection/flyto";
 export const flytoview = async (
   latitude,
   longitude,
-  zoom = 4,
+  zoom = 10,
   tilt = 41.82725143432617,
   bearing = 61.403038024902344
 ) => {
@@ -30,7 +30,12 @@ export const flytoview = async (
         12: 15000,
         13: 10000,
         14: 5000,
-        15: 3000
+        15: 3000,
+        16: 1500,
+        17: 1000,
+        18: 500,
+        19: 300,
+        20: 100
       };
       return levels[zoom] || 100000;
     };
