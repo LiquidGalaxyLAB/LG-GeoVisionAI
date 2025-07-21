@@ -211,7 +211,7 @@ export class LGVoice extends HTMLElement {
         <p class="body-medium story" id="story"></p>
 
         <slot name="voice"></slot>
-
+        <md-filled-button id="toggleNarrationButton">Stop Narration</md-filled-button>
         <div class="manual-input">
           <md-filled-text-field
             id="questionInput"
@@ -234,6 +234,8 @@ export class LGVoice extends HTMLElement {
   }
 
   connectedCallback() {
+
+
     const micButton = this.shadowRoot.getElementById("micButton");
     const questionInput = this.shadowRoot.getElementById("questionInput");
     const submitButton = this.shadowRoot.getElementById("submitButton");
@@ -290,17 +292,49 @@ export class LGVoice extends HTMLElement {
         this.showToast("No location available for orbit.");
         return;
       }
-
-      const { lat, lng } = this.lastCoordinates;
-      console.log("Starting orbit at:" ,lat,lng);
+    
+      let { lat, lng } = this.lastCoordinates;
+    
+      // ✅ Ensure they are valid numbers
+      lat = parseFloat(lat);
+      lng = parseFloat(lng);
+    
+      if (isNaN(lat) || isNaN(lng)) {
+        console.error("Invalid lat/lng values:", lat, lng);
+        this.showToast("Invalid location coordinates. Cannot start orbit.");
+        return;
+      }
+    
+      console.log("Calling startOrbit with:", lat, lng);
+    
       try {
+        this.showToast("Stopping any existing orbit...");
+        await stopOrbit();
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+        console.log("🎯 Orbit command received with:", { lat, lng });
+      
+        // Validate values
+        if (
+          typeof lat !== "number" ||
+          typeof lng !== "number" ||
+          isNaN(lat) ||
+          isNaN(lng)
+        ) {
+          throw new Error(`Invalid coordinates for orbit: lat=${lat}, lng=${lng}`);
+        }
+      
+        this.showToast("Starting new orbit...");
         await startOrbit(lat, lng, 10);
         this.showToast(`Orbit started at ${lat}, ${lng}.`);
       } catch (error) {
         console.error("Start Orbit Error:", error);
         this.showToast("Failed to start orbit.");
       }
+      
     });
+    
+    
 
     stopOrbitButton.addEventListener("click", async () => {
       try {
@@ -411,7 +445,7 @@ export class LGVoice extends HTMLElement {
         return null;
     }
   }
-  //Hnadling queries like take me to... and show me... along with general queries for Gemini
+  //Hnadling queries like take me to, show me, send me to, fly to...along with general queries for Gemini
   async processQuery(query) {
     const storyEl = this.shadowRoot.getElementById("story");
     const soundPlayer = this.shadowRoot.getElementById("soundPlayer");
@@ -421,7 +455,7 @@ export class LGVoice extends HTMLElement {
     storyEl.textContent = "";
     let imageUrl = ""; // for dynamically changing image on the balloon
   
-    const showOnlyPattern = /^take me to\s+|^show me\s+/i;
+    const showOnlyPattern = /^take me to\s+|^show me\s+|^send me to+|^fly to/i;
     let geminiTextResponse = "";
     let identifiedLocation = "";
     const isDirectLocation = showOnlyPattern.test(query.trim());
@@ -499,6 +533,7 @@ export class LGVoice extends HTMLElement {
     
         this.removeAnimations();
       }
+
     } else {
       //Gemini API call
       const MODEL_NAME = "models/gemini-1.5-flash-latest";
@@ -601,7 +636,10 @@ export class LGVoice extends HTMLElement {
       }
   
       if (coordinates) {
-        this.lastCoordinates = coordinates; // store the last coordinates for orbit functionality
+        this.lastCoordinates = {     // store the last coordinates for orbit functionality
+          lat: parseFloat(coordinates.lat),
+          lng: parseFloat(coordinates.lng)
+        };
         this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
         await flytoview(coordinates.lat, coordinates.lng, 10);

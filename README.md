@@ -29,7 +29,7 @@
 
 
 ## Try Sample Queries
-
+(For the queries that you suspect return of long responses, just add after the query "Answer in 1-2 lines" or else you may exhaust your per day token limit for Gemini)
 * "What are the effects of rising sea levels on Maldives?"
 * "How has Mumbai's coastline evolved in 50 years?"
 * "What is the capital of India?"
