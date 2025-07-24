@@ -2,7 +2,7 @@ const ENDPOINT = "/api/lg-connection/flyto";
 export const flytoview = async (
   latitude,
   longitude,
-  zoom = 10,
+  zoom = 20,
   tilt = 41.82725143432617,
   bearing = 61.403038024902344
 ) => {
@@ -15,32 +15,8 @@ export const flytoview = async (
     }
 
     const { server, username, ip, port, password, screens = 3 } = configs;
-
     
-    const safeElevation = (zoom) => {
-      const levels = {
-        4: 3000000,
-        5: 1500000,
-        6: 800000,
-        7: 400000,
-        8: 200000,
-        9: 100000,
-        10: 50000,
-        11: 30000,
-        12: 15000,
-        13: 10000,
-        14: 5000,
-        15: 3000,
-        16: 1500,
-        17: 1000,
-        18: 500,
-        19: 300,
-        20: 100
-      };
-      return levels[zoom] || 100000;
-    };
-    
-    const elevation = safeElevation(zoom);
+    const elevation = 591657550.5 / Math.pow(2, zoom) / screens;
     
     console.log("[flytoview] Params:", { latitude, longitude, zoom, tilt, bearing, elevation });
 
