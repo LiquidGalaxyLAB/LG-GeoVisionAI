@@ -224,7 +224,7 @@ export class LGVoice extends HTMLElement {
 
           <div class="orbit-buttons">
             <md-filled-tonal-button id="startOrbitButton">Start Orbit</md-filled-tonal-button>
-            <md-filled-tonal-button id="stopOrbitButton">Stop Orbit</md-filled-tonalbutton>
+            <md-filled-tonal-button id="stopOrbitButton">Stop Orbit</md-filled-tonal-button>
           </div>
 
         </div>
@@ -470,72 +470,74 @@ export class LGVoice extends HTMLElement {
       this.removeAnimations();
       return;
     }
-  
+    // Check if the query is a direct location command
     if (isDirectLocation) {
       console.log("Processing direct location query...");
       identifiedLocation = query.replace(/^(take me to|show me|send me to|fly to)\s+/i, "").trim();
-      console.log("Identified location:", identifiedLocation);
-    
+
       geminiTextResponse = `You're now viewing ${identifiedLocation}.`;
       storyEl.textContent = geminiTextResponse;
       this.showToast(`Detected direct location fly to command: "${identifiedLocation}"`);
-    
-      try {
-        console.log("Fetching coordinates for:", identifiedLocation);
-        const coordinates = await this.getCoordinatesFromLocation(identifiedLocation, openCageApiKey);
-        console.log("Coordinates fetched:", coordinates);
-    
-        if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
-          throw new Error(`Invalid coordinates for location: ${identifiedLocation}`);
-        }
-    
-        this.lastCoordinates = {
-          lat: parseFloat(coordinates.lat),
-          lng: parseFloat(coordinates.lng),
-        };
-    
-        console.log("Coordinates validated:", this.lastCoordinates);
-    
-        this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
-        this.showToast(`Flying to ${identifiedLocation}...`);
-        console.log("Zoom level for flytoview:", 15);
-    
-        await flytoview(coordinates.lat, coordinates.lng, 15);
-        imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
-    
-        const balloonKml = this.generateBalloonKml(
-          coordinates,
-          identifiedLocation,
-          geminiTextResponse,
-          imageUrl
-        );
-        console.log("Generated Balloon KML:", balloonKml);
-    
-        await cleanballoon();
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        await this.sendBalloonToLG(balloonKml);
-        console.log("Balloon KML sent to LG:", balloonKml);
-    
-        await showballoon(balloonKml);
-        await flytoview(coordinates.lat, coordinates.lng, 15); // forces the balloon to appear
-    
-        setTimeout(() => {
-          speech.speak(geminiTextResponse, () => {
-            this.showToast("Story narration finished.");
-          });
-        }, 300);
-      } catch (err) {
-        console.error("Error in direct location flow:", err);
-        this.showToast("An error occurred while processing the location.");
-      } finally {
-        const toggleNarrationButton = this.shadowRoot.getElementById("toggleNarrationButton");
-        toggleNarrationButton.textContent = "Stop Narration";
-        narrationPaused = false;
-    
+
+      console.log("Fetching coordinates for:", identifiedLocation);
+      const coordinates = await this.getCoordinatesFromLocation(identifiedLocation, openCageApiKey);
+      console.log("Coordinates fetched:", coordinates);
+
+      if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
+        this.showToast(`Could not find valid coordinates for "${identifiedLocation}".`);
         this.removeAnimations();
+        return;
       }
 
-    } else {
+      this.lastCoordinates = {
+        lat: parseFloat(coordinates.lat),
+        lng: parseFloat(coordinates.lng),
+      };
+
+      this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
+
+      //await cleanballoon();
+      //console.log("Sent clean balloon command.");
+      //await new Promise((resolve) => setTimeout(resolve, 3000)); 
+      //console.log(" Waited after cleanballoon.");
+
+      
+      this.showToast(`Flying to location...`);
+      await flytoview(coordinates.lat, coordinates.lng, 15); 
+      console.log("Sent flytoview command.");
+      await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      console.log("Waited after flytoview.");
+
+      imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
+      const balloonKml = this.generateBalloonKml(
+        this.lastCoordinates,
+        identifiedLocation,
+        geminiTextResponse,
+        imageUrl
+      );
+      console.log("Generated Balloon KML in browser.");
+
+      this.showToast(`Sending balloon data and showing...`);
+      await this.sendBalloonToLG(balloonKml); 
+      console.log("Sent showballoon command with KML data.");
+      
+      await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      console.log("Waited after showballoon.");
+
+
+      await flytoview(coordinates.lat, coordinates.lng, 15); 
+      console.log("Sent final flytoview command for positioning.");
+      await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      console.log("Final fly and wait complete.");
+
+      
+      setTimeout(() => {
+        speech.speak(geminiTextResponse, () => {
+          this.showToast("Story narration finished.");
+        });
+      }, 800);
+
+    }   else {
       //Gemini API call
       const MODEL_NAME = "models/gemini-1.5-flash-latest";
       const GOOGLE_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/${MODEL_NAME}:generateContent?key=${googleGeminiApiKey}`;
@@ -696,11 +698,11 @@ export class LGVoice extends HTMLElement {
       }
     }
   
-    // Fallback
+    // Fallback image
     return `${baseUrl}high-detail-political-map-of-the-world-blue-and-white-vector.jpg`;
   }
   
-  // sanitize special characters that can/may break the KML rendering
+  // sanitize/parse special characters that can/may break the KML rendering
   sanitizeForKML(text) {
     return text
       .replace(/&/g, "&amp;")
@@ -803,6 +805,61 @@ export class LGVoice extends HTMLElement {
       this.showToast(`Error sending balloon: ${error.message}`);
     }
   }
+
+  async sendDirectBalloonToLG(kmlContent) {
+    try {
+      const configs = JSON.parse(localStorage.getItem("lgconfigs"));
+  
+      if (
+        !configs ||
+        !configs.server ||
+        !configs.username ||
+        !configs.ip ||
+        !configs.port ||
+        !configs.password ||
+        !configs.screens
+      ) {
+        this.showToast("Liquid Galaxy connection settings are incomplete. Please check settings.");
+        console.error("LG configuration missing for direct balloon sending.");
+        return;
+      }
+  
+      const { server, username, ip, port, password, screens } = configs;
+      const ENDPOINT_SHOW_BALLOON = "/api/lg-connection/show-balloon";
+  
+      this.showToast("Sending direct query balloon to Liquid Galaxy...");
+  
+      const response = await fetch(server + ENDPOINT_SHOW_BALLOON, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          ip,
+          port,
+          password,
+          screens,
+          kml: kmlContent,
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("Direct balloon sent successfully:", result.message, result.data);
+        this.showToast("Direct Balloon Placemark displayed on Liquid Galaxy!");
+      } else {
+        console.error("Error sending direct balloon:", result.message, result.stack);
+        this.showToast(`Failed to display Direct Balloon: ${result.message || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error during direct balloon sending:", error);
+      this.showToast(`Error sending direct balloon: ${error.message}`);
+    }
+  }
+  
+  
 
 // keyword extarction function for integrating freesound API, will look into it after midterm
   extractKeywords(text) {
