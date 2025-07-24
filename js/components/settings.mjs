@@ -230,9 +230,9 @@ export class Settings extends HTMLElement {
     const port = this.shadowRoot.getElementById("port").value;
     const password = this.shadowRoot.getElementById("password").value;
     const screens = this.shadowRoot.getElementById("screens").value;
-    const gemmaKey = localStorage.getItem("gemmaApiKey") || "";
-    const openCageKey = localStorage.getItem("openCageApiKey") || "";
-    const freesoundKey = localStorage.getItem("freesoundApiKey") || "";
+    //const gemmaKey = localStorage.getItem("gemmaApiKey") || "";
+    //const openCageKey = localStorage.getItem("openCageApiKey") || "";
+    //const freesoundKey = localStorage.getItem("freesoundApiKey") || "";
 
     const config = {
       server,
@@ -240,10 +240,10 @@ export class Settings extends HTMLElement {
       ip,
       port,
       password,
-      screens,
-      gemmaKey,
-      openCageKey,
-      freesoundKey
+      screens
+    //  gemmaKey,
+    //  openCageKey,
+    //  freesoundKey
     };
 
     localStorage.setItem("lgconfigs", JSON.stringify(config));
