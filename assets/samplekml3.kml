@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+     xmlns:gx="http://www.google.com/kml/ext/2.2"
+     xmlns:kml="http://www.opengis.net/kml/2.2"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+    <name>Mumbai Coastline Change</name>
+
+    <Style id="custom_pin">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/blu-circle.png</href>
+        </Icon>
+      </IconStyle>
+      <BalloonStyle>
+        <bgColor>ffffffff</bgColor>
+        <text><![CDATA[
+          <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
+            <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">Mumbai, India</h2>
+            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/mumbai.jpg" alt="Mumbai Coastline" width="460" height="280" style="margin-bottom:15px;" />
+            <div style="font-size:18px; color:#000;">
+              <b>Latitude:</b> 19.0760 &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> 72.8777
+            </div>
+            <div style="text-align:left; margin-top:10px; padding:10px; font-size:20px; line-height:1.5; border-top:2px solid #333; color:#111;">
+              Over the last 50 years, Mumbai’s coastline has undergone significant transformations due to land reclamation, infrastructure development, and rising sea levels. 
+            </div>
+          </div>
+        ]]></text>
+      </BalloonStyle>
+    </Style>
+
+    <Placemark>
+      <name>Mumbai Coastline</name>
+      <description>Rising Sea Levels in Maldives</description>
+      <styleUrl>#custom_pin</styleUrl>
+      <gx:balloonVisibility>1</gx:balloonVisibility>
+      <Point>
+        <coordinates>72.8777,19.0760,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

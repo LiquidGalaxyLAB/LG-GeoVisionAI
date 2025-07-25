@@ -262,21 +262,14 @@ export class Settings extends HTMLElement {
   loadConfig() {
     const savedConfig = localStorage.getItem("lgconfigs");
     if (savedConfig) {
-      try {
-        const config = JSON.parse(savedConfig);
-  
-        const getValue = (key) => (config.hasOwnProperty(key) ? config[key] : "");
-  
-        this.shadowRoot.getElementById("username").value = getValue("username");
-        this.shadowRoot.getElementById("ip").value = getValue("ip");
-        this.shadowRoot.getElementById("port").value = getValue("port");
-        this.shadowRoot.getElementById("password").value = getValue("password");
-        this.shadowRoot.getElementById("screens").value = getValue("screens");
-        this.shadowRoot.getElementById("server").value = getValue("server");
-      } catch (e) {
-        console.error("Failed to parse config from localStorage:", e);
-        this.showToast("Error loading saved config.");
-      }
+      const config = JSON.parse(savedConfig);
+
+      this.shadowRoot.getElementById("username").value = config.username || "";
+      this.shadowRoot.getElementById("ip").value = config.ip || "";
+      this.shadowRoot.getElementById("port").value = config.port || "";
+      this.shadowRoot.getElementById("password").value = config.password || "";
+      this.shadowRoot.getElementById("screens").value = config.screens || "";
+      this.shadowRoot.getElementById("server").value = config?.server || "";
     }
   }
   

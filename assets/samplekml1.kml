@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+     xmlns:gx="http://www.google.com/kml/ext/2.2"
+     xmlns:kml="http://www.opengis.net/kml/2.2"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+    <name>Capital of USA</name>
+
+    <Style id="custom_pin">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+        </Icon>
+      </IconStyle>
+      <BalloonStyle>
+        <bgColor>ffffffff</bgColor>
+        <text><![CDATA[
+          <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
+            <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">Washington, D.C.</h2>
+            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/usa.jpg" alt="Washington DC" width="460" height="280" style="margin-bottom:15px;" />
+            <div style="font-size:18px; color:#000;">
+              <b>Latitude:</b> 38.8950368 &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> -77.0365427
+            </div>
+            <div style="text-align:left; margin-top:10px; padding:10px; font-size:22px; line-height:1.5; border-top:2px solid #333; color:#111;">
+              Washington, D.C. is the capital of the USA.
+            </div>
+          </div>
+        ]]></text>
+      </BalloonStyle>
+    </Style>
+
+    <Placemark>
+      <name>Washington, D.C.</name>
+      <description>Capital of the USA</description>
+      <styleUrl>#custom_pin</styleUrl>
+      <gx:balloonVisibility>1</gx:balloonVisibility>
+      <Point>
+        <coordinates>-77.0365427,38.8950368,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
