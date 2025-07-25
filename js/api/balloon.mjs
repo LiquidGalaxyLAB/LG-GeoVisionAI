@@ -4,7 +4,7 @@ let kml = "";
 
 const getBalloonKML = async () => {
   const res = await fetch(
-    "https://yashrajbharti.github.io/lg-web/assets/Balloon.kml"
+    "/assets/samplekml1.kml"  // Adjust the path as needed
   );
   return await res.text();
 };

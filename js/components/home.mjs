@@ -59,20 +59,35 @@ export class Home extends HTMLElement {
                 align-items: center;
                 justify-content: center;
                 gap: 0px;
-                padding-top: 5px;
+                padding-top: 100px;
                 padding-bottom: 0px;
+                padding-block-end: 100px;
             }
             md-elevated-button {
                 inline-size: 200px;
-                padding: 10px 20px;
+                padding: 10px 10px;
             }
             md-icon.disconnect {
                 filter: hue-rotate(110deg);
             }
 
+            .sample-buttons {
+              margin-top: 20px;
+              padding: 16px;
+              border-radius: 12px;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            }
+
+            .sample-buttons md-filled-tonal-button {
+              flex: 1;
+              width: 100%;
+            }
+
             .marquee-container {
-              margin-bottom: 10px; /* reduce or eliminate spacing below the marquee */
-              margin-top: 5px; /* reduce or eliminate spacing above the marquee */
+              margin-bottom: 10px; 
+              margin-top: 5px; 
             }
 
             .marquee {
@@ -92,12 +107,16 @@ export class Home extends HTMLElement {
 
         </style>
         <div>
-            <div class="marquee-container">
-              <p>Go to the About section to see more on the sample queries!</p>
-            </div>
             <img class="animate" src="/assets/2.webp" alt="My Logo" width="350" height="350">
             <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
             <md-elevated-button>Have a Question?</md-elevated-button>
+            
+            <div class="sample-buttons">
+              <p>Sample Queries:</p>
+              <md-filled-tonal-button id="sampleKML1">What is the capital of the USA?</md-filled-tonal-button>
+              <md-filled-tonal-button id="sampleKML2">Tell me about rising sea levels in Maldives.</md-filled-tonal-button>
+              <md-filled-tonal-button id="sampleKML3">How has Mumbai's coastline changed in 50 years?</md-filled-tonal-button>
+              </div>
         </div>
 
         `;
@@ -134,6 +153,29 @@ export class Home extends HTMLElement {
       } else {
         console.error("Gemini tab not found");
       }
+    });
+    
+    const sampleKML1Button = this.shadowRoot.getElementById("sampleKML1");
+    sampleKML1Button.addEventListener("click", async () => {
+      await flytoview(38.8950368,-77.0365427,10);
+      await sendkml();
+      await showballoon();
+    });
+
+    const sampleKML2Button = this.shadowRoot.getElementById("sampleKML2");
+    sampleKML2Button.addEventListener("click", async () => {
+      await flytoview(4.1755,73.5093,10);
+      await sendkml();
+      const customKML = await fetch('./assets/samplekml2.kml').then(res => res.text());
+      await showballoon(customKML);
+    });
+
+    const sampleKML3Button = this.shadowRoot.getElementById("sampleKML3");
+    sampleKML3Button.addEventListener("click", async () => {
+      await flytoview(19.0760,72.8777,10);
+      await sendkml();
+      const customKML = await fetch('./assets/samplekml3.kml').then(res => res.text());
+      await showballoon(customKML);
     });
   }
   

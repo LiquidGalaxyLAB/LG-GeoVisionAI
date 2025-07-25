@@ -137,6 +137,10 @@ export class LGVoice extends HTMLElement {
           flex: 1;
         }
 
+        #toggleNarrationButton {
+          width: 50%;
+        }
+
         .ripple::after {
           position: absolute;
           inset-inline-start: 50%;
@@ -206,7 +210,7 @@ export class LGVoice extends HTMLElement {
                 <path d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
             </svg>
         </md-icon-button>
-        <p class="headline-small">Tap on the Mic to Speak/Stop AI Narration</p>
+        <p class="headline-small">Tap on the Mic to Speak!</p>
         
 
         <p class="body-medium message"></p>
@@ -218,6 +222,7 @@ export class LGVoice extends HTMLElement {
           <md-filled-text-field
             id="questionInput"
             label="Or type your question here..."
+            placeholder="E.g.-- What is the capital of the USA?"
             value="">
           </md-filled-text-field>
           <md-filled-button id="submitButton">Ask AI</md-filled-button>
