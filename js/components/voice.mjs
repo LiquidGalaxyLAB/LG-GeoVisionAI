@@ -137,10 +137,6 @@ export class LGVoice extends HTMLElement {
           flex: 1;
         }
 
-        #toggleNarrationButton {
-          width: 50%;
-        }
-
         .ripple::after {
           position: absolute;
           inset-inline-start: 50%;
@@ -339,8 +335,6 @@ export class LGVoice extends HTMLElement {
       }
       
     });
-    
-    
 
     stopOrbitButton.addEventListener("click", async () => {
       try {
@@ -397,7 +391,6 @@ export class LGVoice extends HTMLElement {
         }
       }
     });
-
   }
 
   removeAnimations() {
@@ -451,6 +444,7 @@ export class LGVoice extends HTMLElement {
         return null;
     }
   }
+  
   //Hnadling queries like take me to, show me, send me to, fly to...along with general queries for Gemini
   async processQuery(query) {
     const storyEl = this.shadowRoot.getElementById("story");
@@ -475,6 +469,7 @@ export class LGVoice extends HTMLElement {
       this.removeAnimations();
       return;
     }
+
     // Check if the query is a direct location command
     if (isDirectLocation) {
       console.log("Processing direct location query...");
@@ -580,7 +575,6 @@ export class LGVoice extends HTMLElement {
           });
         }, 150);
         
-  
         //Function to ask Gemini to extract the location from the response
         const geminiLocationRes = await fetch(GOOGLE_API_ENDPOINT, {
           method: "POST",
@@ -671,7 +665,6 @@ export class LGVoice extends HTMLElement {
       this.removeAnimations();
     }
   }
-  
 
   //function for generating image dynamically
   async generateImageUrlFromText(text, locationHint = "") {
@@ -702,7 +695,6 @@ export class LGVoice extends HTMLElement {
         return `${baseUrl}${keywordMap[key]}`;
       }
     }
-  
     // Fallback image
     return `${baseUrl}high-detail-political-map-of-the-world-blue-and-white-vector.jpg`;
   }
@@ -763,7 +755,6 @@ export class LGVoice extends HTMLElement {
       </Document>
     </kml>`;
   }
-  
   
   // Sends the dynamically generated Balloon KML to Liquid Galaxy
   async sendBalloonToLG(kmlContent) {
@@ -864,8 +855,6 @@ export class LGVoice extends HTMLElement {
     }
   }
   
-  
-
 // keyword extarction function for integrating freesound API, will look into it after midterm
   extractKeywords(text) {
     const keywords = ["ocean", "sea", "river", "lake", "wave", "storm", "tsunami", "coast", "island", "flood", "beach",

@@ -18,7 +18,7 @@
         <text><![CDATA[
           <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
             <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">Mumbai, India</h2>
-            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/mumbai.jpg" alt="Mumbai Coastline" width="460" height="280" style="margin-bottom:15px;" />
+            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/coastline_change_mumbai.jpg" alt="Mumbai Coastline" width="460" height="280" style="margin-bottom:15px;" />
             <div style="font-size:18px; color:#000;">
               <b>Latitude:</b> 19.0760 &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> 72.8777
             </div>
@@ -32,7 +32,7 @@
 
     <Placemark>
       <name>Mumbai Coastline</name>
-      <description>Rising Sea Levels in Maldives</description>
+      <description>coastline chnage in mumbai</description>
       <styleUrl>#custom_pin</styleUrl>
       <gx:balloonVisibility>1</gx:balloonVisibility>
       <Point>
