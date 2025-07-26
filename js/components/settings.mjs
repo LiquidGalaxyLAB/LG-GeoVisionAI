@@ -304,9 +304,16 @@ export class Settings extends HTMLElement {
         backArrowContainer.style.display = "none";
         try {
           const config = JSON.parse(result.data.trim());
-          if (config.username) {
-            localStorage.setItem("lgconfigs", JSON.stringify(config));
-            this.loadConfig();
+          const existingSettings = JSON.parse(
+            localStorage.getItem("lgconfigs") || "{}"
+          );
+          const updatedSettings = { ...existingSettings, ...config };
+        
+          localStorage.setItem("lgconfigs", JSON.stringify(updatedSettings));
+        
+          this.loadConfig();
+        
+          if (updatedSettings.username) {
             const isConnected = await connecttolg();
             this.checkConnectionStatus(isConnected);
           }
