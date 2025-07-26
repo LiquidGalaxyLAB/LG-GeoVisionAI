@@ -307,6 +307,9 @@ export class Settings extends HTMLElement {
           const existingSettings = JSON.parse(
             localStorage.getItem("lgconfigs") || "{}"
           );
+          if (config.server) {
+            config.server = config.server.replace(/\/+$/, ""); // Remove slashes at the end
+          }
           const updatedSettings = { ...existingSettings, ...config };
         
           localStorage.setItem("lgconfigs", JSON.stringify(updatedSettings));
