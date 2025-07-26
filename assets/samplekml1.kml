@@ -18,12 +18,12 @@
         <text><![CDATA[
           <div style="width:500px; padding:20px; font-family:sans-serif; text-align:center; font-size:18px;">
             <h2 style="font-size:26px; margin-bottom:15px; font-weight:bold; color:#000;">Washington, D.C.</h2>
-            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/usa.jpg" alt="Washington DC" width="460" height="280" style="margin-bottom:15px;" />
+            <img src="https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/washington_capital_usa.jpg" alt="Washington DC" width="460" height="280" style="margin-bottom:15px;" />
             <div style="font-size:18px; color:#000;">
               <b>Latitude:</b> 38.8950368 &nbsp;&nbsp; | &nbsp;&nbsp; <b>Longitude:</b> -77.0365427
             </div>
             <div style="text-align:left; margin-top:10px; padding:10px; font-size:22px; line-height:1.5; border-top:2px solid #333; color:#111;">
-              Washington, D.C. is the capital of the USA.
+              The capital of the United States is Washington, D.C.
             </div>
           </div>
         ]]></text>

@@ -159,13 +159,16 @@ export class Home extends HTMLElement {
     sampleKML1Button.addEventListener("click", async () => {
       await flytoview(38.8950368,-77.0365427,10);
       await sendkml();
+      speakText("The capital of the United States is Washington, D.C.");
       await showballoon();
+
     });
 
     const sampleKML2Button = this.shadowRoot.getElementById("sampleKML2");
     sampleKML2Button.addEventListener("click", async () => {
       await flytoview(4.1755,73.5093,10);
       await sendkml();
+      speakText("The Maldives, a low-lying island nation, faces an existential threat from rising sea levels caused by climate change.  Continued sea level rise threatens to inundate islands and displace its population.");
       const customKML = await fetch('./assets/samplekml2.kml').then(res => res.text());
       await showballoon(customKML);
     });
@@ -174,11 +177,11 @@ export class Home extends HTMLElement {
     sampleKML3Button.addEventListener("click", async () => {
       await flytoview(19.0760,72.8777,10);
       await sendkml();
+      speakText("Over the last 50 years, Mumbai's coastline has undergone significant transformations due to land reclamation, infrastructure development, and rising sea levels.");
       const customKML = await fetch('./assets/samplekml3.kml').then(res => res.text());
       await showballoon(customKML);
     });
   }
-  
 
   async checkConnectionStatus() {
     const chip = this.shadowRoot.querySelector("md-assist-chip");
@@ -194,3 +197,12 @@ export class Home extends HTMLElement {
     }
   }
 }
+
+function speakText(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.pitch = 1;
+  utterance.rate = 1;
+  speechSynthesis.speak(utterance);
+}
+
