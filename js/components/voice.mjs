@@ -371,24 +371,35 @@ export class LGVoice extends HTMLElement {
     let narrationPaused = false;
     const toggleNarrationButton = this.shadowRoot.getElementById("toggleNarrationButton");
 
-    toggleNarrationButton.addEventListener("click", () => {
+    toggleNarrationButton.addEventListener("click", async () => {
+      toggleNarrationButton.disabled = true;
+    
       if (!narrationPaused) {
-        speech.stop();
+        if (speech && typeof speech.pause === "function") {
+          speech.pause();
+        } else {
+          speechSynthesis.pause();
+        }
+    
         narrationPaused = true;
         toggleNarrationButton.textContent = "Resume Narration";
-        this.showToast("Narration stopped.");
+        this.showToast("Narration paused.");
+    
+        setTimeout(() => {
+          toggleNarrationButton.disabled = false;
+        }, 500);
       } else {
-        const story = this.shadowRoot.getElementById("story").textContent.trim();
-        if (story) {
-          this.showToast("Resuming narration...");
-          speech.speak(story, () => {
-            this.showToast("Narration finished.");
-            narrationPaused = false;
-            toggleNarrationButton.textContent = "Stop Narration";
-          });
+        if (speech && typeof speech.resume === "function") {
+          speech.resume(); // resume from paused place
         } else {
-          this.showToast("No story available to narrate.");
+          speechSynthesis.resume();
         }
+    
+        narrationPaused = false;
+        toggleNarrationButton.textContent = "Stop Narration";
+        this.showToast("Narration resumed.");
+    
+        toggleNarrationButton.disabled = false;
       }
     });
   }
