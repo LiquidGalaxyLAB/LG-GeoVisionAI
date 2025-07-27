@@ -113,7 +113,7 @@ export class LGVoice extends HTMLElement {
         }
 
         .manual-input md-filled-button {
-            width: 100%; 
+            inline-size: 100%; 
         }
 
         audio {
@@ -130,7 +130,7 @@ export class LGVoice extends HTMLElement {
           flex-direction: row;
           justify-content: space-between;
           gap: 10px;
-          width: 100%;
+          inline-size: 100%;
         }
 
         .orbit-buttons md-filled-tonal-button {
@@ -180,7 +180,7 @@ export class LGVoice extends HTMLElement {
           .headline-small { font-size: clamp(1rem, 1.5vw + 0.3rem, 1.3rem); }
 
           .manual-input md-filled-button {
-              width: 100%; 
+              inline-size: 100%; 
           }
         }
 
