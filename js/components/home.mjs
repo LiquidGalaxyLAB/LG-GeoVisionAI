@@ -82,7 +82,7 @@ export class Home extends HTMLElement {
 
             .sample-buttons md-filled-tonal-button {
               flex: 1;
-              width: 100%;
+              inline-size: 100%;
             }
 
             .marquee-container {
