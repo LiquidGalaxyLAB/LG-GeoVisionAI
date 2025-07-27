@@ -17,7 +17,7 @@ export class About extends HTMLElement {
 
         img {
           max-width: 100%; 
-          height: auto; 
+          block-size: auto; 
           border-radius: 8px;
           margin-bottom: 1.875rem; 
           box-shadow: var(--md-elevation-level1);

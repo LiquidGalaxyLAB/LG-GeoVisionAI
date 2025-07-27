@@ -159,7 +159,8 @@ export class Home extends HTMLElement {
     sampleKML1Button.addEventListener("click", async () => {
       await flytoview(38.8950368,-77.0365427,10);
       await sendkml();
-      speakText("The capital of the United States is Washington, D.C.");
+      const text = "The capital of the United States is Washington, D.C.";
+      speakText(text);
       await showballoon();
 
     });
@@ -168,6 +169,14 @@ export class Home extends HTMLElement {
     sampleKML2Button.addEventListener("click", async () => {
       await flytoview(4.1755,73.5093,10);
       await sendkml();
+      
+      oceanSound.play().catch(console.error);
+      // Stop after 10 seconds
+      setTimeout(() => {
+        oceanSound.pause();
+        oceanSound.currentTime = 0;
+      }, 10000);
+
       speakText("The Maldives, a low-lying island nation, faces an existential threat from rising sea levels caused by climate change.  Continued sea level rise threatens to inundate islands and displace its population.");
       const customKML = await fetch('./assets/samplekml2.kml').then(res => res.text());
       await showballoon(customKML);
@@ -177,6 +186,14 @@ export class Home extends HTMLElement {
     sampleKML3Button.addEventListener("click", async () => {
       await flytoview(19.0760,72.8777,10);
       await sendkml();
+      
+      oceanSound.play().catch(console.error);
+      // Stop after 10 seconds
+      setTimeout(() => {
+        oceanSound.pause();
+        oceanSound.currentTime = 0;
+      }, 10000);
+
       speakText("Over the last 50 years, Mumbai's coastline has undergone significant transformations due to land reclamation, infrastructure development, and rising sea levels.");
       const customKML = await fetch('./assets/samplekml3.kml').then(res => res.text());
       await showballoon(customKML);
@@ -204,5 +221,47 @@ function speakText(text) {
   utterance.pitch = 1;
   utterance.rate = 1;
   speechSynthesis.speak(utterance);
+}
+
+const oceanSound = new Audio('./assets/ocean.mp3');
+const fireSound = new Audio('./assets/fire.mp3');
+
+oceanSound.loop = true;
+fireSound.loop = true;
+fireSound.volume = 0.5;
+oceanSound.volume = 0.5;
+
+function stopAllSounds() {
+  oceanSound.pause();
+  fireSound.pause();
+  oceanSound.currentTime = 0;
+  fireSound.currentTime = 0;
+}
+
+function playSoundscapeBasedOnText(text) {
+  stopAllSounds();
+
+  const lower = text.toLowerCase();
+  let soundToPlay = null;
+
+  if (lower.includes("ocean") || lower.includes("sea") || lower.includes("wave") || lower.includes("beach") || lower.includes("coast") || lower.includes("island")) {
+    soundToPlay = oceanSound;
+  } else if (lower.includes("fire") || lower.includes("burning") || lower.includes("flame") || lower.includes("campfire") || lower.includes("wildfire")) {
+    soundToPlay = fireSound;
+  }
+
+  if (soundToPlay) {
+    soundToPlay.play().then(() => {
+      console.log("Sound started");
+    }).catch(err => {
+      console.error("Play error:", err);
+    });
+
+    setTimeout(() => {
+      soundToPlay.pause();
+      soundToPlay.currentTime = 0;
+      console.log("Sound stopped");
+    }, 3000);
+  }
 }
 
