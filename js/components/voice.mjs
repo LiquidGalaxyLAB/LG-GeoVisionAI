@@ -656,6 +656,7 @@ export class LGVoice extends HTMLElement {
         this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
         this.showToast(`Flying to ${identifiedLocation}...`);
         await flytoview(coordinates.lat, coordinates.lng, 15);
+        playSoundscapeBasedOnText(geminiTextResponse);
         imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
   
         const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
@@ -866,6 +867,8 @@ export class LGVoice extends HTMLElement {
     }
   }
   
+  
+  
 // keyword extarction function for integrating freesound API, will look into it after midterm
   extractKeywords(text) {
     const keywords = ["ocean", "sea", "river", "lake", "wave", "storm", "tsunami", "coast", "island", "flood", "beach",
@@ -878,5 +881,49 @@ export class LGVoice extends HTMLElement {
     return null;
   }
 }
+
+const oceanSound = new Audio('./assets/ocean.mp3');
+const fireSound = new Audio('./assets/fire.mp3');
+
+oceanSound.loop = true;
+fireSound.loop = true;
+fireSound.volume = 0.5;
+oceanSound.volume = 0.5;
+
+function stopAllSounds() {
+  oceanSound.pause();
+  fireSound.pause();
+  oceanSound.currentTime = 0;
+  fireSound.currentTime = 0;
+}
+
+function playSoundscapeBasedOnText(text) {
+  stopAllSounds();
+
+  const lower = text.toLowerCase();
+  let soundToPlay = null;
+
+  if (lower.includes("ocean") || lower.includes("sea") || lower.includes("wave") || lower.includes("beach") || lower.includes("coast") || lower.includes("island")) {
+    soundToPlay = oceanSound;
+  } else if (lower.includes("fire") || lower.includes("burning") || lower.includes("flame") || lower.includes("campfire") || lower.includes("wildfire")) {
+    soundToPlay = fireSound;
+  }
+
+  if (soundToPlay) {
+    soundToPlay.play().then(() => {
+      console.log("Sound started");
+    }).catch(err => {
+      console.error("Play error:", err);
+    });
+
+    setTimeout(() => {
+      soundToPlay.pause();
+      soundToPlay.currentTime = 0;
+      console.log("Sound stopped");
+    }, 3000);
+  }
+}
+
+
 
 customElements.define("lg-voice", LGVoice); 
