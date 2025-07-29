@@ -74,12 +74,15 @@ export class LGVoice extends HTMLElement {
           word-break: break-word;
           scrollbar-width: none;
           text-align: center;
+          text-wrap: wrap;
           color: var(--md-sys-color-tertiary-container);
         }
-
-        .story {
-          inline-size: 500px;
-          block-size: 200px;
+        @media (min-width: 250px) and (max-width: 1024px) {
+          .story {
+          inline-size: 100%;
+          block-size: 30vh;
+          max-inline-size: 500px;
+          max-block-size: 60vh;
           overflow-y: auto;
           word-break: break-word;
           scrollbar-width: none;
@@ -91,12 +94,12 @@ export class LGVoice extends HTMLElement {
           border: 1px solid var(--md-sys-color-outline-variant);
           border-radius: 8px;
           background-color: var(--md-sys-color-surface-container-low);
-        }
-
-        .story::-webkit-scrollbar {
+          }
+          .story::-webkit-scrollbar {
           display: none;
+          }
         }
-
+        
         .manual-input {
           display: flex;
           flex-direction: column; 
@@ -106,7 +109,6 @@ export class LGVoice extends HTMLElement {
           max-inline-size: 500px;
           color: var(--md-sys-color-tertiary-container);
         }
-
 
         .manual-input md-filled-text-field {
             flex-grow: 1;
@@ -482,6 +484,7 @@ export class LGVoice extends HTMLElement {
     }
 
     // Check if the query is a direct location command
+   
     if (isDirectLocation) {
       console.log("Processing direct location query...");
       identifiedLocation = query.replace(/^(take me to|show me|send me to|fly to)\s+/i, "").trim();
@@ -548,7 +551,7 @@ export class LGVoice extends HTMLElement {
         });
       }, 800);
 
-    }   else {
+    } else {
       //Gemini API call
       const MODEL_NAME = "models/gemini-1.5-flash-latest";
       const GOOGLE_API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/${MODEL_NAME}:generateContent?key=${googleGeminiApiKey}`;
@@ -690,6 +693,8 @@ export class LGVoice extends HTMLElement {
       "volcano": "volcano.jpg",
       "island": "island.jpg",
       "tokyo": "tokyo.jpg",
+      "Japan": "tokyo.jpg",
+      "japan": "tokyo.jpg",
       "paris": "paris.jpg",
       "new delhi": "delhi.jpg",
       "usa": "usa.jpg",
@@ -866,7 +871,7 @@ export class LGVoice extends HTMLElement {
       this.showToast(`Error sending direct balloon: ${error.message}`);
     }
   }
-  
+
   
   
 // keyword extarction function for integrating freesound API, will look into it after midterm
@@ -887,8 +892,8 @@ const fireSound = new Audio('./assets/fire.mp3');
 
 oceanSound.loop = true;
 fireSound.loop = true;
-fireSound.volume = 0.5;
-oceanSound.volume = 0.5;
+fireSound.volume = 0.25;
+oceanSound.volume = 0.25;
 
 function stopAllSounds() {
   oceanSound.pause();
@@ -903,7 +908,7 @@ function playSoundscapeBasedOnText(text) {
   const lower = text.toLowerCase();
   let soundToPlay = null;
 
-  if (lower.includes("ocean") || lower.includes("sea") || lower.includes("wave") || lower.includes("beach") || lower.includes("coast") || lower.includes("island")) {
+  if (lower.includes("ocean") || lower.includes("sea") || lower.includes("wave") || lower.includes("beach") || lower.includes("coast") || lower.includes("island") || lower.includes("tsunami") || lower.includes("flood") || lower.includes("water")) {
     soundToPlay = oceanSound;
   } else if (lower.includes("fire") || lower.includes("burning") || lower.includes("flame") || lower.includes("campfire") || lower.includes("wildfire")) {
     soundToPlay = fireSound;
@@ -920,10 +925,14 @@ function playSoundscapeBasedOnText(text) {
       soundToPlay.pause();
       soundToPlay.currentTime = 0;
       console.log("Sound stopped");
-    }, 3000);
+    }, 10000);
   }
 }
 
-
-
 customElements.define("lg-voice", LGVoice); 
+
+export async function exportprocessQueryExternally(query) {
+  const lgVoiceInstance = document.querySelector("lg-voice");
+  if (!lgVoiceInstance) throw new Error("lg-voice not found");
+  return lgVoiceInstance.processQuery(query);
+}

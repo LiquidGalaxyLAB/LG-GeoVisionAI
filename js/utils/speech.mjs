@@ -34,9 +34,8 @@ export const speech = {
       return;
     }
 
-    // Delay to ensure cancellation completes before new utterance
     setTimeout(() => {
-      this.stop(); // cancel anything currently speaking
+      this.stop(); 
 
       this._utterance = new SpeechSynthesisUtterance(text);
       this._utterance.lang = 'en-US';

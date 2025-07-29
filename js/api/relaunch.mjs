@@ -1,3 +1,6 @@
+import { cleankml } from "./cleankml.mjs";
+import { cleanlogo } from "./logo.mjs";
+import { cleanballoon } from "./balloon.mjs";
 const ENDPOINT = "/api/lg-connection/relaunch-lg";
 
 export const relaunch = async () => {
@@ -11,10 +14,15 @@ export const relaunch = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, ip, port, password, screens }),
+      
     });
 
+    //cleankml();
+    //cleanlogo();
     const result = await response.json();
-
+    
+    cleanballoon();
+    
     if (response.ok) {
       console.log("Success:", result.message, result.data);
     } else {

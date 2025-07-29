@@ -2,6 +2,10 @@ import { checkConnection } from "../api/checkconnection.mjs";
 import { sendkml } from "../api/sendkml.mjs";
 import { showballoon } from "../api/balloon.mjs";
 import { flytoview } from "../api/flytoview.mjs";
+import "./voice.mjs";
+import {exportprocessQueryExternally} from "./voice.mjs"
+
+
 
 export class Home extends HTMLElement {
   constructor() {
@@ -115,7 +119,7 @@ export class Home extends HTMLElement {
               <p>Sample Queries:</p>
               <md-filled-tonal-button id="sampleKML1">What is the capital of the USA?</md-filled-tonal-button>
               <md-filled-tonal-button id="sampleKML2">Tell me about rising sea levels in Maldives.</md-filled-tonal-button>
-              <md-filled-tonal-button id="sampleKML3">How has Mumbai's coastline changed in 50 years?</md-filled-tonal-button>
+              <md-filled-tonal-button id="sampleKML3">Tell me something about Japan.</md-filled-tonal-button>
               </div>
         </div>
 
@@ -157,46 +161,43 @@ export class Home extends HTMLElement {
     
     const sampleKML1Button = this.shadowRoot.getElementById("sampleKML1");
     sampleKML1Button.addEventListener("click", async () => {
-      await flytoview(38.8950368,-77.0365427,10);
-      await sendkml();
-      const text = "The capital of the United States is Washington, D.C.";
-      speakText(text);
-      await showballoon();
+      const geminiTab = document.querySelector('md-primary-tab[data-tab="voice"]');
+      if (geminiTab) {
+        geminiTab.click();
+      } else {
+        console.error("Gemini tab not found");
+      }
+
+      await exportprocessQueryExternally("What is the capital of the USA?");
+
+      //await flytoview(38.8950368,-77.0365427,10);
+      //await sendkml();
+      //const text = "The capital of the United States is Washington, D.C.";
+      //speakText(text);
+      //await showballoon();
 
     });
 
     const sampleKML2Button = this.shadowRoot.getElementById("sampleKML2");
     sampleKML2Button.addEventListener("click", async () => {
-      await flytoview(4.1755,73.5093,10);
-      await sendkml();
-      
-      oceanSound.play().catch(console.error);
-      // Stop after 10 seconds
-      setTimeout(() => {
-        oceanSound.pause();
-        oceanSound.currentTime = 0;
-      }, 10000);
-
-      speakText("The Maldives, a low-lying island nation, faces an existential threat from rising sea levels caused by climate change.  Continued sea level rise threatens to inundate islands and displace its population.");
-      const customKML = await fetch('./assets/samplekml2.kml').then(res => res.text());
-      await showballoon(customKML);
+      const geminiTab = document.querySelector('md-primary-tab[data-tab="voice"]');
+      if (geminiTab) {
+        geminiTab.click();
+      } else {
+        console.error("Gemini tab not found");
+      }
+      await exportprocessQueryExternally("Tell me about rising sea levels in Maldives. In 2 lines.");
     });
 
     const sampleKML3Button = this.shadowRoot.getElementById("sampleKML3");
     sampleKML3Button.addEventListener("click", async () => {
-      await flytoview(19.0760,72.8777,10);
-      await sendkml();
-      
-      oceanSound.play().catch(console.error);
-      // Stop after 10 seconds
-      setTimeout(() => {
-        oceanSound.pause();
-        oceanSound.currentTime = 0;
-      }, 10000);
-
-      speakText("Over the last 50 years, Mumbai's coastline has undergone significant transformations due to land reclamation, infrastructure development, and rising sea levels.");
-      const customKML = await fetch('./assets/samplekml3.kml').then(res => res.text());
-      await showballoon(customKML);
+      const geminiTab = document.querySelector('md-primary-tab[data-tab="voice"]');
+      if (geminiTab) {
+        geminiTab.click();
+      } else {
+        console.error("Gemini tab not found");
+      }
+      await exportprocessQueryExternally("Tell me something about Japan. In 2 lines.");
     });
   }
 
@@ -228,8 +229,8 @@ const fireSound = new Audio('./assets/fire.mp3');
 
 oceanSound.loop = true;
 fireSound.loop = true;
-fireSound.volume = 0.5;
-oceanSound.volume = 0.5;
+fireSound.volume = 0.25;
+oceanSound.volume = 0.25;
 
 function stopAllSounds() {
   oceanSound.pause();
@@ -238,6 +239,7 @@ function stopAllSounds() {
   fireSound.currentTime = 0;
 }
 
+/*
 function playSoundscapeBasedOnText(text) {
   stopAllSounds();
 
@@ -264,4 +266,4 @@ function playSoundscapeBasedOnText(text) {
     }, 3000);
   }
 }
-
+*/
