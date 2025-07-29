@@ -1,12 +1,14 @@
 const ENDPOINT = "/api/lg-connection/send-kml";
 const filename = "slave_kml.kml"; 
 
+
 const getKML = async () => {
   const res = await fetch(
     "https://yashrajbharti.github.io/lg-web/assets/Fire.kml"
   );
   return await res.text();
 };
+
 
 export const sendkml = async () => {
   try {
