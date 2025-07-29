@@ -119,7 +119,7 @@ export class Home extends HTMLElement {
               <p>Sample Queries:</p>
               <md-filled-tonal-button id="sampleKML1">What is the capital of the USA?</md-filled-tonal-button>
               <md-filled-tonal-button id="sampleKML2">Tell me about rising sea levels in Maldives.</md-filled-tonal-button>
-              <md-filled-tonal-button id="sampleKML3">Tell me something about Japan.</md-filled-tonal-button>
+              <md-filled-tonal-button id="sampleKML3">Tell me something about Barcelona.</md-filled-tonal-button>
               </div>
         </div>
 
@@ -197,7 +197,7 @@ export class Home extends HTMLElement {
       } else {
         console.error("Gemini tab not found");
       }
-      await exportprocessQueryExternally("Tell me something about Japan. In 2 lines.");
+      await exportprocessQueryExternally("Tell me something about Barcelona. In 2 lines.");
     });
   }
 

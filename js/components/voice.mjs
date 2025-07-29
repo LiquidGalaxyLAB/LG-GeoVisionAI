@@ -702,6 +702,8 @@ export class LGVoice extends HTMLElement {
       "washington d c": "usa.jpg",
       "india": "delhi.jpg",
       "mumbai": "mumbai.jpg",
+      "barcelona": "barcelona.jpg",
+      "spain": "barcelona.jpg",
     };
   
     //normalizing input by removing punctuation and extra spaces
