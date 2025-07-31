@@ -4,7 +4,7 @@ let kml = "";
 
 const getBalloonKML = async () => {
   const res = await fetch(
-    "/assets/samplekml1.kml"  // Adjust the path as needed
+    "/assets/samplekml1.kml"
   );
   return await res.text();
 };
@@ -39,7 +39,7 @@ export const showballoon = async (customKML = null) => {
     const configs = JSON.parse(localStorage.getItem("lgconfigs"));
     const { server, username, ip, port, password, screens } = configs;
 
-    const kml = customKML || await getBalloonKML();  // Use custom KML if provided
+    const kml = customKML || await getBalloonKML();  // Use the custom KML if there
 
     const response = await fetch(server + ENDPOINT_SHOW_BALLOON, {
       method: "POST",
@@ -52,7 +52,7 @@ export const showballoon = async (customKML = null) => {
     const contentType = response.headers.get("Content-Type");
 
     if (!contentType || !contentType.includes("application/json")) {
-      const errorText = await response.text();  // Might be HTML error page
+      const errorText = await response.text();  
       console.error("Server did not return JSON:", errorText);
       return;
     }
