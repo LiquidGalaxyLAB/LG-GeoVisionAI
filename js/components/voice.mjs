@@ -318,7 +318,6 @@ export class LGVoice extends HTMLElement {
       
         console.log("Orbit command received with:", { lat, lng });
       
-        // Validate values
         if (
           typeof lat !== "number" ||
           typeof lng !== "number" ||
@@ -335,7 +334,7 @@ export class LGVoice extends HTMLElement {
         console.error("Start Orbit Error:", error);
         this.showToast("Failed to start orbit.");
       }
-      
+
     });
 
     stopOrbitButton.addEventListener("click", async () => {
@@ -470,6 +469,7 @@ export class LGVoice extends HTMLElement {
   
     const showOnlyPattern = /^take me to\s+|^show me\s+|^send me to+|^fly to/i;
     let geminiTextResponse = "";
+    let geminiResponse = "";
     let identifiedLocation = "";
     const isDirectLocation = showOnlyPattern.test(query.trim());
   
@@ -484,13 +484,13 @@ export class LGVoice extends HTMLElement {
     }
 
     // Check if the query is a direct location command
-   
     if (isDirectLocation) {
       console.log("Processing direct location query...");
-      identifiedLocation = query.replace(/^(take me to|show me|send me to|fly to)\s+/i, "").trim();
+      identifiedLocation = query.toLowerCase().replace(/^(take me to|show me|send me to|fly to)\s*/i, "").trim().replace(/\s+/g, " ");
+      console.log("Identified location:", identifiedLocation);
 
-      geminiTextResponse = `You're now viewing ${identifiedLocation}.`;
-      storyEl.textContent = geminiTextResponse;
+      geminiResponse = `You're now viewing ${identifiedLocation}.`;
+      storyEl.textContent = geminiResponse;
       this.showToast(`Detected direct location fly to command: "${identifiedLocation}"`);
 
       console.log("Fetching coordinates for:", identifiedLocation);
@@ -519,34 +519,32 @@ export class LGVoice extends HTMLElement {
       this.showToast(`Flying to location...`);
       await flytoview(coordinates.lat, coordinates.lng, 15); 
       console.log("Sent flytoview command.");
-      await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      console.log("Waited after flytoview.");
+      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      //console.log("Waited after flytoview.");
 
-      imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
+      imageUrl = await this.generateImageUrlFromText(geminiResponse);
+      console.log("Generated image URL:", imageUrl);
       const balloonKml = this.generateBalloonKml(
-        this.lastCoordinates,
+        coordinates,
         identifiedLocation,
-        geminiTextResponse,
+        geminiResponse,
         imageUrl
       );
-      console.log("Generated Balloon KML in browser.");
+      console.log("RAW BALLOON KML:\n" + balloonKml);
 
       this.showToast(`Sending balloon data and showing...`);
       await this.sendBalloonToLG(balloonKml); 
       console.log("Sent showballoon command with KML data.");
       
-      await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      console.log("Waited after showballoon.");
+      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      //console.log("Waited after showballoon.");
+      //await flytoview(coordinates.lat, coordinates.lng, 15);
+      //console.log("Sent final flytoview command for positioning.");
+      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      //console.log("Final fly and wait complete.");
 
-
-      await flytoview(coordinates.lat, coordinates.lng, 15); 
-      console.log("Sent final flytoview command for positioning.");
-      await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      console.log("Final fly and wait complete.");
-
-      
       setTimeout(() => {
-        speech.speak(geminiTextResponse, () => {
+        speech.speak(geminiResponse, () => {
           this.showToast("Story narration finished.");
         });
       }, 800);
@@ -704,6 +702,7 @@ export class LGVoice extends HTMLElement {
       "mumbai": "mumbai.jpg",
       "barcelona": "barcelona.jpg",
       "spain": "barcelona.jpg",
+      "hague": "barcelona.jpg"
     };
   
     //normalizing input by removing punctuation and extra spaces
@@ -863,6 +862,7 @@ export class LGVoice extends HTMLElement {
   
       if (response.ok) {
         console.log("Direct balloon sent successfully:", result.message, result.data);
+        console.log("Direct Balloon KML Content:\n" + kmlContent);
         this.showToast("Direct Balloon Placemark displayed on Liquid Galaxy!");
       } else {
         console.error("Error sending direct balloon:", result.message, result.stack);
