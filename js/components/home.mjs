@@ -58,7 +58,6 @@ export class Home extends HTMLElement {
             }
             div {
                 display: flex;
-                block-size: 80dvh;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
@@ -84,8 +83,7 @@ export class Home extends HTMLElement {
               gap: 10px;
             }
 
-            .sample-buttons md-filled-tonal-button {
-              flex: 1;
+            .sample-buttons md-filled-tonal-button {  
               inline-size: 100%;
             }
 
