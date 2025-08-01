@@ -63,10 +63,6 @@ export class LGVoice extends HTMLElement {
           cursor: pointer;
         }
 
-        .mic path {
-          fill: var(--md-sys-color-primary-container);
-        }
-
         .message {
           inline-size: 100%;
           block-size: 75px;
@@ -202,10 +198,13 @@ export class LGVoice extends HTMLElement {
       <div class="wrapper">
         <md-icon-button id="micButton" aria-label="Microphone">
             <svg class="mic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
-                <path d="m11 18.08h2v3.92h-2z"></path>
-                <path d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
-                <path d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
+                  <path fill="var(--md-sys-color-primary)"
+                      d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path>
+                  <path fill="var(--md-sys-color-secondary)" d="m11 18.08h2v3.92h-2z"></path>
+                  <path fill="var(--md-sys-color-tertiary)"
+                      d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path>
+                  <path fill="var(--md-sys-color-on-surface)"
+                      d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path>
             </svg>
         </md-icon-button>
         <p class="headline-small">Tap on the Mic to Speak!</p>
@@ -466,6 +465,7 @@ export class LGVoice extends HTMLElement {
     soundPlayer.hidden = true;
     storyEl.textContent = "";
     let imageUrl = ""; // for dynamically changing image on the balloon
+    let imageUrl1 = ""; // for direct location queries
   
     const showOnlyPattern = /^take me to\s+|^show me\s+|^send me to+|^fly to/i;
     let geminiTextResponse = "";
@@ -522,13 +522,22 @@ export class LGVoice extends HTMLElement {
       //await new Promise((resolve) => setTimeout(resolve, 2000)); 
       //console.log("Waited after flytoview.");
 
-      imageUrl = await this.generateImageUrlFromText(geminiResponse);
-      console.log("Generated image URL:", imageUrl);
+      const prompt = `A breathtaking, scenic aerial view of ${identifiedLocation}, showcasing its most iconic landmarks, unique architecture, and surrounding natural beauty. Include dynamic elements such as bustling city life or serene nature, depending on the location. Use a professional photography style with rich, vibrant colors, dramatic shadows, golden hour lighting, and a cinematic, high-definition finish. Emphasize depth, realism, and emotional impact to create a visually compelling image.`;
+      console.log("prompt sent to LG", prompt);
+      imageUrl1 = await this.generateImageUrlFromText(prompt, identifiedLocation);
+
+      console.log("Generated image URL for direct location:", imageUrl1);
+
+      if (!imageUrl1 || imageUrl1.includes("barcelona")) {
+        imageUrl1 = "https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/high-detail-political-map-of-the-world-blue-and-white-vector.jpg"; // replace with your actual fallback image path
+      }
+      await new Promise(r => setTimeout(r, 1500));
+
       const balloonKml = this.generateBalloonKml(
         coordinates,
         identifiedLocation,
         geminiResponse,
-        imageUrl
+        imageUrl1
       );
       console.log("RAW BALLOON KML:\n" + balloonKml);
 
@@ -894,8 +903,8 @@ const fireSound = new Audio('./assets/fire.mp3');
 
 oceanSound.loop = true;
 fireSound.loop = true;
-fireSound.volume = 0.25;
-oceanSound.volume = 0.25;
+fireSound.volume = 0.15;
+oceanSound.volume = 0.15;
 
 function stopAllSounds() {
   oceanSound.pause();
