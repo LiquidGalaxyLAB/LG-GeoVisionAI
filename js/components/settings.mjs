@@ -41,18 +41,18 @@ export class Settings extends HTMLElement {
             </md-filled-tonal-icon-button>
         </div>
         <svg class="scan-region-highlight-svg" width="200" height="200" viewBox="0 0 238 238" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_80_2)">
-            <path d="M236 207V228C236 230.122 235.157 232.157 233.657 233.657C232.157 235.157 230.122 236 228 236H207" stroke="#34A853" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M31 236H10C7.87827 236 5.84344 235.157 4.34315 233.657C2.84285 232.157 2 230.122 2 228V207" stroke="#FBBC05" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M207 2H228C230.122 2 232.157 2.84285 233.657 4.34315C235.157 5.84344 236 7.87827 236 10V31" stroke="#4285F4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M32 2H11C8.87827 2 6.84344 2.84285 5.34315 4.34315C3.84285 5.84344 3 7.87827 3 10V31" stroke="#EA4335" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="4" y1="118" x2="233" y2="118" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round"/>
-            </g>
-            <defs>
-            <clipPath id="clip0_80_2">
-            <rect width="238" height="238" fill="white"/>
-            </clipPath>
-            </defs>
+                <g clip-path="url(#clip0_80_2)">
+                <path d="M236 207V228C236 230.122 235.157 232.157 233.657 233.657C232.157 235.157 230.122 236 228 236H207" stroke="var(--md-sys-color-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M31 236H10C7.87827 236 5.84344 235.157 4.34315 233.657C2.84285 232.157 2 230.122 2 228V207" stroke="var(--md-sys-color-secondary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M207 2H228C230.122 2 232.157 2.84285 233.657 4.34315C235.157 5.84344 236 7.87827 236 10V31" stroke="var(--md-sys-color-tertiary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M32 2H11C8.87827 2 6.84344 2.84285 5.34315 4.34315C3.84285 5.84344 3 7.87827 3 10V31" stroke="var(--md-sys-color-on-surface)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="4" y1="118" x2="233" y2="118" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_80_2">
+                <rect width="238" height="238" fill="white"/>
+                </clipPath>
+                </defs>
         </svg>
         <p class="message"></p>
         `;
