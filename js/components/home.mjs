@@ -184,7 +184,7 @@ export class Home extends HTMLElement {
       } else {
         console.error("Gemini tab not found");
       }
-      await exportprocessQueryExternally("Tell me about rising sea levels in Maldives. In 2 lines.");
+      await exportprocessQueryExternally("Tell me about rising sea levels in Maldives island. In 2 lines.");
     });
 
     const sampleKML3Button = this.shadowRoot.getElementById("sampleKML3");
@@ -236,32 +236,3 @@ function stopAllSounds() {
   oceanSound.currentTime = 0;
   fireSound.currentTime = 0;
 }
-
-/*
-function playSoundscapeBasedOnText(text) {
-  stopAllSounds();
-
-  const lower = text.toLowerCase();
-  let soundToPlay = null;
-
-  if (lower.includes("ocean") || lower.includes("sea") || lower.includes("wave") || lower.includes("beach") || lower.includes("coast") || lower.includes("island")) {
-    soundToPlay = oceanSound;
-  } else if (lower.includes("fire") || lower.includes("burning") || lower.includes("flame") || lower.includes("campfire") || lower.includes("wildfire")) {
-    soundToPlay = fireSound;
-  }
-
-  if (soundToPlay) {
-    soundToPlay.play().then(() => {
-      console.log("Sound started");
-    }).catch(err => {
-      console.error("Play error:", err);
-    });
-
-    setTimeout(() => {
-      soundToPlay.pause();
-      soundToPlay.currentTime = 0;
-      console.log("Sound stopped");
-    }, 3000);
-  }
-}
-*/
