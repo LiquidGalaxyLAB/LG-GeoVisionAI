@@ -510,51 +510,29 @@ export class LGVoice extends HTMLElement {
 
       this.showToast(`Coordinates found: ${coordinates.lat}, ${coordinates.lng}`);
 
-      //await cleanballoon();
-      //console.log("Sent clean balloon command.");
-      //await new Promise((resolve) => setTimeout(resolve, 3000)); 
-      //console.log(" Waited after cleanballoon.");
-
-      
       this.showToast(`Flying to location...`);
       await flytoview(coordinates.lat, coordinates.lng, 15); 
       console.log("Sent flytoview command.");
-      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      //console.log("Waited after flytoview.");
 
       const prompt = `A breathtaking, scenic aerial view of ${identifiedLocation}, showcasing its most iconic landmarks, unique architecture, and surrounding natural beauty. Include dynamic elements such as bustling city life or serene nature, depending on the location. Use a professional photography style with rich, vibrant colors, dramatic shadows, golden hour lighting, and a cinematic, high-definition finish. Emphasize depth, realism, and emotional impact to create a visually compelling image.`;
       console.log("prompt sent to LG", prompt);
       imageUrl1 = await this.generateImageUrlFromText(prompt, identifiedLocation);
 
-      console.log("Generated image URL for direct location:", imageUrl1);
-
       if (!imageUrl1 || imageUrl1.includes("political-map-of-the-world")) {
         imageUrl1 = "https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/high-detail-political-map-of-the-world-blue-and-white-vector.jpg"; 
       }
       await new Promise(r => setTimeout(r, 1500));
-      console.log("Generated image URL for direct location: after if check", imageUrl1);
       
       const balloonKml1 = this.generateBalloonKml(
         coordinates,
         identifiedLocation,
         geminiResponse,
+        imageUrl,
         imageUrl1
       );
-      console.log("Calling generateBalloonKml with imageUrl1:", imageUrl1);
-
-      console.log("RAW BALLOON KML:\n" + balloonKml1);
-
       this.showToast(`Sending balloon data and showing...`);
-      await this.sendBalloonToLG(balloonKml1); 
+      await this.sendDirectBalloonToLG(balloonKml1); 
       await showballoon(balloonKml1); 
-      console.log("Sent showballoon command with KML data.", balloonKml1);
-      
-      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      //console.log("Waited after showballoon.");
-      //await flytoview(coordinates.lat, coordinates.lng, 15);
-      //console.log("Sent final flytoview command for positioning.");
-      //await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      //console.log("Final fly and wait complete.");
 
       setTimeout(() => {
         speech.speak(geminiResponse, () => {
@@ -663,7 +641,7 @@ export class LGVoice extends HTMLElement {
       }
   
       if (coordinates) {
-        this.lastCoordinates = {     // store the last coordinates for orbit functionality
+        this.lastCoordinates = {
           lat: parseFloat(coordinates.lat),
           lng: parseFloat(coordinates.lng)
         };
@@ -673,7 +651,7 @@ export class LGVoice extends HTMLElement {
         playSoundscapeBasedOnText(geminiTextResponse);
         imageUrl = await this.generateImageUrlFromText(geminiTextResponse, identifiedLocation);
   
-        const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl);
+        const balloonKml = this.generateBalloonKml(coordinates, identifiedLocation, geminiTextResponse,imageUrl, imageUrl1);
         await this.sendBalloonToLG(balloonKml);
         
         await flytoview(coordinates.lat, coordinates.lng, 15); // forces the balloon to appear
@@ -730,7 +708,6 @@ export class LGVoice extends HTMLElement {
     return `${baseUrl}high-detail-political-map-of-the-world-blue-and-white-vector.jpg`;
   }
   
-  // sanitize/parse special characters that can/may break the KML rendering
   sanitizeForKML(text) {
     return text
       .replace(/&/g, "&amp;")
@@ -739,8 +716,8 @@ export class LGVoice extends HTMLElement {
       .replace(/"/g, "&quot;");
   }
   
-  generateBalloonKml(coordinates, name, geminiTextResponse, imageUrl) {
-    const selectedImage = imageUrl;
+  generateBalloonKml(coordinates, name, geminiTextResponse, imageUrl, imageUrl1) {
+    const selectedImage = geminiTextResponse ? imageUrl : imageUrl1;
     console.log("Selected image for balloon:", selectedImage);
     const safeText = this.sanitizeForKML(geminiTextResponse);
   
@@ -788,7 +765,6 @@ export class LGVoice extends HTMLElement {
     </kml>`;
   }
   
-  // Sends the dynamically generated Balloon KML to Liquid Galaxy
   async sendBalloonToLG(kmlContent) {
     try {
       const configs = JSON.parse(localStorage.getItem("lgconfigs"));
@@ -886,20 +862,6 @@ export class LGVoice extends HTMLElement {
       console.error("Error during direct balloon sending:", error);
       this.showToast(`Error sending direct balloon: ${error.message}`);
     }
-  }
-
-  
-  
-// keyword extarction function for integrating freesound API, will look into it after midterm
-  extractKeywords(text) {
-    const keywords = ["ocean", "sea", "river", "lake", "wave", "storm", "tsunami", "coast", "island", "flood", "beach",
-                      "forest", "mountain", "city", "jungle", "desert", "rain", "wind", "thunder", "bird", "animal", "music", "ambience", "nature", "urban", "waterfall", "desert", "crowd", "street"];
-    for (const keyword of keywords) {
-        if (text.toLowerCase().includes(keyword)) {
-            return keyword;
-        }
-    }
-    return null;
   }
 }
 
