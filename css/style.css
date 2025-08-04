@@ -1,270 +1,277 @@
 :root,
-:host{
-    --md-sys-color-background:#171218;
-    --md-sys-color-on-background:#ebdfe8;
-    --md-sys-color-surface:#171218;
-    --md-sys-color-surface-dim:#171218;
-    --md-sys-color-surface-bright:#3e373e;
-    --md-sys-color-surface-container-lowest:#120c12;
-    --md-sys-color-surface-container-low:#201a20;
-    --md-sys-color-surface-container:#241e24;
-    --md-sys-color-surface-container-high:#2e282f;
-    --md-sys-color-surface-container-highest:#39333a;
-    --md-sys-color-on-surface:#ebdfe8;
-    --md-sys-color-surface-variant:#4e434f;
-    --md-sys-color-on-surface-variant:#d2c2d1;
-    --md-sys-color-inverse-surface:#ebdfe8;
-    --md-sys-color-inverse-on-surface:#352e35;
-    --md-sys-color-outline:#9b8c9a;
-    --md-sys-color-outline-variant:#4e434f;
-    --md-sys-color-shadow:#000000;
-    --md-sys-color-scrim:#000000;
-    --md-sys-color-surface-tint:#f2afff;
-    --md-sys-color-primary:#f9ccff;
-    --md-sys-color-on-primary:#55006c;
-    --md-sys-color-primary-container:#e692fa;
-    --md-sys-color-on-primary-container:#450058;
-    --md-sys-color-inverse-primary:#893e9f;
-    --md-sys-color-secondary:#e2b9e7;
-    --md-sys-color-on-secondary:#422549;
-    --md-sys-color-secondary-container:#503257;
-    --md-sys-color-on-secondary-container:#ecc3f1;
-    --md-sys-color-tertiary:#ffcfc7;
-    --md-sys-color-on-tertiary:#5a1b12;
-    --md-sys-color-tertiary-container:#f89686;
-    --md-sys-color-on-tertiary-container:#4b0f08;
-    --md-sys-color-error:#ffb4ab;
-    --md-sys-color-on-error:#690005;
-    --md-sys-color-error-container:#93000a;
-    --md-sys-color-on-error-container:#ffdad6;
+:host {
+  --md-sys-color-background: #171218;
+  --md-sys-color-on-background: #ebdfe8;
+  --md-sys-color-surface: #171218;
+  --md-sys-color-surface-dim: #171218;
+  --md-sys-color-surface-bright: #3e373e;
+  --md-sys-color-surface-container-lowest: #120c12;
+  --md-sys-color-surface-container-low: #201a20;
+  --md-sys-color-surface-container: #241e24;
+  --md-sys-color-surface-container-high: #2e282f;
+  --md-sys-color-surface-container-highest: #39333a;
+  --md-sys-color-on-surface: #ebdfe8;
+  --md-sys-color-surface-variant: #4e434f;
+  --md-sys-color-on-surface-variant: #d2c2d1;
+  --md-sys-color-inverse-surface: #ebdfe8;
+  --md-sys-color-inverse-on-surface: #352e35;
+  --md-sys-color-outline: #9b8c9a;
+  --md-sys-color-outline-variant: #4e434f;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-surface-tint: #f2afff;
+  --md-sys-color-primary: #f9ccff;
+  --md-sys-color-on-primary: #55006c;
+  --md-sys-color-primary-container: #e692fa;
+  --md-sys-color-on-primary-container: #450058;
+  --md-sys-color-inverse-primary: #893e9f;
+  --md-sys-color-secondary: #e2b9e7;
+  --md-sys-color-on-secondary: #422549;
+  --md-sys-color-secondary-container: #503257;
+  --md-sys-color-on-secondary-container: #ecc3f1;
+  --md-sys-color-tertiary: #ffcfc7;
+  --md-sys-color-on-tertiary: #5a1b12;
+  --md-sys-color-tertiary-container: #f89686;
+  --md-sys-color-on-tertiary-container: #4b0f08;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffdad6;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    background-color: var(--md-sys-color-background);
-    font-family: "Roboto", sans-serif;
-    scroll-behavior: auto;
-
+  background-color: var(--md-sys-color-background);
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: auto;
 }
 
 main {
-    position: relative;
-    display: block;
-    max-inline-size: 1280px;
-    margin-inline: auto;
-    padding-bottom: 0px; 
-    min-height: 100%;
-    flex: 1;
-    padding-bottom: 80px;
+  position: relative;
+  display: block;
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  min-block-size: 100%;
 }
 
 header {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    inline-size: 100%;
-    height: 80px;
-    z-index: 999;
-    
-  }
-  
-  header nav {
-    height: 100%;
-    inline-size: 100%;
-  }
-  
-  md-tabs {
-    inline-size: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around; 
-    padding: 0 12px; 
-  }
-  
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 80px;
+  z-index: 2;
+}
+
+header nav {
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+md-tabs {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 12px;
+}
+
 .wrapper {
-    display: flex;
-    max-inline-size: 1280px;
-    scroll-snap-type: x mandatory;
-    flex-flow: row nowrap;
-    overflow-y: hidden;
-    scrollbar-width: auto;
+  display: flex;
+  max-inline-size: 1280px;
+  scroll-snap-type: x mandatory;
+  flex-flow: row nowrap;
+  overflow-y: hidden;
+  scrollbar-width: auto;
 }
 
 .wrapper::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 section {
-    inline-size: 100%;
-    scroll-snap-align: center;
-    flex: none;
+  inline-size: 100%;
+  scroll-snap-align: center;
+  flex: none;
 }
 
 @property --gradBlueRed {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 25%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 25%;
 }
 
 @property --gradRedBlue {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 25%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 25%;
 }
 
 @property --gradRedYellow {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 50%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
 }
 
 @property --gradYellowRed {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 50%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
 }
 
 @property --gradYellowGreen {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 75%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 75%;
 }
 
 @property --gradGreenYellow {
-    syntax: "<percentage>";
-    inherits: false;
-    initial-value: 75%;
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 75%;
 }
 
 .googleVoice {
-    position: absolute;
-    inset-inline-start: 50%;
-    inset-block-end: 60px;
-    translate: -50% 0;
+  position: fixed;
+  inline-size: 100%;
+  inset-inline-start: 50%;
+  inset-block-end: 65px;
+  translate: -50% 0;
+  z-index: 2;
 }
 
 .googleVoice .rect {
-    background: linear-gradient(to right,
-            var(--md-sys-color-primary) 0 var(--gradBlueRed),
-            var(--md-sys-color-secondary) var(--gradRedBlue) var(--gradRedYellow),
-            var(--md-sys-color-tertiary) var(--gradYellowRed) var(--gradYellowGreen),
-            var(--md-sys-color-on-background) var(--gradGreenYellow) 100%);
+  display: block;
+  block-size: 4px;
+  margin-inline: auto;
+  inline-size: 80%;
+  background: linear-gradient(
+    to right,
+    var(--md-sys-color-primary) 0 var(--gradBlueRed),
+    var(--md-sys-color-secondary) var(--gradRedBlue) var(--gradRedYellow),
+    var(--md-sys-color-tertiary) var(--gradYellowRed) var(--gradYellowGreen),
+    var(--md-sys-color-on-background) var(--gradGreenYellow) 100%
+  );
 }
 
 .googleVoice .rect.blur {
-    filter: blur(20px);
+  filter: blur(20px);
 }
 
 .googleVoice.animate .rect {
-    inline-size: 90dvw;
-    animation: voice 2s ease infinite alternate;
+  inline-size: 80%;
+  animation: voice 2s ease infinite alternate;
 }
 
 .googleVoice.animate.ending .rect {
-    inline-size: 90dvw;
-    animation: voiceEnding 0.6s ease infinite alternate;
+  inline-size: 80%;
+  animation: voiceEnding 0.6s ease infinite alternate;
 }
 
 @keyframes voice {
-    0% {
-        --gradBlueRed: 80%;
-        --gradRedBlue: 84%;
-        --gradRedYellow: 88%;
-        --gradYellowRed: 92%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
-    }
+  0% {
+    --gradBlueRed: 80%;
+    --gradRedBlue: 84%;
+    --gradRedYellow: 88%;
+    --gradYellowRed: 92%;
+    --gradYellowGreen: 96%;
+    --gradGreenYellow: 100%;
+  }
 
-    15% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 70%;
-        --gradYellowRed: 74%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
-    }
+  15% {
+    --gradBlueRed: 10%;
+    --gradRedBlue: 14%;
+    --gradRedYellow: 70%;
+    --gradYellowRed: 74%;
+    --gradYellowGreen: 96%;
+    --gradGreenYellow: 100%;
+  }
 
-    30% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 80%;
-        --gradYellowRed: 84%;
-        --gradYellowGreen: 90%;
-        --gradGreenYellow: 100%;
-    }
+  30% {
+    --gradBlueRed: 10%;
+    --gradRedBlue: 14%;
+    --gradRedYellow: 80%;
+    --gradYellowRed: 84%;
+    --gradYellowGreen: 90%;
+    --gradGreenYellow: 100%;
+  }
 
-    45% {
-        --gradBlueRed: 10%;
-        --gradRedBlue: 14%;
-        --gradRedYellow: 60%;
-        --gradYellowRed: 66%;
-        --gradYellowGreen: 76%;
-        --gradGreenYellow: 80%;
-    }
+  45% {
+    --gradBlueRed: 10%;
+    --gradRedBlue: 14%;
+    --gradRedYellow: 60%;
+    --gradYellowRed: 66%;
+    --gradYellowGreen: 76%;
+    --gradGreenYellow: 80%;
+  }
 
-    60% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 5%;
-        --gradRedYellow: 10%;
-        --gradYellowRed: 15%;
-        --gradYellowGreen: 90%;
-        --gradGreenYellow: 100%;
-    }
+  60% {
+    --gradBlueRed: 0%;
+    --gradRedBlue: 5%;
+    --gradRedYellow: 10%;
+    --gradYellowRed: 15%;
+    --gradYellowGreen: 90%;
+    --gradGreenYellow: 100%;
+  }
 
-    75% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 5%;
-        --gradRedYellow: 10%;
-        --gradYellowRed: 15%;
-        --gradYellowGreen: 20%;
-        --gradGreenYellow: 40%;
-    }
+  75% {
+    --gradBlueRed: 0%;
+    --gradRedBlue: 5%;
+    --gradRedYellow: 10%;
+    --gradYellowRed: 15%;
+    --gradYellowGreen: 20%;
+    --gradGreenYellow: 40%;
+  }
 
-    100% {
-        --gradBlueRed: 80%;
-        --gradRedBlue: 84%;
-        --gradRedYellow: 88%;
-        --gradYellowRed: 92%;
-        --gradYellowGreen: 96%;
-        --gradGreenYellow: 100%;
-    }
+  100% {
+    --gradBlueRed: 80%;
+    --gradRedBlue: 84%;
+    --gradRedYellow: 88%;
+    --gradYellowRed: 92%;
+    --gradYellowGreen: 96%;
+    --gradGreenYellow: 100%;
+  }
 }
 
 @keyframes voiceEnding {
-    0% {
-        --gradBlueRed: 50%;
-        --gradRedBlue: 50%;
-        --gradRedYellow: 100%;
-        --gradYellowRed: 100%;
-        --gradYellowGreen: 100%;
-        --gradGreenYellow: 100%;
-    }
+  0% {
+    --gradBlueRed: 50%;
+    --gradRedBlue: 50%;
+    --gradRedYellow: 100%;
+    --gradYellowRed: 100%;
+    --gradYellowGreen: 100%;
+    --gradGreenYellow: 100%;
+  }
 
-    100% {
-        --gradBlueRed: 0%;
-        --gradRedBlue: 0%;
-        --gradRedYellow: 0%;
-        --gradYellowRed: 0%;
-        --gradYellowGreen: 50%;
-        --gradGreenYellow: 50%;
-    }
+  100% {
+    --gradBlueRed: 0%;
+    --gradRedBlue: 0%;
+    --gradRedYellow: 0%;
+    --gradYellowRed: 0%;
+    --gradYellowGreen: 50%;
+    --gradGreenYellow: 50%;
+  }
 }
 
 main section {
-    display: none;
+  display: none;
 }
 
 main section#home {
-    display: block;
+  display: block;
+}
+
+#about {
+  padding-block: 40px 80px;
 }
