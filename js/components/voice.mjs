@@ -528,22 +528,26 @@ export class LGVoice extends HTMLElement {
 
       console.log("Generated image URL for direct location:", imageUrl1);
 
-      if (!imageUrl1 || imageUrl1.includes("barcelona")) {
-        imageUrl1 = "https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/high-detail-political-map-of-the-world-blue-and-white-vector.jpg"; // replace with your actual fallback image path
+      if (!imageUrl1 || imageUrl1.includes("political-map-of-the-world")) {
+        imageUrl1 = "https://raw.githubusercontent.com/Anishka2006/lg-geovisionai/main/high-detail-political-map-of-the-world-blue-and-white-vector.jpg"; 
       }
       await new Promise(r => setTimeout(r, 1500));
-
-      const balloonKml = this.generateBalloonKml(
+      console.log("Generated image URL for direct location: after if check", imageUrl1);
+      
+      const balloonKml1 = this.generateBalloonKml(
         coordinates,
         identifiedLocation,
         geminiResponse,
         imageUrl1
       );
-      console.log("RAW BALLOON KML:\n" + balloonKml);
+      console.log("Calling generateBalloonKml with imageUrl1:", imageUrl1);
+
+      console.log("RAW BALLOON KML:\n" + balloonKml1);
 
       this.showToast(`Sending balloon data and showing...`);
-      await this.sendBalloonToLG(balloonKml); 
-      console.log("Sent showballoon command with KML data.");
+      await this.sendBalloonToLG(balloonKml1); 
+      await showballoon(balloonKml1); 
+      console.log("Sent showballoon command with KML data.", balloonKml1);
       
       //await new Promise((resolve) => setTimeout(resolve, 2000)); 
       //console.log("Waited after showballoon.");
@@ -737,6 +741,7 @@ export class LGVoice extends HTMLElement {
   
   generateBalloonKml(coordinates, name, geminiTextResponse, imageUrl) {
     const selectedImage = imageUrl;
+    console.log("Selected image for balloon:", selectedImage);
     const safeText = this.sanitizeForKML(geminiTextResponse);
   
     return `<?xml version="1.0" encoding="UTF-8"?>
