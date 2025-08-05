@@ -4,7 +4,7 @@ const filename = "slave_kml.kml";
 
 const getKML = async () => {
   const res = await fetch(
-    "https://yashrajbharti.github.io/lg-web/assets/Fire.kml"
+    "/assets/samplekml1.kml"
   );
   return await res.text();
 };
