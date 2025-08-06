@@ -61,6 +61,7 @@ export class About extends HTMLElement {
           margin-top: 2rem;
           font-size: 1rem;
           color: var(--md-sys-color-on-surface);
+          padding: 1.875rem;
         }
 
 
@@ -140,7 +141,7 @@ export class About extends HTMLElement {
               <li>Fly-to animation on LG setup</li>
               <li>Dynamic balloon placemarks with AI-generated story</li>
               <li>AI narration of the generated story</li>
-              <li>Use “Start Orbit” and “Stop Orbit” buttons to orbit around (Zoom level: 10)</li>
+              <li>Use “Start Orbit” and “Stop Orbit” buttons to orbit around</li>
             </ul>
           </div>
         </ul>
