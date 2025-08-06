@@ -44,7 +44,7 @@ export class LGtools extends HTMLElement {
               margin: auto;
               display: grid;
               align-items: center;
-              padding-block-end: 200px;
+              padding-block-end: 100px;
           }
           .button-wrapper {
               block-size: max-content;
@@ -56,9 +56,9 @@ export class LGtools extends HTMLElement {
               padding: 30px;
           }
           md-filled-tonal-button {
-              padding: 40px;
+              padding: 25px;
               font-size: 20px;
-              inline-size: 250px;
+              inline-size: 230px;
           }
           md-filled-tonal-button:nth-of-type(1) {
               filter: hue-rotate(80deg) contrast(1.2);
