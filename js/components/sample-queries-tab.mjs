@@ -27,7 +27,7 @@ export class SampleQueriesTab extends HTMLElement {
         }
 
         .sample-buttons {
-          margin-top: 20px;
+          margin-block-start: 20px;
           padding: 16px;
           border-radius: 12px;
           display: flex;
@@ -42,7 +42,7 @@ export class SampleQueriesTab extends HTMLElement {
         }
 
         .back-button {
-          margin-top: 20px;
+          margin-block-start: 20px;
           inline-size: 100%;
           max-inline-size: 600px;
         }

@@ -7,7 +7,7 @@ export class About extends HTMLElement {
     template.innerHTML = `
       <style>
         .container {
-          max-width: 43.75rem; 
+          max-inline-size: 43.75rem; 
           margin: 0 auto;
           padding: 1.875rem; 
           border-radius: 12px;
@@ -16,7 +16,7 @@ export class About extends HTMLElement {
         }
 
         img {
-          max-width: 100%; 
+          max-inline-size: 100%; 
           block-size: auto; 
           border-radius: 8px;
           margin-bottom: 1.875rem; 
@@ -37,7 +37,7 @@ export class About extends HTMLElement {
 
         h2 {
           font-size: 1.5rem;
-          margin-top: 2.5rem;
+          margin-block-start: 2.5rem;
           margin-bottom: 1.25rem;
           color: var(--md-sys-color-primary);
         }
@@ -45,8 +45,8 @@ export class About extends HTMLElement {
         ul {
           text-align: left;
           margin: 0 auto;
-          max-width: 37.5rem;
-          padding-left: 1.25rem;
+          max-inline-size: 37.5rem;
+          padding-inline-start: 1.25rem;
           color: var(--md-sys-color-on-surface);
         }
 
@@ -58,20 +58,20 @@ export class About extends HTMLElement {
 
         .footer {
           text-align: center;
-          margin-top: 2rem;
+          margin-block-start: 2rem;
           font-size: 1rem;
           color: var(--md-sys-color-on-surface);
           padding: 1.875rem;
         }
 
 
-        @media (max-width: 48rem) { 
+        @media (max-inline-size: 48rem) { 
           .container {
             padding: 1.25rem; 
           }
         }
 
-        @media (max-width: 30rem) { 
+        @media (max-inline-size: 30rem) { 
           .container {
             padding: 0.9375rem; 
             margin: 0 0.625rem; 

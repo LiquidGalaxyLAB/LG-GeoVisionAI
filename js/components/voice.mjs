@@ -26,10 +26,10 @@ export class LGVoice extends HTMLElement {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-height: 100%;
+          max-block-size: 100%;
           overflow-y: auto;
           padding-block: 20px;
-          scrollbar-width: none;
+          scrollbar-inline-size: none;
           -ms-overflow-style: none;
         }
 
@@ -67,7 +67,7 @@ export class LGVoice extends HTMLElement {
           block-size: 75px;
           overflow-y: scroll;
           word-break: break-word;
-          scrollbar-width: none;
+          scrollbar-inline-size: none;
           text-align: center;
           text-wrap: wrap;
           color: var(--md-sys-color-tertiary-container);
