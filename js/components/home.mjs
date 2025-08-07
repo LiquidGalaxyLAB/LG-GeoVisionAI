@@ -4,6 +4,8 @@ import { showballoon } from "../api/balloon.mjs";
 import { flytoview } from "../api/flytoview.mjs";
 import "./voice.mjs";
 import {exportprocessQueryExternally} from "./voice.mjs"
+import "./sample-queries-tab.mjs";
+import { SampleQueriesTab } from "./sample-queries-tab.mjs";
 
 
 
@@ -118,7 +120,8 @@ export class Home extends HTMLElement {
               <md-filled-tonal-button id="sampleKML1">What is the capital of the USA?</md-filled-tonal-button>
               <md-filled-tonal-button id="sampleKML2">Tell me about rising sea levels in Maldives.</md-filled-tonal-button>
               <md-filled-tonal-button id="sampleKML3">Tell me something about Barcelona.</md-filled-tonal-button>
-              </div>
+              <md-filled-tonal-button id="sampleQueriesBtn">More Sample Queries</md-filled-tonal-button>
+            </div>
         </div>
 
         `;
@@ -165,15 +168,7 @@ export class Home extends HTMLElement {
       } else {
         console.error("Gemini tab not found");
       }
-
       await exportprocessQueryExternally("What is the capital of the USA?");
-
-      //await flytoview(38.8950368,-77.0365427,10);
-      //await sendkml();
-      //const text = "The capital of the United States is Washington, D.C.";
-      //speakText(text);
-      //await showballoon();
-
     });
 
     const sampleKML2Button = this.shadowRoot.getElementById("sampleKML2");
@@ -196,6 +191,21 @@ export class Home extends HTMLElement {
         console.error("Gemini tab not found");
       }
       await exportprocessQueryExternally("Tell me something about Barcelona. In 2 lines.");
+    }); 
+    
+    const moreSamplesBtn = this.shadowRoot.getElementById("sampleQueriesBtn");
+    moreSamplesBtn.addEventListener("click", async () => {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const sampleTab = document.querySelector('md-primary-tab[data-tab="sample-queries-tab"]');
+          console.log("Finding sample tab", sampleTab);
+          if (sampleTab) {
+            sampleTab.click();
+          } else {
+            console.error("sample tab not found");
+          }
+        }, 50);
+      });
     });
   }
 
