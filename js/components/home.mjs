@@ -64,7 +64,7 @@ export class Home extends HTMLElement {
                 align-items: center;
                 justify-content: center;
                 gap: 0px;
-                padding-top: 100px;
+                padding-block-start: 100px;
                 padding-bottom: 0px;
                 padding-block-end: 100px;
             }
@@ -77,7 +77,7 @@ export class Home extends HTMLElement {
             }
 
             .sample-buttons {
-              margin-top: 20px;
+              margin-block-start: 20px;
               padding: 16px;
               border-radius: 12px;
               display: flex;
@@ -91,13 +91,13 @@ export class Home extends HTMLElement {
 
             .marquee-container {
               margin-bottom: 10px; 
-              margin-top: 5px; 
+              margin-block-start: 5px; 
             }
 
             .marquee {
               margin: 0;
               padding-bottom: 0;
-              padding-top: 0;
+              padding-block-start: 0;
             }
 
             @keyframes scroll {
