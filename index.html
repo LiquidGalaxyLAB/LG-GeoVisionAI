@@ -50,6 +50,7 @@
         <md-primary-tab data-tab="tools"><md-icon slot="icon">tune</md-icon>Tools</md-primary-tab>
         <md-primary-tab data-tab="settings"><md-icon slot="icon">settings</md-icon>Settings</md-primary-tab>
         <md-primary-tab data-tab="about"><md-icon slot="icon">info</md-icon>About</md-primary-tab>
+        <md-primary-tab data-tab="sample-queries-tab" style="display: none;">Sample Queries</md-primary-tab>
       </md-tabs>
     </nav>
   </header>
@@ -57,7 +58,6 @@
   <main>
     <div class="wrapper" dir="ltr">
       <section id="home">
-        
         <home-page></home-page>
       </section>
       
@@ -76,9 +76,15 @@
       <section id="settings">
         <lg-settings></lg-settings>
       </section>
+
       <section id="about">
         <lg-about></lg-about>
       </section>
+
+      <section id="sample-queries-tab">
+        <sample-queries-tab></sample-queries-tab>
+      </section>
+      
     </div>
   </main>
 
@@ -109,5 +115,4 @@
     });
   </script>
 </body>
-
 </html>

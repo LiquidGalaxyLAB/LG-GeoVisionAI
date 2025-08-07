@@ -666,6 +666,8 @@ export class LGVoice extends HTMLElement {
     const keywordMap = {
       "ocean": "ocean.jpg",
       "mountain": "mountains.jpg",
+      "himalayas": "mount_everest.jpg",
+      "mount everest": "mount_everest.jpg",
       "forest": "forest.jpeg",
       "desert": "desert.jpg",
       "volcano": "volcano.jpg",
@@ -682,7 +684,8 @@ export class LGVoice extends HTMLElement {
       "mumbai": "mumbai.jpg",
       "barcelona": "barcelona.jpg",
       "spain": "barcelona.jpg",
-      "hague": "barcelona.jpg"
+      "hague": "barcelona.jpg",
+      "great barrier reef": "great_barrier_reef.jpeg"
     };
   
     //normalizing input by removing punctuation and extra spaces

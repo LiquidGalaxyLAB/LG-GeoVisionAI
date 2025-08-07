@@ -18,7 +18,8 @@ const urlsToCache = [
   "./js/components/tools.mjs",
   "./js/components/voice.mjs",
   "./js/components/about.mjs",
-  "./js/components/saveapikeys.mjs"
+  "./js/components/saveapikeys.mjs",
+  "./js/components/sample-queries-tab.mjs"
 ];
 
 self.addEventListener("install", (event) => {
