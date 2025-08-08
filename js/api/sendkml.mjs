@@ -3,10 +3,7 @@ const filename = "slave_kml.kml";
 
 
 const getKML = async () => {
-  const res = await fetch(
-    "/assets/samplekml1.kml"
-  );
-  return await res.text();
+  return "";
 };
 
 
