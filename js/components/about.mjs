@@ -19,7 +19,7 @@ export class About extends HTMLElement {
           max-inline-size: 100%; 
           block-size: auto; 
           border-radius: 8px;
-          margin-bottom: 1.875rem; 
+          margin-block-end: 1.875rem; 
           box-shadow: var(--md-elevation-level1);
           object-fit: contain;
         }
@@ -27,7 +27,7 @@ export class About extends HTMLElement {
         p {
           font-size: clamp(1rem, 1.2vw + 0.2rem, 1.1rem);
           line-height: 1.6;
-          margin-bottom: 0.9375rem; 
+          margin-block-end: 0.9375rem; 
           color: var(--md-sys-color-on-surface);
         }
 
@@ -38,7 +38,7 @@ export class About extends HTMLElement {
         h2 {
           font-size: 1.5rem;
           margin-block-start: 2.5rem;
-          margin-bottom: 1.25rem;
+          margin-block-end: 1.25rem;
           color: var(--md-sys-color-primary);
         }
 
@@ -51,7 +51,7 @@ export class About extends HTMLElement {
         }
 
         li {
-          margin-bottom: 0.75rem;
+          margin-block-end: 0.75rem;
           font-size: clamp(1rem, 1.2vw + 0.2rem, 1.1rem);
           line-height: 1.5;
         }
