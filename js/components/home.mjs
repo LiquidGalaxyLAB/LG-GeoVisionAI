@@ -65,7 +65,7 @@ export class Home extends HTMLElement {
                 justify-content: center;
                 gap: 0px;
                 padding-block-start: 100px;
-                padding-bottom: 0px;
+                padding-block-end: 0px;
                 padding-block-end: 100px;
             }
             md-elevated-button {
@@ -90,13 +90,13 @@ export class Home extends HTMLElement {
             }
 
             .marquee-container {
-              margin-bottom: 10px; 
+              margin-block-end: 10px; 
               margin-block-start: 5px; 
             }
 
             .marquee {
               margin: 0;
-              padding-bottom: 0;
+              padding-block-end: 0;
               padding-block-start: 0;
             }
 

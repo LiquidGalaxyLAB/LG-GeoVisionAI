@@ -17,7 +17,7 @@ export class LGtools extends HTMLElement {
     container.innerHTML = `
       <style>
         .button-wrapper {
-          padding-bottom: 100px;
+          padding-block-end: 100px;
         }
       </style>
       <div class="button-wrapper">
