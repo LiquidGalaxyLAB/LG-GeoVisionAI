@@ -18,4 +18,4 @@ if (!customElements.get("sample-queries-tab")){
     customElements.define("sample-queries-tab", SampleQueriesTab);
 }
 
-changeTabs();
+//changeTabs();
