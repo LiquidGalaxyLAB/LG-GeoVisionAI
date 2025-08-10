@@ -24,13 +24,6 @@ function showPage(pageId) {
     });
   });
   
-  // Initialize Leaflet map
-  const map = L.map('mapid').setView([20.5937, 78.9629], 5); // Center India
-  
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data © OpenStreetMap contributors',
-    maxZoom: 19,
-  }).addTo(map);
   
   // Settings form behavior
   const form = document.getElementById('settings-form');
