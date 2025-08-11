@@ -111,7 +111,7 @@ export class Home extends HTMLElement {
 
         </style>
         <div>
-            <img class="animate" src="/assets/2.webp" alt="My Logo" width="350" height="350">
+            <img class="animate" src="https://liquidgalaxylab.github.io/LG-GeoVisionAI/assets/2.webp" alt="My Logo" width="350" height="350">
             <p>Status: <md-assist-chip label="Not Connected"><md-icon class="disconnect" slot="icon">close</md-icon></md-assist-chip></p>
             <md-elevated-button>Have a Question?</md-elevated-button>
             
