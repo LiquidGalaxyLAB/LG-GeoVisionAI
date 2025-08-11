@@ -79,7 +79,7 @@ export class About extends HTMLElement {
         }
       </style>
       <div class="container">
-        <img src="/assets/logo.jpg" alt="GeoVisionAI Logo" height="350px" width="350px"/>
+        <img src="https://liquidgalaxylab.github.io/LG-GeoVisionAI/assets/logo.jpg" alt="GeoVisionAI Logo" height="350px" width="350px"/>
 
         <p>
           <strong>GeoVisionAI</strong> enhances the Liquid Galaxy platform by integrating AI for
