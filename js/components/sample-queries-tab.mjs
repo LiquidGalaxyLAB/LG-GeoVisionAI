@@ -51,7 +51,7 @@ export class SampleQueriesTab extends HTMLElement {
       <div class="container">
         <p>Sample Queries</p>
         <div class="sample-buttons">
-          <md-filled-tonal-button id="query1">How has Mumbai's temprature changed in 50 years?</md-filled-tonal-button>
+          <md-filled-tonal-button id="query1">Take me to Spain</md-filled-tonal-button>
           <md-filled-tonal-button id="query2">Which is the hottest desert on Earth?</md-filled-tonal-button>
           <md-filled-tonal-button id="query3">Take me to the Himalayas.</md-filled-tonal-button>
           <md-filled-tonal-button id="query4">Tell me about rising sea levels in Indian Ocean.</md-filled-tonal-button>
@@ -84,7 +84,7 @@ export class SampleQueriesTab extends HTMLElement {
       } else {
         console.error("Gemini tab not found");
       }
-      await exportprocessQueryExternally("How has Mumbai's temprature changed in 50 years? Answer in 2 lines");
+      await exportprocessQueryExternally("Take me to Spain");
     });
 
     const query2button = this.shadowRoot.getElementById("query2");
