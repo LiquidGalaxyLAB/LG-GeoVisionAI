@@ -362,37 +362,62 @@ export class LGVoice extends HTMLElement {
     speech.initTTS();
 
     this.narrationPaused = false;
+    let currentCharIndex = 0;
+    let utterance;
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+    let narrationText = this.shadowRoot.getElementById("story")?.textContent || "";
+
+    // helper to start or restart narration
+    function startNarration(fromIndex = 0) {
+      utterance = new SpeechSynthesisUtterance(narrationText.slice(fromIndex));
+      utterance.onboundary = (event) => {
+        if (event.name === "word" || event.name === "sentence") {
+          currentCharIndex = fromIndex + event.charIndex;
+        }
+      };
+      speechSynthesis.speak(utterance);
+    }
+
     const toggleNarrationButton = this.shadowRoot.getElementById("toggleNarrationButton");
 
     toggleNarrationButton.addEventListener("click", async () => {
       toggleNarrationButton.disabled = true;
-    
+
       if (!this.narrationPaused) {
-        if (speech && typeof speech.pause === "function") {
-          speech.pause();
+        // pause
+        if (isMobile) {
+          speechSynthesis.cancel();
         } else {
-          speechSynthesis.pause();
+          if (speech && typeof speech.pause === "function") {
+            speech.pause();
+          } else {
+            speechSynthesis.pause();
+          }
         }
-    
         this.narrationPaused = true;
         toggleNarrationButton.textContent = "Resume Narration";
         this.showToast("Narration paused.");
-    
-        setTimeout(() => {
-          toggleNarrationButton.disabled = false;
-        }, 500);
       } else {
-        if (speech && typeof speech.resume === "function") {
-          speech.resume(); // resume from paused place
+        if (isMobile) {
+          startNarration(currentCharIndex); 
         } else {
-          speechSynthesis.resume();
+          if (speech && typeof speech.resume === "function") {
+            speech.resume();
+          } else {
+            speechSynthesis.resume();
+          }
         }
         this.narrationPaused = false;
         toggleNarrationButton.textContent = "Stop Narration";
         this.showToast("Narration resumed.");
-        toggleNarrationButton.disabled = false;
       }
+
+      setTimeout(() => {
+        toggleNarrationButton.disabled = false;
+      }, 500);
     });
+
   }
 
   removeAnimations() {
