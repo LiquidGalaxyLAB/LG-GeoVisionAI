@@ -668,10 +668,6 @@ export class LGVoice extends HTMLElement {
       console.error("Location processing error:", error);
       this.showToast(`Error processing location: ${error.message}`);
     } finally {
-      const toggleNarrationButton = this.shadowRoot.getElementById("toggleNarrationButton");
-      toggleNarrationButton.textContent = "Stop Narration";
-      this.narrationPaused = false;
-
       this.removeAnimations();
     }
   }
