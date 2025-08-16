@@ -393,9 +393,9 @@ export class LGVoice extends HTMLElement {
         toggleNarrationButton.textContent = "Resume Narration";
         this.showToast("Narration paused.");
       } else {
-        // Resume
         if (isMobile) {
-          startNarration(currentCharIndex); // restart from saved index
+          speechSynthesis.cancel(); 
+          startNarration(currentCharIndex);
         } else {
           speechSynthesis.resume();
         }
