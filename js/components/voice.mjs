@@ -395,7 +395,9 @@ export class LGVoice extends HTMLElement {
       } else {
         if (isMobile) {
           speechSynthesis.cancel(); 
-          startNarration(currentCharIndex);
+          setTimeout(() => {
+            startNarration(currentCharIndex);
+        }, 100);
         } else {
           speechSynthesis.resume();
         }
