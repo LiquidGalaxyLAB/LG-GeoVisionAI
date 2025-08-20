@@ -22,7 +22,7 @@
 |------------|-----------------------------------------|
 | Frontend   | HTML, CSS, JavaScript, Web Components   |
 | UI Library | Material 3 (via Material Web Components)|
-| AI Model   | Google Gemini 1.5 Flash (via API)       |
+| AI Model   | Google Gemini 1.5 Flash (via Google AI Studio)       |
 | APIs       | OpenCage, Freesound                     |
 
 ---
