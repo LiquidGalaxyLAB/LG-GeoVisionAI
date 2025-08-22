@@ -64,9 +64,10 @@ export const startOrbit = async (
     console.log(`Starting orbit at ${latitude}, ${longitude} with elevation ${elevation}`);
 
     await cleanOrbit();
-    //await cleankml();
 
     await buildOrbit(latitude, longitude, bearing, elevation);
+    setTimeout(() => {}, 2000);
+    console.log("waited for Orbit to build");
     
     sendkml("playtour=Orbit");
 
