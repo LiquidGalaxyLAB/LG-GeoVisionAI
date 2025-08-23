@@ -114,6 +114,11 @@ export class LGVoice extends HTMLElement {
           flex: 1;
         }
 
+        .highlighted-read-out {
+          text-decoration: underline;
+          color: var(--md-sys-color-primary);
+        }
+
         .ripple::after {
           position: absolute;
           inset-inline-start: 50%;

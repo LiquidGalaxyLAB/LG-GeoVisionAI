@@ -256,6 +256,7 @@ class ReadAloudComponent extends HTMLElement {
         !this.isPaused
       ) {
         utterance.text = this.words[this.currentWordIndex];
+        console.log("highlighting word:");
         this.highlightCurrentWord(
           this.paragraphElement,
           this.words,
