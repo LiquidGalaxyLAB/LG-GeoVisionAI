@@ -73,7 +73,7 @@ class ReadAloudComponent extends HTMLElement {
     shadow.appendChild(container);  
 
     this.highlight = true;
-    this.speechRate = 1.1;
+    this.speechRate = 1.2;
     this.selectedVoice = "default";
     this.isSpeaking = false;
     this.isPaused = false;
