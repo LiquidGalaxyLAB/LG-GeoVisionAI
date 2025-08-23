@@ -224,14 +224,6 @@ export class Home extends HTMLElement {
   }
 }
 
-function speakText(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-US";
-  utterance.pitch = 1;
-  utterance.rate = 1;
-  speechSynthesis.speak(utterance);
-}
-
 const oceanSound = new Audio('./assets/ocean.mp3');
 const fireSound = new Audio('./assets/fire.mp3');
 
