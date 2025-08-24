@@ -73,6 +73,8 @@ export class LGVoice extends HTMLElement {
           text-align: center;
           text-wrap: wrap;
           color: var(--md-sys-color-tertiary-container);
+          padding-left: 5px;
+          padding-right: 5px;
         }
 
         .manual-input {
