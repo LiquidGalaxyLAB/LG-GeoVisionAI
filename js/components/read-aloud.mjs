@@ -40,6 +40,8 @@ class ReadAloudComponent extends HTMLElement {
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 8px;
         background-color: var(--md-sys-color-surface-container-low);
+        padding-block-start: 5px;
+        padding-block-end: 5px;
       }
 
       ::slotted(p.body-medium.story::-webkit-scrollbar) {
