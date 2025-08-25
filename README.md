@@ -1,6 +1,6 @@
 # GeoVisionAI: AI-Driven Geospatial Storytelling with Liquid Galaxy (Web based Interface)
 
-**GeoVisionAI** is an AI-powered geospatial storytelling system that converts spoken or typed queries into immersive, map-based narratives using Google Gemini, OpenCage, and Liquid Galaxy. Built as part of **Google Summer of Code 2025** under the **Liquid Galaxy Project** organization.
+**GeoVisionAI** is an AI-powered geospatial storytelling system that converts spoken or typed queries into immersive, map-based narratives using Google Gemini, OpenCage API, Freesound API and Liquid Galaxy. Built as part of **Google Summer of Code 2025** under the **Liquid Galaxy Project** organisation.
 
 ---
 
@@ -22,7 +22,7 @@
 |------------|-----------------------------------------|
 | Frontend   | HTML, CSS, JavaScript, Web Components   |
 | UI Library | Material 3 (via Material Web Components)|
-| AI Model   | Google Gemini 1.5 Flash (via API)       |
+| AI Model   | Google Gemini 1.5 Flash (via Google AI Studio)       |
 | APIs       | OpenCage, Freesound                     |
 
 ---
@@ -56,7 +56,7 @@ Alba, Paula, Josep, Jordi, Oriol, Sharon, Alejandro, Marc, and admin Andreu,
 for their continuous support on my project.  
 * More info at [www.liquidgalaxy.eu](http://www.liquidgalaxy.eu)
 
-* **Organization**: Liquid Galaxy Project, Google Summer of Code 2025
+* **Organisation**: Liquid Galaxy Project, Google Summer of Code 2025
 
 ---
 
