@@ -50,7 +50,7 @@
 
 * **Developer**: [Anishka](https://github.com/anishka2006)
 * **Thanks to my main Mentor**:Claudia
-* **and Secondary Mentor**:Yash Raj, VictorSB, Rosemarie Garcia and Lopez
+* **and Secondary Mentor**:Yash Raj, VictorSB and Rosemarie Garcia Lopez
 * And thanks to the team of the Liquid Galaxy LAB Lleida, Headquarters of the Liquid Galaxy project: 
 Alba, Paula, Josep, Jordi, Oriol, Sharon, Alejandro, Marc, and admin Andreu, 
 for their continuous support on my project.  

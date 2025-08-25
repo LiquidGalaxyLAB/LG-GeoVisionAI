@@ -148,7 +148,7 @@ export class About extends HTMLElement {
       </div>
       <div class="footer">
           <p>Developer: <strong>Anishka</strong></p>
-          <p> Thanks to my main mentor: Claudia and Secondary Mentors: Yash Raj, VictorSB, Rosemarie Garcia and Lopez</p>
+          <p> Thanks to my main mentor: Claudia and Secondary Mentors: Yash Raj, VictorSB and Rosemarie Garcia Lopez</p>
           <p>
             And thanks to the team of the Liquid Galaxy LAB Lleida, Headquarters of the Liquid Galaxy project: 
             Alba, Paula, Josep, Jordi, Oriol, Sharon, Alejandro, Marc, and admin Andreu, 
